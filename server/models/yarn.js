@@ -31,6 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     explanation: {
       type: DataTypes.STRING(),
     },
-    color_palate: {},
+    color_palette: {},
   });
 };
