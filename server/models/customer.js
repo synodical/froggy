@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   sequelize.define("customer", {
     customer_id: {
       type: DataTypes.STRING(40),
+      primaryKey: true,
       allowNull: false,
       unique: true,
     },
@@ -16,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(40),
       allowNULL: true,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     customer_name: {
       type: DataTypes.STRING(7),
