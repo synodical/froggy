@@ -1,9 +1,59 @@
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{title}}</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  </head>
-  <body></body>
-</html>
+{% extends './layout/layout.html' %} 
+
+ {% include "./layout/raverlyApiScript.html" %}
+
+{% block content %} 
+<div class="section">
+      <h1>
+        <img src="https://badges.ravelrycache.com/square_48.png"/>
+        Ravelry Read Only API Test
+      </h1>
+
+      <p>
+        When prompted for the type of key, choose <strong>Basic Auth, read only access</strong>
+      </p>
+      <p>
+        <form id="api-credentials-form">
+          Read only API key username:
+          <input type="text" name="username_key" value="read-ea6b8e0a978e097b8badec466c71a60b"/>
+          password:
+          <input type="text" name="password_key"  value="nKTdyxY5v3mF3TDb8hkQHGhHwHNQL7lbJtU8Dz15	"/>
+          <input type="submit" value="submit"/>
+        </form>
+      </p>
+    </div>
+    <hr/>
+    <div id="api-request" class="section" style="display: none;">
+      <p>
+        <form id="projects-list-form">
+          List projects for...
+          <input type="text" name="username" value="frecklegirl"/>
+          <input type="submit" value="submit"/>
+          <span class="spinner" id="loading_indicator" style="display: none;"></span>
+        </form>  
+      </p>
+
+      <div>
+        <ul id="projects-list-results" class="project__results">
+
+        </ul>
+        <div class="pagination">
+          <a href="#api-request" id="pagination-previous" class="pagination__link pagination__link--previous" style="display: none;">&larr; previous page</a>
+          <a href="#api-request" id="pagination-next" class="pagination__link pagination__link--next" style="display: none;">next page &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <form>
+        <textarea id="json-inspector" class="inspector" style="display: none;">
+        </textarea>
+      </form>
+    </div>
+
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div><script src="https://button.glitch.me/button.js"></script>
+
+
+
+{% endblock %}
