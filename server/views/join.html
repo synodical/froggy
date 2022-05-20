@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% include "./layout/head.html" %}
+
+<body>
+  {% include "./layout/navbar.html" %}
+
+  <div class="container-fluid">
+    <div class="container-fluid my-4">
+      <form id="join-form" action="/auth/join" method="post">
+        <div class="form-group" style="max-width: 20rem; float: none; margin:0 auto;">
+          <label class="form-label mt-4">
+            <h3>Please Sign Up</h3>
+          </label>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="영어 or 영어+숫자">
+            <label for="customer_id">Id</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="customer_nick" name="customer_nick" placeholder="한글도 ok">
+            <label for="customer_nick">닉네임</label>
+          </div>
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control" id="password" name="password" placeholder="분실된 비밀번호는 못 찾아드립니다">
+            <label for="password">Password</label>
+          </div>
+          <div class="d-grid gap-2" style="float: none; margin:0 auto;">
+            <button id="join-btn" type="submit" class="btn btn-primary">가입하기</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% include "./layout/footer.html" %}
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="main.js"></script>
+  <script>
+    window.onload = () => {
+      if (new URL(location.href).searchParams.get('error')) {
+        alert('이미 존재하는 아이디입니다.');
+      }
+    };
+  </script>
+  {% block script %}
+  {% endblock %}
+</body>
+
+</html>
