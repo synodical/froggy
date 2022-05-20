@@ -10,7 +10,6 @@ const passport = require("passport");
 const helmet = require("helmet");
 
 dotenv.config();
-//const passportConfig = require("./passport");
 const pageRouter = require("./routes/page");
 const authRouter = require("./routes/auth");
 const { sequelize } = require("./models");
@@ -26,6 +25,14 @@ nunjucks.configure("views", {
   express: app,
   watch: true,
 });
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));

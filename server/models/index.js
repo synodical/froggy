@@ -1,12 +1,12 @@
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
-const config = require("../config/config.js")[env];
+const config = require("../config/config")[env];
 
 const db = {};
 const sequelize = new Sequelize(
-  config.MYSQL_DATABASE,
-  config.MYSQL_USERNAME,
-  config.MYSQL_PASSWORD,
+  config.database,
+  config.username,
+  config.password,
   config
 );
 
