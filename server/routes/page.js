@@ -3,7 +3,7 @@ const Customer = require("../models/customer").Customer;
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  res.render("main.html", {
+  res.render("main", {
     title: "froggy",
   });
 });
