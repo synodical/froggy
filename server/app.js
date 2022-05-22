@@ -13,6 +13,7 @@ dotenv.config();
 const pageRouter = require("./routes/page");
 const authRouter = require("./routes/auth");
 const { sequelize } = require("./models");
+const Customer = require("./models").Customer;
 const passportConfig = require("./passport");
 
 const app = express();
@@ -28,6 +29,7 @@ nunjucks.configure("views", {
 sequelize
   .sync({ force: false })
   .then(() => {
+    Customer.create({ customer_id: "dy", customer_pwd: "3938r" });
     console.log("데이터베이스 연결 성공");
   })
   .catch((err) => {

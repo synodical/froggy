@@ -3,12 +3,13 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const Customer = require("../models").Customer;
-console.log(Customer);
+const models = require("../models");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
   const { customer_id, password } = req.body;
   try {
+    console.log(models);
     console.log(customer_id);
     console.log(Customer);
     const exCustomer = await Customer.findOne({ where: { customer_id } });

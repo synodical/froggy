@@ -14,8 +14,9 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.Customer = require("./customer")(sequelize, Sequelize);
+db.Yarn = require("./yarn")(sequelize, Sequelize);
 
-// db.User.hasMany(db.Resident, { foreignKey: "user_id", sourceKey: "id" });
-// db.Resident.belongsTo(db.User, { foreignKey: "user_id", sourceKey: "id" });
+//db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });
+//db.Yarn.belongsTo(db.Customer, { foreignKey: "customer_id", sourceKey: "id" });
 
 module.exports = db;
