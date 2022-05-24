@@ -9,7 +9,7 @@
           <a class="nav-link active" href="/">Home</a>
         </li>
 
-        {% if user %}
+        {% if customer %}
         <li class="nav-item">
           <a id="my-profile" class="nav-link" href="/users/{{user.id}}">내 정보 수정</a>
         </li>
@@ -19,7 +19,7 @@
         </li>
         {% endif %}
       </ul>
-      {% if user %}
+      {% if customer %}
       <div class="d-flex">
         <a id="logout" class="btn btn-warning" href="/auth/logout">로그아웃</a>
       </div>

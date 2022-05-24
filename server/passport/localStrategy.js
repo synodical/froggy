@@ -9,13 +9,16 @@ module.exports = () => {
     new LocalStrategy(
       {
         usernameField: "customer_id",
-        passwordField: "password",
+        passwordField: "customer_pwd",
       },
-      async (customer_id, password, done) => {
+      async (customer_id, customer_pwd, done) => {
         try {
           const exUser = await Customer.findOne({ where: { customer_id } });
           if (exUser) {
-            const result = await bcrypt.compare(password, exUser.password);
+            const result = await bcrypt.compare(
+              customer_pwd,
+              exUser.customer_pwd
+            );
             if (result) {
               done(null, exUser);
             } else {

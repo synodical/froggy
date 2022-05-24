@@ -12,8 +12,12 @@ router.get("/join", isNotLoggedIn, (req, res) => {
 });
 
 router.get("/", async (req, res, next) => {
+  console.log("------------");
+  console.log(req.user);
   res.render("main", {
     title: "froggy",
+    customer: req.user,
+    loginError: req.flash("loginError"),
   });
 });
 

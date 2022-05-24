@@ -29,7 +29,6 @@ nunjucks.configure("views", {
 sequelize
   .sync({ force: false })
   .then(() => {
-    Customer.create({ customer_id: "dy", customer_pwd: "3938r" });
     console.log("데이터베이스 연결 성공");
   })
   .catch((err) => {
