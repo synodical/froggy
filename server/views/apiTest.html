@@ -1,12 +1,10 @@
 {% extends './layout/layout.html' %}
 
-{% include "./layout/raverlyApiScript.html" %}
 
 {% block content %}
 
 <div class="section">
     <h1>
-        <img src="https://badges.ravelrycache.com/square_48.png"/>
         Ravelry Read Only API Test
     </h1>
     <p>
@@ -51,6 +49,8 @@
     </form>
 </div>
 
-<div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div><script src="https://button.glitch.me/button.js"></script>
+<div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+
+<script src="apiTest.js"> </script>
 
 {% endblock %}

@@ -31,12 +31,24 @@ nunjucks.configure("views", {
 sequelize
   .sync({ force: false })
   .then(() => {
-    Customer.create({ customer_id: "dy", customer_pwd: "3938r" });
     console.log("데이터베이스 연결 성공");
   })
   .catch((err) => {
     console.error(err);
   });
+
+const cspOptions = {
+  directives: {
+    // 기본 옵션을 가져옵니다.
+    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+
+    // 구글 API 도메인과 인라인된 스크립트를 허용합니다.
+    "script-src": ["'self'", "'unsafe-inline'", "https://api.raverly.com"],
+    "connect-src": ["'self'", "'unsafe-inline'", "https://api.raverly.com"],
+    // 리그오브레전드 사이트의 이미지 소스를 허용합니다.
+    "img-src": ["'self'", "data:", "*.leagueoflegends.com"],
+  },
+};
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -55,7 +67,11 @@ app.use(
   })
 );
 app.use(flash());
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: cspOptions,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 

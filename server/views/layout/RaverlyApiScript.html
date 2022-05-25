@@ -171,11 +171,24 @@
   // go!
 
   if (document.readyState === "loading") {
+    console.log("dd");
     document.addEventListener("DOMContentLoaded", function () {
       console.log("ApiDemo exe cute >< ");
       new ApiDemo();
     });
   } else {
+    console.log("Teste");
     new ApiDemo();
   }
+
+  const credentialsForm = document.getElementById("api-credentials-form");
+  credentialsForm.onsubmit = function () {
+    console.log("here");
+    const usernameKey = credentialsForm.querySelector(
+      "input[name='username_key']"
+    ).value;
+    const passwordKey = credentialsForm.querySelector(
+      "input[name='password_key']"
+    ).value;
+  };
 </script>
