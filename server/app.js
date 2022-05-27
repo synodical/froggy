@@ -12,6 +12,7 @@ const helmet = require("helmet");
 dotenv.config();
 //const passportConfig = require("./passport");
 const pageRouter = require("./routes/page");
+
 const authRouter = require("./routes/auth");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
