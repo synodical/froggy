@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
-    customer_ps: {
+    customer_pwd: {
       type: DataTypes.STRING(30),
       allowNULL: false,
     },
