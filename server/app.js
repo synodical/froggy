@@ -7,7 +7,9 @@ const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
 const flash = require("connect-flash");
 const passport = require("passport");
-const helmet = require("helmet");
+//const helmet = require("helmet");
+//const csp = require("helmet-csp");
+const cors = require("cors");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
@@ -39,20 +41,7 @@ sequelize
     console.error(err);
   });
 
-const cspOptions = {
-  directives: {
-    // 기본 옵션을 가져옵니다.
-    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-
-    // 구글 API 도메인과 인라인된 스크립트를 허용합니다.
-    "script-src": ["'self'", "'unsafe-inline'", "https://api.raverly.com"],
-    "connect-src": ["'self'", "'unsafe-inline'", "https://api.raverly.com"],
-    // 리그오브레전드 사이트의 이미지 소스를 허용합니다.
-    "img-src": ["'self'", "data:", "*.leagueoflegends.com"],
-  },
-};
-
-app.use(morgan("dev"));
+https: app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -69,18 +58,13 @@ app.use(
   })
 );
 app.use(flash());
-app.use(
-  helmet({
-    contentSecurityPolicy: cspOptions,
-  })
-);
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/apiTest", apiTestRouter);
-
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

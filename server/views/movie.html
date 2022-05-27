@@ -1,0 +1,45 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" charset=utf-8">
+  <link rel="stylesheet" href="/bootstrap.css" />
+  <link rel="shortcut icon" href="/clipboard-check.png" />
+  <link rel="icon" href="/clipboard-check.png" />
+</head>
+
+<body>
+  <h3>testing the movie api</h3>
+
+  <button class="favorite styled" type="button" onclick="button1_click()">
+    Add to favorites
+  </button>
+</body>
+
+<script>
+  const USER_SERVER = "/api/users";
+
+  const API_URL = "https://api.themovieDb.org/3/";
+  const APP_KEY = "aa08150e89c3b31405dee04169d7af68";
+  const IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
+
+  const endpoint = `${API_URL}movie/popular?api_key=${APP_KEY}&language=en-US&page=1`;
+
+  function button1_click() {
+    fetch(endpoint)
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+
+  if (document.readyState === "loading") {
+    console.log("load page");
+    document.addEventListener("DOMContentLoaded", function () {
+      console.log("loaded");
+      fetch(endpoint)
+        .then((res) => res.json())
+        .then((res) => console.log(res));
+    });
+  } else {
+    console.log("Teste");
+  }
+</script>
