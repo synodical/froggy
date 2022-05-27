@@ -2,19 +2,22 @@ const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const Customer = require("../models/customer").Customer;
-
+const Customer = require("../models").Customer;
+const models = require("../models");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
   const { customer_id, password } = req.body;
   try {
-    const exUser = await User.findOne({ where: { customer_id } });
-    if (exUser) {
+    console.log(models);
+    console.log(customer_id);
+    console.log(Customer);
+    const exCustomer = await Customer.findOne({ where: { customer_id } });
+    if (exCustomer) {
       return res.redirect("/join?error=exist");
     }
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
-    await User.create({
+    await Customer.create({
       customer_id,
       password: hash,
     });

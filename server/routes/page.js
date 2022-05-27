@@ -1,6 +1,6 @@
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const Customer = require("../models/customer").Customer;
+const Customer = require("../models").Customer;
 const router = express.Router();
 
 router.get("/join", isNotLoggedIn, (req, res) => {
