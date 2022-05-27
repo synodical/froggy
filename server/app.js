@@ -11,12 +11,14 @@ const helmet = require("helmet");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
+
 const authRouter = require("./routes/auth");
 const apiTestRouter = require("./routes/apiTest");
 
 const { sequelize } = require("./models");
 const Customer = require("./models").Customer;
 const passportConfig = require("./passport");
+const testRouter = require("./routes/apiTest");
 
 const app = express();
 
@@ -78,6 +80,7 @@ app.use(passport.session());
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/apiTest", apiTestRouter);
+
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
