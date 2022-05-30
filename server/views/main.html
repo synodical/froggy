@@ -1,5 +1,35 @@
 {% extends './layout/layout.html' %}
 
 {% block content %}
+<ul>
+  <a class="link-dark text-decoration-none" href="/yarn">실 추천</a>
+  
+</ul>
+<img src="https://picsum.photos/180" alt="pics of yarn">
+
+{% for url in urls %}
+  <img src="{{url}}" alt="pics of yarn" width="180" height="180">
+{% endfor %}
+
+<hr>
+<ul>
+  <a class="link-dark text-decoration-none" href="/pattern">도안 추천</a>
+</ul>
+<hr>
+<ul>
+  <a class="link-dark text-decoration-none" href="/pattern">실시간 인기 글</a>
+</ul>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="/main.js"></script>
+<script>
+  window.onload = function() {
+    const urls = getImgList(); 
+    console.log(urls);
+  } 
+</script>
 
 {% endblock %}
