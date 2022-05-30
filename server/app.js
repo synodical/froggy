@@ -7,7 +7,10 @@ const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
 const flash = require("connect-flash");
 const passport = require("passport");
-const helmet = require("helmet");
+const request = require("request");
+//const axios = request("axios");
+//const helmet = require("helmet");
+//const cors = require("cors");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
@@ -51,11 +54,41 @@ app.use(
     },
   })
 );
+/*
+const cspOptions = {
+  directives: {
+    // 기본 옵션을 가져옵니다.
+    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+
+    // 구글 API 도메인과 인라인된 스크립트를 허용합니다.
+    "script-src": [
+      "'self'",
+      "*.googleapis.com",
+      "'unsafe-inline'",
+      "https://picsum.photos",
+    ],
+    "connect-src": ["https://picsum.photos"],
+    //  사이트의 이미지 소스를 허용합니다.
+    "img-src": ["'self'", "data:", "https://picsum.photos"],
+  },
+};
+*/
 app.use(flash());
-app.use(helmet());
+
 app.use(passport.initialize());
 app.use(passport.session());
+/*
+app.use((req, res, next) => {
+  res.append("Access-Control-Allow-Origin", "https://picsum.photos");
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
+  next();
+});
+
+app.use(cors());
+*/
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 
