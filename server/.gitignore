@@ -2,6 +2,6 @@
 
 .env
 
-/config/config.js
+/config/config.json
 
 .DS_Store
