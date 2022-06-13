@@ -7,11 +7,9 @@ const models = require("../models");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { customer_id, password } = req.body;
+  const { customer_id, password, customer_nick } = req.body;
   try {
-    console.log(models);
-    console.log(customer_id);
-    console.log(Customer);
+    const customer_pwd = password;
     const exCustomer = await Customer.findOne({ where: { customer_id } });
     if (exCustomer) {
       return res.redirect("/join?error=exist");
@@ -19,7 +17,8 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
     await Customer.create({
       customer_id,
-      password: hash,
+      customer_pwd: hash,
+      customer_nick,
     });
     return res.redirect("/");
   } catch (error) {
@@ -29,7 +28,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
 });
 
 router.post("/login", isNotLoggedIn, (req, res, next) => {
-  passport.authenticate("local", (authError, user, info) => {
+  passport.authenticate("local", (authError, customer, info) => {
     // 미들웨어가 로그인 전략을 수행함
     // passport는 req객체에 login과 logout 메서드를 추가
     // req.login이 passport.serializeUser를 호출합니다.
@@ -38,10 +37,11 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
       console.error(authError);
       return next(authError);
     }
-    if (!user) {
+    if (!customer) {
+      console.log(info.message);
       return res.redirect(`/?loginError=${info.message}`);
     }
-    return req.login(user, (loginError) => {
+    return req.login(customer, (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);

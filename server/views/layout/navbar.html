@@ -1,15 +1,20 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">점호</a>
+    <a class="navbar-brand" href="/">froggy</a>
 
     <div class="collapse navbar-collapse show" id="navbarColor03">
       <ul class="navbar-nav me-auto">
 
         <li class="nav-item">
-          <a class="nav-link active" href="/">Home</a>
+          <a class="nav-link" href="/">Home</a>
         </li>
-
-        {% if user %}
+        <li class="nav-item">
+          <a class="nav-link" href="/">도안</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">실</a>
+        </li>
+        {% if customer %}
         <li class="nav-item">
           <a id="my-profile" class="nav-link" href="/users/{{user.id}}">내 정보 수정</a>
         </li>
@@ -19,7 +24,7 @@
         </li>
         {% endif %}
       </ul>
-      {% if user %}
+      {% if customer %}
       <div class="d-flex">
         <a id="logout" class="btn btn-warning" href="/auth/logout">로그아웃</a>
       </div>

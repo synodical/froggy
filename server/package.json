@@ -1,5 +1,5 @@
 {
-  "name": "roll-call",
+  "name": "froggy",
   "version": "1.0.0",
   "description": "뜨개 패턴 및 실을 추천하는 웹사이트",
   "main": "app.js",
@@ -11,6 +11,7 @@
   "author": "synodic&kerryfrog",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
@@ -19,12 +20,12 @@
     "express": "^4.18.0",
     "express-session": "^1.17.2",
     "helmet": "^5.0.2",
-    "helmet-csp": "^3.4.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "request": "^2.88.2",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0"
   },

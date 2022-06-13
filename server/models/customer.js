@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) =>
         unique: true,
       },
       customer_pwd: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(100),
         allowNULL: false,
       },
       customer_nick: {

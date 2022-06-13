@@ -3,3 +3,5 @@
 .env
 
 /config/config.js
+
+.DS_Store
