@@ -14,11 +14,15 @@ const request = require("request");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
+
 const authRouter = require("./routes/auth");
 const yarnRouter = require("./routes/yarn");
+const apiTestRouter = require("./routes/apiTest");
+
 const { sequelize } = require("./models");
 const Customer = require("./models").Customer;
 const passportConfig = require("./passport");
+const testRouter = require("./routes/apiTest");
 
 const app = express();
 
@@ -39,7 +43,7 @@ sequelize
     console.error(err);
   });
 
-app.use(morgan("dev"));
+https: app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -75,7 +79,6 @@ const cspOptions = {
 };
 */
 app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session());
 /*
@@ -93,6 +96,7 @@ app.use(cors());
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/yarn", yarnRouter);
+app.use("/apiTest", apiTestRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
