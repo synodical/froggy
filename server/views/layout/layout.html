@@ -47,13 +47,6 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="/main.js"></script>
   <script src="/ravelryApi.js"></script>
-  <script>
-    window.onload = () => {
-      if (new URL(location.href).searchParams.get('loginError')) {
-        alert(new URL(location.href).searchParams.get('loginError'));
-      }
-    };
-  </script>
   {% block script %}
   {% endblock %}
 </body>
