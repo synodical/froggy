@@ -14,19 +14,9 @@ router.get("/join", isNotLoggedIn, (req, res) => {
 });
 
 router.get("/", async (req, res, next) => {
-  console.log("---------------------");
-  console.log(req.user);
-
-  const imgs = await axios.get("https://picsum.photos/v2/list");
-  let urls = [];
-  for (let i = 0; i < 4; i++) {
-    urls.push(imgs.data[i].download_url);
-  }
-
   res.render("main.html", {
     title: "froggy",
     customer: req.user,
-    urls: urls,
     loginError: req.flash("loginError"),
   });
 });
