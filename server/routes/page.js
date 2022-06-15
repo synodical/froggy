@@ -8,7 +8,13 @@ const axios = require("axios");
 router.get("/join", isNotLoggedIn, (req, res) => {
   res.render("join", {
     title: "회원가입",
-    customer: req.customer,
+    joinError: req.flash("joinError"),
+  });
+});
+
+router.get("/login", isNotLoggedIn, (req, res) => {
+  res.render("login", {
+    title: "로그인",
     joinError: req.flash("joinError"),
   });
 });
