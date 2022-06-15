@@ -2,18 +2,19 @@
 
 {% block content %}
 <ul>
-  <a class="link-dark text-decoration-none" href="/yarn">실 추천</a>
-  
+  <a class="link-dark text-decoration-none" href="/pattern">> 도안 추천</a>
+  <br>
+  {% for i in range(5) %}
+  <a class="text-decoration-none" href="/yarn" id="yarn_url{{loop.index+1233}}">
+    <img src="https://images4-g.ravelrycache.com/uploads/rhiannonmrl/636755281/pumpkinsBEAUTY_square.jpg"
+      alt="pic of pattern" height="150" id="yarn_img{{loop.index+1233}}" />
+  </a>
+  {% endfor %}
 </ul>
-<img src="https://picsum.photos/180" alt="pics of yarn">
-
-{% for url in urls %}
-  <img src="{{url}}" alt="pics of yarn" width="180" height="180">
-{% endfor %}
 
 <hr>
 <ul>
-  <a class="link-dark text-decoration-none" href="/pattern">도안 추천</a>
+  <a class="link-dark text-decoration-none" href="/yarn">> 실 추천</a>
 </ul>
 <hr>
 <ul>
@@ -23,11 +24,8 @@
 {% endblock %}
 
 {% block script %}
-
 <script src="/ravelryApi.js"></script>
 <script>
-  const urls = getImgList(); 
-  console.log("hi", urls)
+  getPatternImgList();
 </script>
-
 {% endblock %}

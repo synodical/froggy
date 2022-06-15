@@ -1,11 +1,10 @@
-async function getImgList() {
+async function getPatternImgList() {
   imageUrls = [];
   try {
-    for (let i = 1234; i < 1238; i++) {
+    for (let i = 1234; i < 1239; i++) {
       const BASE_URI = "https://api.ravelry.com";
       const endpoint = `${BASE_URI}/patterns/${i}.json`;
-      //인증을 위한 헤더
-      const headers = new Headers();
+      const headers = new Headers(); // 인증
       headers.append(
         "Authorization",
         "Basic " +
@@ -18,16 +17,20 @@ async function getImgList() {
       fetch(endpoint, { method: "GET", headers: headers })
         .then((res) => res.json())
         .then((data) => {
-          const img = data.pattern.photos[0].square_url;
-          imageUrls.push(img);
-          console.log(img);
+          const img = data.pattern.photos[0].small_url;
+          const url = data.pattern.url;
+          document.getElementById(`yarn_img${i}`).src = img;
+          document.getElementById(`yarn_url${i}`).href = url;
         })
         .catch((err) => alert(err));
     }
-    console.log(typeof imageUrls);
-    console.log(imageUrls);
-    return imageUrls;
   } catch (err) {
     console.error(err);
   }
 }
+
+document.onload = () => {
+  if (new URL(location.href).searchParams.get("loginError")) {
+    alert(new URL(location.href).searchParams.get("loginError"));
+  }
+};
