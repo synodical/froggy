@@ -24,12 +24,10 @@
 
 {% block script %}
 
-<script src="/main.js"></script>
+<script src="/ravelryApi.js"></script>
 <script>
-  window.onload = function() {
-    const urls = getImgList(); 
-    console.log(urls);
-  } 
+  const urls = getImgList(); 
+  console.log("hi", urls)
 </script>
 
 {% endblock %}

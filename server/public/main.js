@@ -1,3 +1,4 @@
+/*
 async function getImgList() {
   try {
     const imgs = await axios.get("https://picsum.photos/v2/list");
@@ -10,7 +11,7 @@ async function getImgList() {
     console.error(err);
   }
 }
-
+*/
 document.onload = () => {
   if (new URL(location.href).searchParams.get("loginError")) {
     alert(new URL(location.href).searchParams.get("loginError"));
