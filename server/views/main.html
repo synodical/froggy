@@ -1,15 +1,15 @@
 {% extends './layout/layout.html' %} {% block content %}
 <ul>
-<a class="link-dark text-decoration-none" href="/pattern">> 도안 추천</a>
-  <div id="pattern_section"></div>
+  <a class="link-dark text-decoration-none" href="/pattern">> 도안 추천</a>
+  <div id="pattern_section" ; class="pattern_section_class"></div>
 </ul>
-<br>
+<br />
 
 <hr />
 
 <ul>
   <a class="link-dark text-decoration-none" href="/yarn">> 실 추천</a>
-  <div id="yarn_section"></div>
+  <div id="yarn_section" ; class="yarn_section_class"></div>
 </ul>
 
 <hr />
@@ -18,9 +18,7 @@
   <a class="link-dark text-decoration-none" href="/pattern">실시간 인기 글</a>
 </ul>
 
-{% endblock %}
-
-{% block script %}
+{% endblock %} {% block script %}
 <script src="/ravelryApi.js"></script>
 <script>
   getPatternImgList();
