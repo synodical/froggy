@@ -17,7 +17,7 @@ function getRandomInt(min, max) {
 }
 
 async function getPatternImgList() {
-  let mainImgNum = 5;
+  let mainImgNum = 15;
   let iter = 0;
   let endpoint;
   let tmpId;
@@ -30,9 +30,11 @@ async function getPatternImgList() {
         .then((data) => {
           let url = data.pattern.photos[0].small_url;
           const pattern_section = document.getElementById("pattern_section");
-          pattern_section.innerHTML += `<img src="${url}" alt="pic of pattern" class="mx-1 my-2" height="160" id="patternImageUrl${tmpId}" />`;
+          pattern_section.innerHTML += `<img src="${url}" alt="pic of pattern" class="mx-1 my-2"  id="patternImageUrl${tmpId}" />`;
         })
-        .catch((err) => alert(err));
+        .catch((err) => {
+          console.error(err);
+        });
     } catch (err) {
       console.error(err);
     }
@@ -41,7 +43,7 @@ async function getPatternImgList() {
 }
 
 async function getYarnImgList() {
-  let mainImgNum = 5;
+  let mainImgNum = 15;
   let iter = 0;
   let endpoint;
   let tmpId;
@@ -54,9 +56,11 @@ async function getYarnImgList() {
         .then((data) => {
           let url = data.yarn.photos[0].small_url;
           const yarn_section = document.getElementById("yarn_section");
-          yarn_section.innerHTML += `<img src="${url}" alt="pic of yarn" class="mx-1 my-2" height="160" id="yarnImageUrl${tmpId}}" />`;
+          yarn_section.innerHTML += `<img src="${url}" alt="pic of yarn" class="mx-1 my-2" id="yarnImageUrl${tmpId}}" />`;
         })
-        .catch((err) => alert(err));
+        .catch((err) => {
+          console.error(err);
+        });
     } catch (err) {
       console.error(err);
     }
