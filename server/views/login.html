@@ -1,0 +1,21 @@
+{% extends './layout/layout.html' %} 
+{% block content %}
+<form id="login-form" action="/auth/login" method="post">
+  <div class="form-group" style="max-width: 20rem; height: 25rem; float: none; margin:0 auto;">
+    <label class="form-label mt-4">
+      <h3>Please log in</h3>
+    </label>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="Your Id">
+      <label for="customer_id">Id</label>
+    </div>
+    <div class="form-floating mb-4">
+      <input type="password" class="form-control" id="customer_pwd" name="customer_pwd" placeholder="Password">
+      <label for="customer_pwd">Password</label>
+    </div>
+    <div class="d-grid gap-2 mb-5 pb-5" style="float: none; margin:0 auto;">
+      <button id="login" type="submit" class="btn btn-success">로그인하기</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

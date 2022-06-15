@@ -719,10 +719,6 @@ progress {
     max-width: 960px;
   }
 
-  body {
-    margin-left: 20%;
-    margin-right: 20%;
-  }
 }
 
 @media (min-width: 1200px) {
@@ -733,11 +729,6 @@ progress {
   .container-lg,
   .container-xl {
     max-width: 1140px;
-  }
-
-  body {
-    margin-left: 20%;
-    margin-right: 20%;
   }
 }
 
@@ -750,11 +741,6 @@ progress {
   .container-xl,
   .container-xxl {
     max-width: 1320px;
-  }
-
-  body {
-    margin-left: 20%;
-    margin-right: 20%;
   }
 }
 
@@ -9158,6 +9144,10 @@ fieldset:disabled .btn {
 
 .text-opacity-100 {
   --bs-text-opacity: 1;
+}
+
+.bg-froggy {
+  background-color: #DDF0DD;
 }
 
 .bg-primary {
