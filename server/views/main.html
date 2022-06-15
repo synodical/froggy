@@ -1,33 +1,24 @@
-{% extends './layout/layout.html' %}
-
-{% block content %}
+{% extends './layout/layout.html' %} {% block content %}
 <ul>
   <a class="link-dark text-decoration-none" href="/yarn">실 추천</a>
-  
 </ul>
-<img src="https://picsum.photos/180" alt="pics of yarn">
 
-{% for url in urls %}
-  <img src="{{url}}" alt="pics of yarn" width="180" height="180">
-{% endfor %}
+<div id="pattern_section"></div>
 
-<hr>
+<hr />
 <ul>
   <a class="link-dark text-decoration-none" href="/pattern">도안 추천</a>
 </ul>
-<hr>
+<hr />
 <ul>
   <a class="link-dark text-decoration-none" href="/pattern">실시간 인기 글</a>
 </ul>
 
-{% endblock %}
-
-{% block script %}
+{% endblock %} {% block script %}
 
 <script src="/ravelryApi.js"></script>
 <script>
-  const urls = getImgList(); 
-  console.log("hi", urls)
+  let urls = [];
+  const urlList = getImgList();
 </script>
-
 {% endblock %}
