@@ -1,7 +1,9 @@
-{% extends './layout/layout.html' %}
-
-{% block content %}
+{% extends './layout/layout.html' %} {% block content %}
 <ul>
+  <a class="link-dark text-decoration-none" href="/yarn">실 추천</a>
+</ul>
+
+<div id="pattern_section"></div>
   <a class="link-dark text-decoration-none" href="/pattern">> 도안 추천</a>
   <br>
   {% for i in range(5) %}
@@ -12,11 +14,11 @@
   {% endfor %}
 </ul>
 
-<hr>
+<hr />
 <ul>
   <a class="link-dark text-decoration-none" href="/yarn">> 실 추천</a>
 </ul>
-<hr>
+<hr />
 <ul>
   <a class="link-dark text-decoration-none" href="/pattern">실시간 인기 글</a>
 </ul>
