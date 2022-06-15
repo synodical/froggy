@@ -1,0 +1,21 @@
+.pattern_section_class {
+  display: flex;
+  overflow-x: auto;
+}
+
+.pattern_section_class img {
+  width: 200px;
+  margin: 0 15px;
+  height: 160px;
+}
+
+.yarn_section_class {
+  display: flex;
+  overflow-x: auto;
+}
+
+.yarn_section_class img {
+  width: 200px;
+  margin: 0 15px;
+  height: 160px;
+}
