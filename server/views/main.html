@@ -1,28 +1,39 @@
-{% extends './layout/layout.html' %} {% block content %}
-<ul>
-<a class="link-dark text-decoration-none" href="/pattern">
-  <i class="fa-solid fa-angles-right fa-xs"></i> 도안 추천</a>
+{% extends './layout/layout.html' %} 
+{% block content %}
+
+<ul class="py-3 my-3">
+  <div class="mb-2">
+    <a class="link-dark text-decoration-none" href="/pattern">
+      <i class="fa-solid fa-angles-right fa-xs"></i> 도안 추천
+    </a>
+  </div>
   <div id="pattern_section" class="pattern_section_class"></div>
+  <hr />
 </ul>
-<br />
 
-<hr />
 
-<ul>
-  <a class="link-dark text-decoration-none" href="/yarn">
-  <i class="fa-solid fa-angles-right fa-xs"></i> 실 추천</a>
+<ul class="py-3 my-3">
+  <div class="mb-2">
+    <a class="link-dark text-decoration-none" href="/yarn">
+      <i class="fa-solid fa-angles-right fa-xs"></i> 실 추천</a>
+  </div>
   <div id="yarn_section" class="yarn_section_class"></div>
+  <hr />
 </ul>
 
-<hr />
+<ul class="py-3 my-3">
+  <div class="mb-2">
+    <a class="link-dark text-decoration-none" href="/yarn">
+      <i class="fa-solid fa-angles-right fa-xs"></i> 실시간 인기 글</a>
 
-<ul>
-  <a class="link-dark text-decoration-none" href="/pattern">
-  <i class="fa-solid fa-angles-right fa-xs"></i> 실시간 인기 글</a>
-  <br>
+  </div>
+  <div></div>
+  <hr />
 </ul>
 
-{% endblock %} {% block script %}
+
+{% endblock %} 
+{% block script %}
 <script src="/ravelryApi.js"></script>
 <script>
   getPatternImgList();

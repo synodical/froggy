@@ -3369,10 +3369,10 @@ textarea.form-control.is-invalid {
   -ms-user-select: none;
   user-select: none;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 5px solid transparent;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  border-radius: 0.25rem;
+  border-radius: 50rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 

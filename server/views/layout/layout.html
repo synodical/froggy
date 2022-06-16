@@ -5,21 +5,19 @@
 
 <body>
   {% include "./navbar.html" %}
-  <div class="my-5">
-    <div class="">
-  
-      {% if customer %}
-      {% else %}
-      {% endif %}
-  
-      {% block content %}
-      
-      {% endblock %}
-      {% include "./footer.html" %}
-  
+  <div class="container-fluid">
+    <div class="row my-5">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8">
+        {% block content %}
+        {% endblock %}
+      </div>
+      <div class="col-lg-2"></div>
     </div>
   </div>
-
+      
+  {% include "./footer.html" %}
+ 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="/ravelryApi.js"></script>
