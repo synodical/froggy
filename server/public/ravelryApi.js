@@ -28,9 +28,12 @@ async function getPatternImgList() {
       fetch(endpoint, { method: "GET", headers: headers })
         .then((res) => res.json())
         .then((data) => {
-          let url = data.pattern.photos[0].small_url;
+          let img = data.pattern.photos[0].small_url;
+          let url = data.pattern.url;
           const pattern_section = document.getElementById("pattern_section");
-          pattern_section.innerHTML += `<img src="${url}" alt="pic of pattern" class="mx-1 my-2"  id="patternImageUrl${tmpId}" />`;
+          pattern_section.innerHTML += `<a href="${url}">
+  <img src="${img}" alt="pic of pattern" height="160" class="mx-1 my-2" id="patternImageUrl${tmpId}" />
+</a>`;
         })
         .catch((err) => {
           console.error(err);
@@ -54,9 +57,12 @@ async function getYarnImgList() {
       fetch(endpoint, { method: "GET", headers: headers })
         .then((res) => res.json())
         .then((data) => {
-          let url = data.yarn.photos[0].small_url;
+          let img = data.yarn.photos[0].small_url;
+          let url = data.yarn.url;
           const yarn_section = document.getElementById("yarn_section");
-          yarn_section.innerHTML += `<img src="${url}" alt="pic of yarn" class="mx-1 my-2" id="yarnImageUrl${tmpId}}" />`;
+          yarn_section.innerHTML += `<a href="${url}">
+  <img src="${img}" alt="pic of yarn" height="160" class="mx-1 my-2" id="yarnImageUrl${tmpId}" />
+</a>`;
         })
         .catch((err) => {
           console.error(err);
