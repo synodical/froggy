@@ -32,8 +32,10 @@ async function getPatternImgList() {
           let url = data.pattern.url;
           const pattern_section = document.getElementById("pattern_section");
           pattern_section.innerHTML += `<a href="${url}">
-  <img src="${img}" alt="pic of pattern" height="160" class="mx-1 my-2" id="patternImageUrl${tmpId}" />
-</a>`;
+  <img src="${img}" alt="pic of pattern"
+  class="mx-2 my-2"
+  id="patternImageUrl${tmpId}" />
+  </a>`;
         })
         .catch((err) => {
           console.error(err);
@@ -61,7 +63,9 @@ async function getYarnImgList() {
           let url = data.yarn.url;
           const yarn_section = document.getElementById("yarn_section");
           yarn_section.innerHTML += `<a href="${url}">
-  <img src="${img}" alt="pic of yarn" height="160" class="mx-1 my-2" id="yarnImageUrl${tmpId}" />
+  <img src="${img}" alt="pic of yarn" 
+   style=" " class="mx-2 my-2"
+  id="yarnImageUrl${tmpId}" />
 </a>`;
         })
         .catch((err) => {
