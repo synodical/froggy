@@ -17,6 +17,7 @@ const pageRouter = require("./routes/page");
 
 const authRouter = require("./routes/auth");
 const yarnRouter = require("./routes/yarn");
+const patternRouter = require("./routes/pattern");
 const apiTestRouter = require("./routes/apiTest");
 
 const { sequelize } = require("./models");
@@ -96,6 +97,7 @@ app.use(cors());
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/yarn", yarnRouter);
+app.use("/pattern", patternRouter);
 app.use("/apiTest", apiTestRouter);
 
 app.use((req, res, next) => {
