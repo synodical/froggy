@@ -1,8 +1,17 @@
 {% extends './layout/layout.html' %} {% block content %}
 
 <div class="search">
-  <i class="fas fa-search"></i>
   <input type="text" placeholder="검색어 입력" />
+  <i class="fas fa-search"></i>
 </div>
 
+<ul>
+  <div class="yarn_page_class"></div>
+</ul>
+
+{% endblock %} {% block script %}
+<script src="/ravelryApi.js"></script>
+<script>
+  getYarnPageImg(100);
+</script>
 {% endblock %}
