@@ -20,6 +20,20 @@
   height: 160px;
 }
 
+.pattern_page_class {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+
+.yarn_page_class {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+
 .search {
   position: relative;
   width: 450px;
