@@ -19,3 +19,24 @@
   margin: 0 15px;
   height: 160px;
 }
+
+.search {
+  position: relative;
+  width: 450px;
+}
+
+.search input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.search i {
+  position: absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+}

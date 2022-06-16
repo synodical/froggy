@@ -1,7 +1,8 @@
 {% extends './layout/layout.html' %} {% block content %}
 <ul>
-<a class="link-dark text-decoration-none" href="/pattern">
-  <i class="fa-solid fa-angles-right fa-xs"></i> 도안 추천</a>
+  <a class="link-dark text-decoration-none" href="/pattern">
+    <i class="fa-solid fa-angles-right fa-xs"></i> 도안 추천</a
+  >
   <div id="pattern_section" class="pattern_section_class"></div>
 </ul>
 <br />
@@ -10,7 +11,8 @@
 
 <ul>
   <a class="link-dark text-decoration-none" href="/yarn">
-  <i class="fa-solid fa-angles-right fa-xs"></i> 실 추천</a>
+    <i class="fa-solid fa-angles-right fa-xs"></i> 실 추천</a
+  >
   <div id="yarn_section" class="yarn_section_class"></div>
 </ul>
 
@@ -18,14 +20,15 @@
 
 <ul>
   <a class="link-dark text-decoration-none" href="/pattern">
-  <i class="fa-solid fa-angles-right fa-xs"></i> 실시간 인기 글</a>
-  <br>
+    <i class="fa-solid fa-angles-right fa-xs"></i> 실시간 인기 글</a
+  >
+  <br />
 </ul>
 
 {% endblock %} {% block script %}
 <script src="/ravelryApi.js"></script>
 <script>
-  getPatternImgList();
-  getYarnImgList();
+  getPatternApi(20);
+  getYarnApi(20);
 </script>
 {% endblock %}
