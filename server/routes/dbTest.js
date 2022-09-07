@@ -5,7 +5,8 @@ const Pattern = require("../models").Pattern;
 const router = express.Router();
 const axios = require("axios");
 
-router.get("/dbTest", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
+  console.log(req.body);
   const { yarnData } = req.body;
 });
 

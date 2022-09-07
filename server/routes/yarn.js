@@ -2,6 +2,7 @@ const express = require("express");
 const { request } = require("http");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const Customer = require("../models").Customer;
+const Yarn = require("../models").Yarn;
 const router = express.Router();
 const axios = require("axios");
 
