@@ -58,6 +58,7 @@ async function getYarnApi(mainImgNum) {
       fetch(endpoint, { method: "GET", headers: headers })
         .then((res) => res.json())
         .then((data) => {
+          console.log(data);
           let img = data.yarn.photos[0].small_url;
           let url = data.yarn.url;
           const yarn_section = document.getElementById("yarn_section");
