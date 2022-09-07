@@ -1,35 +1,29 @@
 module.exports = (sequelize, DataTypes) => {
   sequelize.define("yarn", {
-    yarn_id: {
+    gauge_divisor: {
+      type: DataTypes.INTEGER,
+    },
+    grams: {
+      type: DataTypes.INTEGER,
+    },
+    id: {
       type: DataTypes.STRING(40),
       allowNull: false,
       unique: true,
+      primaryKey: true,
     },
-    yarn_company: {
-      type: DataTypes.STRING(20),
+    machine_washable: {
+      type: DataTypes.BOOLEAN,
     },
-    weight: {
-      type: DataTypes.STRING(10),
+    name: {
+      type: DataTypes.STRING(50),
+      allowNULL: false,
     },
-    yarndage: {
-      type: DataTypes.STRING(40),
-      allowNULL: true,
-      unique: true,
-    },
-    gauge: {
-      type: DataTypes.STRING(7),
-    },
-    hook_size: {
+    yardage: {
       type: DataTypes.INTEGER,
     },
-    fiber: {
-      type: DataTypes.STRING(),
-    },
-    atrribute: {
-      type: DataTypes.STRING(),
-    },
-    explanation: {
-      type: DataTypes.STRING(),
+    yarn_company_name: {
+      type: DataTypes.STRING(50),
     },
   });
 };
