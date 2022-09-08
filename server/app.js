@@ -10,7 +10,7 @@ const passport = require("passport");
 const request = require("request");
 //const axios = request("axios");
 //const helmet = require("helmet");
-//const cors = require("cors");
+const cors = require("cors");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
@@ -92,15 +92,28 @@ app.use((req, res, next) => {
 
   next();
 });
-
-app.use(cors());
 */
+app.use(cors());
+
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/yarn", yarnRouter);
 app.use("/pattern", patternRouter);
 app.use("/apiTest", apiTestRouter);
 app.use("/dbTest", dbTestRouter);
+
+const safesitelist = ["http://localhost:8100"];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    const issafesitelisted = safesitelist.indexOf(origin) !== -1;
+    callback(null, issafesitelisted);
+  },
+  credentials: true,
+};
+
+//cors에 옵션사용할경우
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
