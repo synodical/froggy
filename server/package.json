@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "debug":"nodemon --inspect=8002 app.js"
+
   },
   "author": "synodic&kerryfrog",
   "license": "MIT",
@@ -24,7 +26,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3",
-    "passport": "^0.5.2",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "request": "^2.88.2",
     "sequelize": "^6.3.5",

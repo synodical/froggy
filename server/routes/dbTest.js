@@ -7,7 +7,9 @@ const axios = require("axios");
 const Customer = require("../models").Customer;
 const models = require("../models");
 
+
 router.post("/", async (req, res, next) => {
+  let respJson = { status: 'N' };
   console.log(req.body);
   const { yarn } = req.body;
 
@@ -36,7 +38,8 @@ router.post("/", async (req, res, next) => {
       yardage: yardage,
       yarn_company_name: yarn_company_name,
     });
-    return res.status(200);
+    respJson['status'] = 'Y';
+    return res.json(respJson)
   } catch (error) {
     console.error(error);
     return next(error);

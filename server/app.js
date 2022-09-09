@@ -24,7 +24,6 @@ const dbTestRouter = require("./routes/dbTest");
 const { sequelize } = require("./models");
 const Customer = require("./models").Customer;
 const passportConfig = require("./passport");
-// const testRouter = require("./routes/apiTest");
 
 const app = express();
 
@@ -32,7 +31,7 @@ passportConfig(); // 패스포트 설정
 app.set("port", process.env.PORT || 8002);
 
 app.set("view engine", "html");
-nunjucks.configure("views", {
+nunjucks.configure(path.join(__dirname, "views"), {
   express: app,
   watch: true,
 });
