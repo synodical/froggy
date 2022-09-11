@@ -40,7 +40,7 @@ router.post("/", async (req, res, next) => {
     });
     if (exPattern) {
       console.log(exPattern);
-      return res.status(404);
+      return res.json(resJson);
     }
     const downloadUrl = download_location.url;
     await Pattern.create({
