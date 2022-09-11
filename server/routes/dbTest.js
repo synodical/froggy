@@ -4,9 +4,8 @@ const Yarn = require("../models").Yarn;
 const Pattern = require("../models").Pattern;
 const router = express.Router();
 
-
 router.post("/", async (req, res, next) => {
-  let respJson = { status: 'N' };
+  let respJson = { status: "N" };
   console.log(req.body);
   const { yarn } = req.body;
 
@@ -14,13 +13,13 @@ router.post("/", async (req, res, next) => {
     return res.status(404);
   }
   const {
-    gauge_divisor,
+    gaugeDivisor,
     grams,
     id,
-    machine_washable,
+    machineWashable,
     name,
     yardage,
-    yarn_company_name,
+    yarnCompanyName,
   } = req.body.yarn;
 
   try {
@@ -30,17 +29,17 @@ router.post("/", async (req, res, next) => {
       return res.status(404);
     }
     await Yarn.create({
-      gauge_divisor: gauge_divisor,
+      gaugeDivisor: gaugeDivisor,
       grams: grams,
       raverlyId: id,
-      machine_washable: machine_washable,
+      machineWashable: machineWashable,
       name: name,
       yardage: yardage,
-      yarn_company_name: yarn_company_name,
+      yarnCompanyName: yarnCompanyName,
     });
-    
-    respJson['status'] = 'Y';
-    return res.json(respJson)
+
+    respJson["status"] = "Y";
+    return res.json(respJson);
   } catch (error) {
     console.error(error);
     return next(error);

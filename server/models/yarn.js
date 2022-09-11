@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) =>
         autoIncrement: true,
         primaryKey: true,
       },
-      gauge_divisor: {
+      gaugeDivisor: {
         type: DataTypes.INTEGER,
       },
       grams: {
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) =>
         unique: true,
         primaryKey: true,
       },
-      machine_washable: {
+      machineWashable: {
         type: DataTypes.BOOLEAN,
       },
       name: {
@@ -29,18 +29,14 @@ module.exports = (sequelize, DataTypes) =>
       yardage: {
         type: DataTypes.INTEGER,
       },
-      yarn_company_name: {
+      yarnCompanyName: {
         type: DataTypes.STRING(50),
-      },
-      isDel: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'N',
       },
     },
     {
       underscored: true,
       freezeTableName: true,
+      paranoid: true.valueOf,
       tableName: "yarn",
     }
   );
