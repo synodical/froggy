@@ -33,7 +33,7 @@ router.post("/", async (req, res, next) => {
     yardage,
   } = req.body.pattern;
 
-  const downloadLocation = download_location.url;
+  const downloadUrl = download_location.url;
   try {
     const patternId = pattern.id;
     const exPattern = await Pattern.findOne({
@@ -45,7 +45,7 @@ router.post("/", async (req, res, next) => {
     await Pattern.create({
       raverlyId: id,
       downloadable: downloadable,
-      downloadLocation: downloadLocation,
+      downloadLocation: downloadUrl,
       name: name,
       notes: notes,
       price: price,
