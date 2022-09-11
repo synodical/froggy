@@ -5,8 +5,8 @@ const Pattern = require("../models").Pattern;
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
-  let respJson = { status: "N" };
-  console.log(req.body);
+  let resJson = { status: "N" };
+  //console.log(req.body);
   const { yarn } = req.body;
 
   if (yarn === undefined) {
@@ -38,8 +38,8 @@ router.post("/", async (req, res, next) => {
       yarnCompanyName: yarnCompanyName,
     });
 
-    respJson["status"] = "Y";
-    return res.json(respJson);
+    resJson["status"] = "Y";
+    return res.json(resJson);
   } catch (error) {
     console.error(error);
     return next(error);

@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) =>
       },
     },
     {
-      underscored: true,
       freezeTableName: true,
       paranoid: true.valueOf,
       tableName: "yarn",

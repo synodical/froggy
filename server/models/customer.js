@@ -2,38 +2,35 @@ module.exports = (sequelize, DataTypes) =>
   sequelize.define(
     "customer",
     {
-      customer_id: {
+      id: {
         type: DataTypes.STRING(40),
         allowNull: false,
         unique: true,
+        primaryKey: true,
       },
-      customer_pwd: {
+      pwd: {
         type: DataTypes.STRING(100),
         allowNULL: false,
       },
-      customer_nick: {
+      nick: {
         type: DataTypes.STRING(10),
       },
-      customer_email: {
+      email: {
         type: DataTypes.STRING(40),
         allowNULL: true,
         unique: true,
       },
-      customer_name: {
+      name: {
         type: DataTypes.STRING(7),
       },
-      custmoer_gender: {
+      gender: {
         type: DataTypes.INTEGER,
       },
-      customer_birth: {
-        type: DataTypes.DATE,
-      },
-      created_at: {
+      birth: {
         type: DataTypes.DATE,
       },
     },
     {
-      underscored: true,
       freezeTableName: true,
       tableName: "customer",
     }
