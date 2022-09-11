@@ -19,7 +19,8 @@ const authRouter = require("./routes/auth");
 const yarnRouter = require("./routes/yarn");
 const patternRouter = require("./routes/pattern");
 const apiTestRouter = require("./routes/apiTest");
-const dbTestRouter = require("./routes/dbTest");
+const dbYarnTestRouter = require("./routes/dbYarnTest");
+const dbPatternTestRouter = require("./routes/dbPatternTest");
 
 const { sequelize } = require("./models");
 const Customer = require("./models").Customer;
@@ -99,7 +100,8 @@ app.use("/auth", authRouter);
 app.use("/yarn", yarnRouter);
 app.use("/pattern", patternRouter);
 app.use("/apiTest", apiTestRouter);
-app.use("/dbTest", dbTestRouter);
+app.use("/dbYarnTest", dbYarnTestRouter);
+app.use("/dbPatternTest", dbPatternTestRouter);
 
 const safesitelist = ["http://localhost:8100"];
 
