@@ -9,7 +9,16 @@
       "request": "launch",
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:8002",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/server"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon",
+      "runtimeExecutable": "${workspaceFolder}/server/node_modules/nodemon/bin/nodemon.js",
+      "program": "${workspaceFolder}/server/app.js",
+      "restart": true,
+      "console": "integratedTerminal"
     }
   ]
 }
