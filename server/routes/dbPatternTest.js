@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", async (req, res, next) => {
   let resJson = { status: "N" };
-  console.log(req.body);
+  //console.log(req.body);
   const { pattern } = req.body;
 
   if (pattern === undefined) {
@@ -33,10 +33,12 @@ router.post("/", async (req, res, next) => {
     yardage,
   } = req.body.pattern;
 
-  const downloadLocation = download_location[url];
+  const downloadLocation = download_location.url;
   try {
     const patternId = pattern.id;
-    const exPattern = await Pattern.findOne({ where: { id: patternId } });
+    const exPattern = await Pattern.findOne({
+      where: { raverlyId: patternId },
+    });
     if (exPattern) {
       return res.status(404);
     }
