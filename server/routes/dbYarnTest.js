@@ -10,16 +10,16 @@ router.post("/", async (req, res, next) => {
   const { yarn } = req.body;
 
   if (yarn === undefined) {
-    return res.status(404);
+    return res.json(resJson);
   }
   const {
-    gaugeDivisor,
+    gauge_divisor,
     grams,
     id,
-    machineWashable,
+    machine_washable,
     name,
     yardage,
-    yarnCompanyName,
+    yarn_company_name,
   } = req.body.yarn;
 
   try {
@@ -29,13 +29,13 @@ router.post("/", async (req, res, next) => {
       return res.status(404);
     }
     await Yarn.create({
-      gaugeDivisor: gaugeDivisor,
+      gaugeDivisor: gauge_divisor,
       grams: grams,
       raverlyId: id,
-      machineWashable: machineWashable,
+      machineWashable: machine_washable,
       name: name,
       yardage: yardage,
-      yarnCompanyName: yarnCompanyName,
+      yarnCompanyName: yarn_company_name,
     });
 
     resJson["status"] = "Y";
