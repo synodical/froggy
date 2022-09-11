@@ -32,7 +32,10 @@ router.post("/", async (req, res, next) => {
     url,
     yardage,
   } = req.body.pattern;
-
+  let downloadUrl = null;
+  if (download_location !== undefined) {
+    downloadUrl = download_location.url;
+  }
   try {
     const patternId = pattern.id;
     const exPattern = await Pattern.findOne({
@@ -42,7 +45,7 @@ router.post("/", async (req, res, next) => {
       console.log(exPattern);
       return res.json(resJson);
     }
-    const downloadUrl = download_location.url;
+
     await Pattern.create({
       raverlyId: id,
       downloadable: downloadable,

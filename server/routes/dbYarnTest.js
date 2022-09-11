@@ -24,9 +24,9 @@ router.post("/", async (req, res, next) => {
 
   try {
     const yarnId = yarn.id;
-    const exYarn = await Yarn.findOne({ where: { id: yarnId } });
+    const exYarn = await Yarn.findOne({ where: { raverlyId: yarnId } });
     if (exYarn) {
-      return res.status(404);
+      return res.json(resJson);
     }
     await Yarn.create({
       gaugeDivisor: gauge_divisor,
