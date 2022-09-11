@@ -32,12 +32,13 @@ router.post("/", async (req, res, next) => {
     await Yarn.create({
       gauge_divisor: gauge_divisor,
       grams: grams,
-      id: id,
+      raverlyId: id,
       machine_washable: machine_washable,
       name: name,
       yardage: yardage,
       yarn_company_name: yarn_company_name,
     });
+    
     respJson['status'] = 'Y';
     return res.json(respJson)
   } catch (error) {
