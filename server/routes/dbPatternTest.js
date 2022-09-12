@@ -21,7 +21,7 @@ router.post("/", async (req, res, next) => {
     price,
     currency,
     currency_symbol,
-    author,
+    pattern_author,
     difficulty_average,
     difficulty_count,
     rating_average,
@@ -33,8 +33,12 @@ router.post("/", async (req, res, next) => {
     yardage,
   } = req.body.pattern;
   let downloadUrl = null;
-  if (download_location.url !== undefined) {
+  let patternAuthorName = null;
+  if (download_location.url !== null) {
     downloadUrl = download_location.url;
+  }
+  if (pattern_author !== null) {
+    patternAuthorName = pattern_author.name;
   }
   try {
     const patternId = pattern.id;
@@ -55,7 +59,7 @@ router.post("/", async (req, res, next) => {
       price: price,
       currency: currency,
       currencySymbol: currency_symbol,
-      author: author,
+      author: patternAuthorName,
       difficultyAverage: difficulty_average,
       difficultyCount: difficulty_count,
       ratingAverage: rating_average,
