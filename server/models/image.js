@@ -2,24 +2,24 @@ module.exports = (sequelize, DataTypes) =>
   sequelize.define(
     "image",
     {
-        id: {
-            type: sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        targetType: {
-            type: sequelize.STRING,
-            allowNull: false,
-            defaultValue: '',
-        },
-        targetId: {
-            type: sequelize.BIGINT,
-        },
-        imageUrl: {
-            type: sequelize.STRING,
-            allowNull: false,
-            defaultValue: '',
-        },
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      targetType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '',
+      },
+      targetId: {
+          type: DataTypes.BIGINT,
+      },
+      imageUrl: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          defaultValue: '',
+      },
     },
     {
       freezeTableName: true,

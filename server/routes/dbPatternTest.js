@@ -33,7 +33,7 @@ router.post("/", async (req, res, next) => {
     yardage,
   } = req.body.pattern;
   let downloadUrl = null;
-  if (download_location !== undefined) {
+  if (download_location.url !== undefined) {
     downloadUrl = download_location.url;
   }
   try {

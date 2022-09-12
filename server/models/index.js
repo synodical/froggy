@@ -15,7 +15,7 @@ db.Sequelize = Sequelize;
 
 db.Customer = require("./customer")(sequelize, Sequelize);
 db.Yarn = require("./yarn")(sequelize, Sequelize);
-//db.Image = require("./image")(sequelize, Sequelize);
+db.Image = require("./image")(sequelize, Sequelize);
 db.Pattern = require("./pattern")(sequelize, Sequelize);
 
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
