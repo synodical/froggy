@@ -2,6 +2,7 @@ const express = require("express");
 const { request } = require("http");
 const Yarn = require("../models").Yarn;
 const Pattern = require("../models").Pattern;
+const Image = require("../models").Image;
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
@@ -32,7 +33,7 @@ router.post("/", async (req, res, next) => {
     if (exYarn) {
       return res.json(resJson);
     }
-    await Yarn.create({
+    const insertResult = await Yarn.create({
       gaugeDivisor: gauge_divisor,
       grams: grams,
       raverlyId: id,
@@ -43,6 +44,13 @@ router.post("/", async (req, res, next) => {
       yarnCompanyUrl: yarn_company_url,
     });
 
+    for (let photo of yarn.photos){
+      const imageInsertResult = await Image.create({
+        targetType: "yarn",
+        targetId:insertResult.dataValues.id,
+        imageUrl:photo.medium_url,
+      })   
+    }
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {

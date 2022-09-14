@@ -34,7 +34,7 @@ router.post("/", async (req, res, next) => {
   } = req.body.pattern;
   let downloadUrl = null;
   let patternAuthorName = null;
-  if (download_location !== null) {
+  if (download_location.url !== null) {
     downloadUrl = download_location.url;
   }
   if (pattern_author !== null) {
