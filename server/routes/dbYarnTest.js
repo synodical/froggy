@@ -44,12 +44,12 @@ router.post("/", async (req, res, next) => {
       yarnCompanyUrl: yarn_company_url,
     });
 
-    for (let photo of yarn.photos){
+    for (let photo of yarn.photos) {
       const imageInsertResult = await Image.create({
         targetType: "yarn",
-        targetId:insertResult.dataValues.id,
-        imageUrl:photo.medium_url,
-      })   
+        targetId: insertResult.dataValues.id,
+        imageUrl: photo.medium_url,
+      });
     }
     resJson["status"] = "Y";
     return res.json(resJson);
