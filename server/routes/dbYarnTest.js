@@ -4,6 +4,7 @@ const Yarn = require("../models").Yarn;
 const Pattern = require("../models").Pattern;
 const Image = require("../models").Image;
 const router = express.Router();
+const Fiber = require("../models").Fiber;
 
 router.post("/", async (req, res, next) => {
   let resJson = { status: "N" };
@@ -21,6 +22,7 @@ router.post("/", async (req, res, next) => {
     name,
     yardage,
     yarn_company,
+    yarn_fibers,
   } = req.body.yarn;
   let yarn_company_name, yarn_company_url;
   if (yarn_company !== undefined) {
@@ -49,6 +51,16 @@ router.post("/", async (req, res, next) => {
         targetType: "yarn",
         targetId: insertResult.dataValues.id,
         imageUrl: photo.medium_url,
+      });
+    }
+    for (let yarnFiber of yarn_fibers) {
+      await Fiber.create({
+        raverlyId: yarnFiber.id,
+        typeId: yarnFiber.fiber_type.id,
+        name: yarnFiber.fiber_type.name,
+        animalFiber: yarnFiber.fiber_type.animal_fiber,
+        vegetableFiber: yarnFiber.fiber_type.vegetable_fiber,
+        yarnId: id,
       });
     }
     resJson["status"] = "Y";

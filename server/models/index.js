@@ -17,6 +17,10 @@ db.Customer = require("./customer")(sequelize, Sequelize);
 db.Yarn = require("./yarn")(sequelize, Sequelize);
 db.Image = require("./image")(sequelize, Sequelize);
 db.Pattern = require("./pattern")(sequelize, Sequelize);
+db.Fiber = require("./fiber")(sequelize, Sequelize);
+
+db.Yarn.hasMany(db.Fiber);
+db.Fiber.belongsTo(db.Yarn);
 
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });
