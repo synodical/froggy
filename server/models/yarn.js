@@ -32,6 +32,9 @@ module.exports = (sequelize, DataTypes) =>
       yarnCompanyName: {
         type: DataTypes.STRING(50),
       },
+      yarnCompanyUrl: {
+        type: DataTypes.STRING(100),
+      },
     },
     {
       freezeTableName: true,

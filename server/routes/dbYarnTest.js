@@ -19,9 +19,13 @@ router.post("/", async (req, res, next) => {
     machine_washable,
     name,
     yardage,
-    yarn_company_name,
+    yarn_company,
   } = req.body.yarn;
-
+  let yarn_company_name, yarn_company_url;
+  if (yarn_company !== undefined) {
+    yarn_company_name = yarn_company.name;
+    yarn_company_url = yarn_company.url;
+  }
   try {
     const yarnId = yarn.id;
     const exYarn = await Yarn.findOne({ where: { raverlyId: yarnId } });
@@ -36,6 +40,7 @@ router.post("/", async (req, res, next) => {
       name: name,
       yardage: yardage,
       yarnCompanyName: yarn_company_name,
+      yarnCompanyUrl: yarn_company_url,
     });
 
     resJson["status"] = "Y";
