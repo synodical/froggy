@@ -50,7 +50,9 @@ router.post("/", async (req, res, next) => {
       const imageInsertResult = await Image.create({
         targetType: "yarn",
         targetId: insertResult.dataValues.id,
-        imageUrl: photo.medium_url,
+        squareUrl: photo.square_url,
+        mediumUrl: photo.medium_url,
+        shelvedUrl: photo.shelved_url,
       });
     }
     for (let yarnFiber of yarn_fibers) {

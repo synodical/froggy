@@ -10,15 +10,25 @@ module.exports = (sequelize, DataTypes) =>
       targetType: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: '',
+        defaultValue: "",
       },
       targetId: {
-          type: DataTypes.BIGINT,
+        type: DataTypes.BIGINT,
       },
-      imageUrl: {
-          type: DataTypes.STRING,
-          allowNull: false,
-          defaultValue: '',
+      squareUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "",
+      },
+      mediumUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "",
+      },
+      shelvedUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "",
       },
     },
     {
