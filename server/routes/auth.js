@@ -7,20 +7,24 @@ const models = require("../models");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { customer_id, password, customer_nick } = req.body;
+  let respJson = { status: "N" };
+  const { email, password, nickname } = req.body;
   try {
-    const customer_pwd = password;
-    const exCustomer = await Customer.findOne({ where: { customer_id } });
+    const exCustomer = await Customer.findOne({ where: { email } });
     if (exCustomer) {
-      return res.redirect("/join?error=exist");
+      return res.json(respJson);
     }
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
-    await Customer.create({
-      customer_id,
-      customer_pwd: hash,
-      customer_nick,
+    const CustomerCreateResult  = await Customer.create({
+      email,
+      password: hash,
+      nick:nickname,
     });
-    return res.redirect("/");
+    if (CustomerCreateResult) {
+      return res.json(respJson);
+    }
+    respJson['status'] = 'Y';
+    return res.json(respJson);
   } catch (error) {
     console.error(error);
     return next(error);
