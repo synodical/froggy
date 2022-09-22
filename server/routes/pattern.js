@@ -6,11 +6,6 @@ const { Pattern } = require("../models");
 const Sequelize = require("sequelize");
 
 router.get("/", async (req, res, next) => {
-  // res.render("pattern.html", {
-  //   title: "froggy",
-  //   customer: req.user,
-  //   loginError: req.flash("loginError"),
-  // });
   let resJson = { status: "N" };
   try {
     const randPattern = await Pattern.findAll({
@@ -19,7 +14,6 @@ router.get("/", async (req, res, next) => {
       limit: 5, // limit으로 반환받을 row 수를 정할 수 있어요
     });
     resJson["status"] = "Y";
-    // console.log(randPattern);
     return res.json(randPattern);
   } catch (error) {
     console.error(error);
