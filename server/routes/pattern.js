@@ -23,9 +23,8 @@ router.get("/", async (req, res, next) => {
         },
         raw: true,
       });
-      rp["image"] = eachImage;
+      rp["thumbnail"] = eachImage.mediumUrl;
     }
-    // randPattern["images"] = Images;
     resJson["patternList"] = randPattern;
     resJson["status"] = "Y";
     return res.json(resJson);
