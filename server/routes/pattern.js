@@ -5,6 +5,39 @@ const router = express.Router();
 const { Pattern, Customer, Image } = require("../models");
 const Sequelize = require("sequelize");
 
+router.post("/:id/liked", async (req, res, next) => {
+  try {
+    Customer.addLikedPattern(Pattern, { through: { status: "started" } });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/:id", async (req, res, next) => {
+  let resJson = { status: "N" };
+  const patternId = req.params.id;
+  try {
+    const pattern = await Pattern.findOne({
+      where: { id: patternId },
+    });
+    const images = await Image.findAll({
+      where: {
+        targetType: "pattern",
+        targetId: patternId,
+      },
+    });
+    resJson["image"] = images;
+    resJson["pattern"] = pattern;
+    resJson["status"] = "Y";
+    console.log(resJson);
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
   try {
@@ -28,15 +61,6 @@ router.get("/", async (req, res, next) => {
     resJson["patternList"] = randPattern;
     resJson["status"] = "Y";
     return res.json(resJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
-  }
-});
-
-router.post("/:id/liked", async (req, res, next) => {
-  try {
-    Customer.addLikedPattern(Pattern, { through: { status: "started" } });
   } catch (error) {
     console.error(error);
     return next(error);

@@ -7,6 +7,30 @@ const axios = require("axios");
 const { Pattern, Customer, Image } = require("../models");
 const Sequelize = require("sequelize");
 
+router.get("/:id", async (req, res, next) => {
+  let resJson = { status: "N" };
+  const yarnId = req.params.id;
+  try {
+    const yarn = await Yarn.findOne({
+      where: { id: yarnId },
+    });
+    const images = await Image.findAll({
+      where: {
+        targetType: "yarn",
+        targetId: yarnId,
+      },
+    });
+    resJson["image"] = images;
+    resJson["yarn"] = yarn;
+    resJson["status"] = "Y";
+    console.log(resJson);
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
   try {
