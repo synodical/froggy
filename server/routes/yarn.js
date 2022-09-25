@@ -7,19 +7,13 @@ const axios = require("axios");
 const Sequelize = require("sequelize");
 
 router.get("/", async (req, res, next) => {
-  // res.render("yarn.html", {
-  //   title: "froggy",
-  //   customer: req.user,
-  //   loginError: req.flash("loginError"),
-  // });
   let resJson = { status: "N" };
   try {
     const randYarn = await Yarn.findAll({
-      // attributes: ["id"],
       order: Sequelize.fn("RAND"),
-      limit: 5, // limit으로 반환받을 row 수를 정할 수 있어요
+      limit: 5,
     });
-    resJson['randYarn'] = randYarn;
+    resJson["randYarn"] = randYarn;
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {
