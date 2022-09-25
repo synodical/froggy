@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
     });
     for (let rp of randPattern) {
       const eachImage = await Image.findOne({
-        attributes: ["squareUrl"],
+        attributes: ["mediumUrl"],
         where: {
           targetType: "pattern",
           targetId: rp.id,
@@ -25,8 +25,8 @@ router.get("/", async (req, res, next) => {
       });
       rp["image"] = eachImage;
     }
-    randPattern["images"] = Images;
-    resJson["randPattern"] = randPattern;
+    // randPattern["images"] = Images;
+    resJson["patternList"] = randPattern;
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {
