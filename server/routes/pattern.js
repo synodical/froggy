@@ -25,7 +25,6 @@ router.get("/", async (req, res, next) => {
       });
       Images.push(eachImage);
     }
-    console.log(Images);
     randPattern["images"] = Images;
     resJson["randPattern"] = randPattern;
     resJson["status"] = "Y";
