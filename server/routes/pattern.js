@@ -12,9 +12,8 @@ router.get("/", async (req, res, next) => {
       // attributes: ["id"],
       order: Sequelize.fn("RAND"),
       limit: 15, // limit으로 반환받을 row 수를 정할 수 있어요
+      raw : true,
     });
-    let Images = [];
-
     for (let rp of randPattern) {
       const eachImage = await Image.findOne({
         attributes: ["squareUrl"],
@@ -22,14 +21,13 @@ router.get("/", async (req, res, next) => {
           targetType: "pattern",
           targetId: rp.id,
         },
+        raw : true,
       });
-      Images.push(eachImage);
+      rp['image'] = eachImage;
     }
-    console.log(Images);
-    randPattern["images"] = Images;
-    resJson["randPattern"] = randPattern;
+    resJson["patternList"] = randPattern;
     resJson["status"] = "Y";
-    return res.json(randPattern);
+    return res.json(resJson);
   } catch (error) {
     console.error(error);
     return next(error);
