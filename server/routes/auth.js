@@ -15,15 +15,15 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
       return res.json(respJson);
     }
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
-    const CustomerCreateResult  = await Customer.create({
-      email,
+    const CustomerCreateResult = await Customer.create({
+      email: email,
       password: hash,
-      nick:nickname,
+      nick: nickname,
     });
     if (CustomerCreateResult) {
       return res.json(respJson);
     }
-    respJson['status'] = 'Y';
+    respJson["status"] = "Y";
     return res.json(respJson);
   } catch (error) {
     console.error(error);
