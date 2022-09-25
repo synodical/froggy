@@ -19,8 +19,9 @@ router.get("/", async (req, res, next) => {
       order: Sequelize.fn("RAND"),
       limit: 5, // limit으로 반환받을 row 수를 정할 수 있어요
     });
+    resJson['randYarn'] = randYarn;
     resJson["status"] = "Y";
-    return res.json(randYarn);
+    return res.json(resJson);
   } catch (error) {
     console.error(error);
     return next(error);
