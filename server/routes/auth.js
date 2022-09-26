@@ -32,6 +32,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
 });
 
 router.post("/login", isNotLoggedIn, (req, res, next) => {
+  console.log(req);
   passport.authenticate("local", (authError, customer, info) => {
     // 미들웨어가 로그인 전략을 수행함
     // passport는 req객체에 login과 logout 메서드를 추가
