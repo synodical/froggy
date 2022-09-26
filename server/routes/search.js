@@ -1,5 +1,5 @@
 const { QueryTypes } = require("sequelize");
-
+const { Pattern } = require("../models");
 router.get("/", async (req, res, next) => {
   console.log(req.query);
   const keyword = req.query;
@@ -8,14 +8,22 @@ router.get("/", async (req, res, next) => {
   const query =
     'select * from pattern where replace(name," ","") like :keyword or replace(author," ","") like :keyword';
   try {
-            const searchList = await sequelize.query(query, {
-                replacements: { searchText: searchText },
-                type: QueryTypes.SELECT,
-                raw: true,
-            });
-
+    const searchList = await Pattern.query(query, {
+      replacements: { keyword: keyword },
+      type: QueryTypes.SELECT,
+      raw: true,
+    });
+    if (searchList.length == 0) {
+      res.status(204).json({
+        message: "No results or fail",
+      });
+    } else {
+      res.status(200).json({
+        searchList: searchList,
+      });
+    }
   } catch (err) {
-    console.log(err)
-    return next(err)
+    console.log(err);
+    return next(err);
   }
-  );
+});
