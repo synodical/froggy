@@ -19,6 +19,7 @@ router.get("/:id", async (req, res, next) => {
         targetType: "yarn",
         targetId: yarnId,
       },
+      raw: true,
     });
     resJson["image"] = images;
     resJson["yarn"] = yarn;
