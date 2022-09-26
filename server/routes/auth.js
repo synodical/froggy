@@ -32,7 +32,6 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
 });
 
 router.post("/login", isNotLoggedIn, (req, res, next) => {
-  console.log(req);
   passport.authenticate("local", (authError, customer, info) => {
     // 미들웨어가 로그인 전략을 수행함
     // passport는 req객체에 login과 logout 메서드를 추가
@@ -51,7 +50,10 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      //console.log(customer);
+      return res.json({
+        customer: customer,
+      });
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 });
