@@ -56,7 +56,11 @@ router.get("/", async (req, res, next) => {
         },
         raw: true,
       });
-      rp["thumbnail"] = eachImage.mediumUrl;
+      if (eachImage === null) {
+        ry["thumbnail"] = null;
+      } else {
+        ry["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
+      }
     }
     resJson["patternList"] = randPattern;
     resJson["status"] = "Y";

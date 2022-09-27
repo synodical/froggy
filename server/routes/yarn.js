@@ -38,7 +38,7 @@ router.get("/", async (req, res, next) => {
   try {
     const randYarn = await Yarn.findAll({
       order: Sequelize.fn("RAND"),
-      limit: 10,
+      limit: 18,
       raw: true,
     });
     for (let ry of randYarn) {
@@ -50,9 +50,12 @@ router.get("/", async (req, res, next) => {
         },
         raw: true,
       });
-      ry["thumbnail"] = eachImage.mediumUrl;
+      if (eachImage === null) {
+        ry["thumbnail"] = null;
+      } else {
+        ry["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
+      }
     }
-    console.log(randYarn);
     resJson["randYarn"] = randYarn;
     resJson["status"] = "Y";
     return res.json(resJson);
