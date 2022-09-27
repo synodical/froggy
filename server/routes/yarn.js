@@ -13,6 +13,7 @@ router.get("/:id", async (req, res, next) => {
   try {
     const yarn = await Yarn.findOne({
       where: { id: yarnId },
+      raw: true,
     });
     const images = await Image.findAll({
       where: {
