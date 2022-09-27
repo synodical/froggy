@@ -14,9 +14,9 @@ const cors = require("cors");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
-
 const authRouter = require("./routes/auth");
 const yarnRouter = require("./routes/yarn");
+const searchRouter = require("./routes/search");
 const patternRouter = require("./routes/pattern");
 const apiTestRouter = require("./routes/apiTest");
 const dbYarnTestRouter = require("./routes/dbYarnTest");
@@ -98,6 +98,7 @@ app.use(cors());
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
 app.use("/yarn", yarnRouter);
+app.use("/search", searchRouter);
 app.use("/pattern", patternRouter);
 app.use("/apiTest", apiTestRouter);
 app.use("/dbYarnTest", dbYarnTestRouter);
