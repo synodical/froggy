@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) =>
         primaryKey: true,
       },
       gaugeDivisor: {
+        // 18스티치가 4인치
         type: DataTypes.INTEGER,
       },
       grams: {
