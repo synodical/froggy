@@ -38,7 +38,7 @@ router.get("/", async (req, res, next) => {
   try {
     const randYarn = await Yarn.findAll({
       order: Sequelize.fn("RAND"),
-      limit: 18,
+      limit: 10,
       raw: true,
     });
     for (let ry of randYarn) {
