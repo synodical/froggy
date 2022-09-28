@@ -22,6 +22,21 @@ router.get("/search", async (req, res, next) => {
         message: "No results or fail",
       });
     } else {
+      for (let searchResult of searchList) {
+        const eachImage = await Image.findOne({
+          attributes: ["mediumUrl"],
+          where: {
+            targetType: "yarn",
+            targetId: searchResult.id,
+          },
+          raw: true,
+        });
+        if (eachImage === null) {
+          searchResult["thumbnail"] = null;
+        } else {
+          searchResult["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
+        }
+      }
       res.status(200).json({
         searchList: searchList,
       });
