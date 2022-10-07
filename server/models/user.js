@@ -1,7 +1,13 @@
 module.exports = (sequelize, DataTypes) =>
   sequelize.define(
-    "customer",
+    "user",
     {
+      id: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+        unique: true,
+        primaryKey: true,
+      },
       email: {
         type: DataTypes.STRING(40),
         allowNull: false,
@@ -27,6 +33,6 @@ module.exports = (sequelize, DataTypes) =>
     {
       freezeTableName: true,
       paranoid: true.valueOf,
-      tableName: "customer",
+      tableName: "user",
     }
   );

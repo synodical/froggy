@@ -1,11 +1,13 @@
 const passport = require("passport");
 const local = require("./localStrategy");
-const Customer = require("../models").Customer;
+const User = require("../models").User;
 
 module.exports = () => {
-  passport.serializeUser((customer, done) => {
+  passport.serializeUser((user, done) => {
     console.log("serial");
-    done(null, customer.id);
+    console.log(user);
+    done(null, user.id);
+    console.log(done);
   });
   /*
   serializeUser 메서드에서는 function(user, done)을 이용해서 session에 저장할 정보를 done(null, user)과 같이 두번째 인자로 넘기면 된다.
@@ -21,8 +23,9 @@ module.exports = () => {
   passport.deserializeUser((id, done) => {
     console.log("deserial");
     console.log(id);
-    Customer.findOne({ where: { id } })
-      .then((customer) => done(null, customer))
+    console.log(req.user);
+    User.findOne({ where: { id } })
+      .then((user) => done(null, user))
       .catch((err) => done(err));
   });
 
