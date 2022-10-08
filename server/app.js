@@ -24,6 +24,8 @@ const dbPatternTestRouter = require("./routes/dbPatternTest");
 const { sequelize } = require("./models");
 const Customer = require("./models").Customer;
 const passportConfig = require("./passport");
+const nodemon = require("nodemon");
+
 
 const app = express();
 
@@ -47,7 +49,7 @@ sequelize
 https: app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
@@ -55,8 +57,8 @@ app.use(
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
-      httpOnly: true,
-      secure: false,
+      sameSite:"NONE",
+      httpOnly: false,
     },
   })
 );
@@ -92,7 +94,17 @@ app.use((req, res, next) => {
   next();
 });
 */
-app.use(cors());
+const safesitelist = ['http://localhost:8100'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    const issafesitelisted = safesitelist.indexOf(origin) !== -1;
+    callback(null, issafesitelisted);
+  },
+  credentials: true,
+};
+//cors에 옵션사용할경우
+app.use(cors(corsOptions));
 
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
@@ -102,18 +114,9 @@ app.use("/apiTest", apiTestRouter);
 app.use("/dbYarnTest", dbYarnTestRouter);
 app.use("/dbPatternTest", dbPatternTestRouter);
 
-const safesitelist = ["http://localhost:8100"];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    const issafesitelisted = safesitelist.indexOf(origin) !== -1;
-    callback(null, issafesitelisted);
-  },
-  credentials: true,
-};
 
-//cors에 옵션사용할경우
-app.use(cors(corsOptions));
+
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
