@@ -22,7 +22,7 @@ const dbYarnTestRouter = require("./routes/dbYarnTest");
 const dbPatternTestRouter = require("./routes/dbPatternTest");
 
 const { sequelize } = require("./models");
-const Customer = require("./models").Customer;
+const User = require("./models").User;
 const passportConfig = require("./passport");
 
 const app = express();
@@ -57,6 +57,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false,
+      domain: "http://localhost:8100/",
     },
   })
 );
@@ -92,7 +93,17 @@ app.use((req, res, next) => {
   next();
 });
 */
+
 app.use(cors());
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8100");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.use("/", pageRouter);
 app.use("/auth", authRouter);

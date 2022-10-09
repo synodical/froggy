@@ -1,7 +1,7 @@
 const express = require("express");
 const { request } = require("http");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const Customer = require("../models").Customer;
+const User = require("../models").User;
 const router = express.Router();
 const axios = require("axios");
 
@@ -22,7 +22,7 @@ router.get("/login", isNotLoggedIn, (req, res) => {
 router.get("/", async (req, res, next) => {
   res.render("main.html", {
     title: "froggy",
-    customer: req.user,
+    user: req.user,
     loginError: req.flash("loginError"),
   });
 });
