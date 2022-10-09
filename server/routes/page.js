@@ -20,6 +20,9 @@ router.get("/login", isNotLoggedIn, (req, res) => {
 });
 
 router.get("/", async (req, res, next) => {
+  if (req.user) {
+    console.log(req.user);
+  }
   res.render("main.html", {
     title: "froggy",
     user: req.user,

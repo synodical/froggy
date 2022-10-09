@@ -22,8 +22,7 @@ module.exports = () => {
   */
   passport.deserializeUser((id, done) => {
     console.log("deserial");
-    console.log(id);
-    console.log(req.user);
+    console.log("id:", id);
     User.findOne({ where: { id } })
       .then((user) => done(null, user))
       .catch((err) => done(err));

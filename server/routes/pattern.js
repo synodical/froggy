@@ -84,6 +84,11 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
+  if (req.user) {
+    console.log(req.user);
+  } else {
+    console.log("no user");
+  }
   let resJson = { status: "N" };
   try {
     const randPattern = await Pattern.findAll({
