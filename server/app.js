@@ -8,9 +8,14 @@ const dotenv = require("dotenv");
 const flash = require("connect-flash");
 const passport = require("passport");
 const request = require("request");
+const http = require("http");
+const https = require("https");
+
 //const axios = request("axios");
 //const helmet = require("helmet");
 const cors = require("cors");
+const HTTPS_PORT = 8003;
+const HTTP_PORT = 8002;
 
 dotenv.config();
 const pageRouter = require("./routes/page");
@@ -25,7 +30,12 @@ const { sequelize } = require("./models");
 const User = require("./models").User;
 const passportConfig = require("./passport");
 const nodemon = require("nodemon");
+const fs = require("fs");
 
+const options = {
+  key: fs.readFileSync("./config/localhost-key.pem"),
+  cert: fs.readFileSync("./config/localhost.pem"),
+};
 const app = express();
 
 passportConfig(); // 패스포트 설정
@@ -57,10 +67,11 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     cookie: {
       sameSite: "NONE",
-      httpOnly: false,
+      secure: "true",
     },
   })
 );
+
 /*
 const cspOptions = {
   directives: {
@@ -138,3 +149,6 @@ app.use((err, req, res, next) => {
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");
 });
+//http.createServer(app).listen(HTTP_PORT);
+https.createServer(options, app).listen(HTTPS_PORT);
+//예으니바보
