@@ -32,14 +32,11 @@ const passportConfig = require("./passport");
 const nodemon = require("nodemon");
 const fs = require("fs");
 
-const options = {
-  key: fs.readFileSync("./config/localhost-key.pem"),
-  cert: fs.readFileSync("./config/localhost.pem"),
-};
+
 const app = express();
 
 passportConfig(); // 패스포트 설정
-app.set("port", process.env.PORT || 8002);
+app.set("port", process.env.PORT || HTTP_PORT);
 
 app.set("view engine", "html");
 nunjucks.configure(path.join(__dirname, "views"), {
@@ -72,38 +69,10 @@ app.use(
   })
 );
 
-/*
-const cspOptions = {
-  directives: {
-    // 기본 옵션을 가져옵니다.
-    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-
-    // 구글 API 도메인과 인라인된 스크립트를 허용합니다.
-    "script-src": [
-      "'self'",
-      "*.googleapis.com",
-      "'unsafe-inline'",
-      "https://picsum.photos",
-    ],
-    "connect-src": ["https://picsum.photos"],
-    //  사이트의 이미지 소스를 허용합니다.
-    "img-src": ["'self'", "data:", "https://picsum.photos"],
-  },
-};
-*/
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-/*
-app.use((req, res, next) => {
-  res.append("Access-Control-Allow-Origin", "https://picsum.photos");
-  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.append("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  next();
-});
-*/
 const safesitelist = ["http://localhost:8100"];
 
 const corsOptions = {
@@ -146,6 +115,11 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
+
+const options = {
+  key: fs.readFileSync("./config/localhost-key.pem"),
+  cert: fs.readFileSync("./config/localhost.pem"),
+};
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");
 });
