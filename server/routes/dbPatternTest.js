@@ -5,9 +5,6 @@ const Pattern = require("../models").Pattern;
 const Image = require("../models").Image;
 const router = express.Router();
 
-import RecommendService from "../controllers/recommend_service";
-
-
 router.post("/", async (req, res, next) => {
   let resJson = { status: "N" };
   //console.log(req.body);
@@ -92,13 +89,5 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//flask test 를 위한 라우터 입니다. 
-// flask 서버로 요청을 보낸 뒤 값을 반환합니다. 
-
-router.post("/flask/test", async (req, res, next) => {
-  const recommendPatternResult = await RecommendService.getRecommendPattern(req, res, {});
-  console.log(recommendPatternResult);
-  return recommendPatternResult;
-});
 
 module.exports = router;
