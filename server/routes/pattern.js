@@ -6,9 +6,10 @@ const { Pattern, Customer, Image, sequelize } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 
-const RecommendService = require("../controllers/recommend_service")
+const RecommendService = require("../controllers/recommend_service");
 
 router.get("/search", async (req, res, next) => {
+  let resJson = { status: "N" };
   let keyword = req.query[0];
   console.log(keyword);
   keyword = keyword.toString().replace(" ", "%"); // db에는 빨간실로 저장되어 있지만, 빨간 실로 검색한 경우
@@ -22,29 +23,23 @@ router.get("/search", async (req, res, next) => {
       type: QueryTypes.SELECT,
       raw: true,
     });
-    if (searchList.length == 0) {
-      res.status(204).json({
-        message: "No results or fail",
+
+    for (let searchResult of searchList) {
+      const eachImage = await Image.findOne({
+        attributes: ["mediumUrl"],
+        where: {
+          targetType: "pattern",
+          targetId: searchResult.id,
+        },
+        raw: true,
       });
-    } else {
-      for (let searchResult of searchList) {
-        const eachImage = await Image.findOne({
-          attributes: ["mediumUrl"],
-          where: {
-            targetType: "pattern",
-            targetId: searchResult.id,
-          },
-          raw: true,
-        });
-        if (eachImage === null) {
-          searchResult["thumbnail"] = null;
-        } else {
-          searchResult["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
-        }
+      if (eachImage === null) {
+        searchResult["thumbnail"] = null;
+      } else {
+        searchResult["thumbnail"] = eachImage.mediumUrl;
       }
-      res.status(200).json({
-        searchList: searchList,
-      });
+      resJson["searchList"] = searchList;
+      return res.json(resJson);
     }
   } catch (err) {
     console.log(err);
@@ -120,29 +115,28 @@ router.get("/", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     return next(error);
-  }  
+  }
 });
 
-//flask test 를 위한 라우터 입니다. 
-// flask 서버로 요청을 보낸 뒤 값을 반환합니다. 
+//flask test 를 위한 라우터 입니다.
+// flask 서버로 요청을 보낸 뒤 값을 반환합니다.
 
 router.get("/flask/test", async (req, res, next) => {
   try {
-      let resJson = { status: "N" };
-      const recommendPatternResult = await RecommendService.getRecommendPattern(req, res, {});
-      console.log(recommendPatternResult);
-      resJson["patternList"] = recommendPatternResult;
-      resJson["status"] = "Y";
-      return res.json(resJson);
+    let resJson = { status: "N" };
+    const recommendPatternResult = await RecommendService.getRecommendPattern(
+      req,
+      res,
+      {}
+    );
+    console.log(recommendPatternResult);
+    resJson["patternList"] = recommendPatternResult;
+    resJson["status"] = "Y";
+    return res.json(resJson);
   } catch (error) {
     console.error(error);
     return next(error);
-  }  
+  }
 });
-
-
-
-
-
 
 module.exports = router;
