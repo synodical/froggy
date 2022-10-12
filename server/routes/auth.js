@@ -33,7 +33,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
 });
 
 router.post("/login", isNotLoggedIn, (req, res, next) => {
-  passport.authenticate("local", (authError, customer, info) => {
+  passport.authenticate("local", (authError, user, info) => {
     // 미들웨어가 로그인 전략을 수행함
     // passport는 req객체에 login과 logout 메서드를 추가
     // req.login이 passport.serializeUser를 호출합니다.
@@ -42,21 +42,21 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
       console.error(authError);
       return next(authError);
     }
-    if (!customer) {
+    if (!user) {
       console.log(info.message);
       return res.redirect(`/?loginError=${info.message}`);
     }
-    if (customer) {
-      console.log("req.user ", JSON.stringify(customer));
+    if (user) {
+      console.log("req.user ", JSON.stringify(user));
     }
-    return req.login(customer, (loginError) => {
+    return req.login(user, (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      //console.log(customer);
+      //console.log(user);
       return res.json({
-        customer: customer,
+        user: user,
       });
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
