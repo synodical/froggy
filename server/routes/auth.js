@@ -64,9 +64,13 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
 });
 
 router.get("/logout", isLoggedIn, (req, res) => {
-  req.logout();
+  //req.logout();
+  let resJson = { status: "N" };
   req.session.destroy();
-  res.redirect("/");
+
+
+  resJson['status'] = 'Y';
+  res.json(resJson);
 });
 
 module.exports = router;
