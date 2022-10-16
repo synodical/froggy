@@ -15,6 +15,7 @@ const RecommendService = {
           let resJson = JSON.parse(body);
           resolve(resJson);
         } else {
+          console.log(error);
           resolve(false);
         }
       });
