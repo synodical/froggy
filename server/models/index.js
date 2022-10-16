@@ -18,15 +18,10 @@ db.Yarn = require("./yarn")(sequelize, Sequelize);
 db.Image = require("./image")(sequelize, Sequelize);
 db.Pattern = require("./pattern")(sequelize, Sequelize);
 db.Fiber = require("./fiber")(sequelize, Sequelize);
+db.Liked = require("./liked")(sequelize, Sequelize);
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
-
-db.User.belongsToMany(db.Pattern, { through: "likedPattern" });
-db.Pattern.belongsToMany(db.User, { through: "likedPattern" });
-
-db.User.belongsToMany(db.Yarn, { through: "likedYarn" });
-db.Yarn.belongsToMany(db.User, { through: "likedYarn" });
 
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });
