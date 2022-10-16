@@ -2,11 +2,12 @@ const express = require("express");
 const { request } = require("http");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
-const { Pattern, Customer, Image, sequelize } = require("../models");
+const { Pattern, User, Image, Liked, sequelize } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 
 const RecommendService = require("../controllers/recommend_service");
+const e = require("connect-flash");
 
 router.get("/search", async (req, res, next) => {
   let resJson = { status: "N" };
@@ -47,9 +48,48 @@ router.get("/search", async (req, res, next) => {
   }
 });
 
-router.post("/:id/liked", async (req, res, next) => {
+router.post("/liked/:id/", async (req, res, next) => {
+  let resJson = { status: "N" };
   try {
-    Customer.addLikedPattern(Pattern, { through: { status: "started" } });
+    let exLiked = await Liked.findOne({
+      where: {
+        targetType: "pattern",
+        targetId: req.params.id,
+        userId: req.user.id,
+      },
+      paranoid: false,
+      raw: true,
+    });
+    if (exLiked) {
+      // 이미 존재하는 경우
+      if (exLiked.deletedAt) {
+        // 삭제되었던 경우
+        Liked.restore({
+          where: {
+            targetType: "pattern",
+            targetId: req.params.id,
+            userId: req.user.id,
+          },
+          paranoid: false,
+        });
+      } else {
+        // 삭제되지 않은 경우
+        Liked.destroy({
+          where: {
+            targetType: "pattern",
+            targetId: req.params.id,
+            userId: req.user.id,
+          },
+        });
+      }
+    } else {
+      Liked.create({
+        targetType: "pattern",
+        targetId: req.params.id,
+        userId: req.user.id,
+      });
+    }
+    return res.json(resJson);
   } catch (error) {
     console.error(error);
     return next(error);
@@ -124,6 +164,7 @@ router.get("/", async (req, res, next) => {
 router.get("/flask/test", async (req, res, next) => {
   try {
     let resJson = { status: "N" };
+    console.log("text");
     const recommendPatternResult = await RecommendService.getRecommendPattern(
       req,
       res,
