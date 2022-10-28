@@ -25,6 +25,8 @@ const patternRouter = require("./routes/pattern");
 const apiTestRouter = require("./routes/apiTest");
 const dbYarnTestRouter = require("./routes/dbYarnTest");
 const dbPatternTestRouter = require("./routes/dbPatternTest");
+const communityRouter = require("./routes/community");
+
 
 const { sequelize } = require("./models");
 const User = require("./models").User;
@@ -101,6 +103,8 @@ app.use("/pattern", patternRouter);
 app.use("/apiTest", apiTestRouter);
 app.use("/dbYarnTest", dbYarnTestRouter);
 app.use("/dbPatternTest", dbPatternTestRouter);
+app.use('/community', communityRouter);
+
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
