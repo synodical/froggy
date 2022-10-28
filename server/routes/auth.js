@@ -64,7 +64,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
 });
 
 router.get("/logout", isLoggedIn, (req, res) => {
-  //req.logout();
+  //req.logout(); 얘머임;;
   let resJson = { status: "N" };
   req.session.destroy();
 
