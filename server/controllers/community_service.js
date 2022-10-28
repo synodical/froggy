@@ -1,6 +1,8 @@
 
-//const { Post } = require("../models/post");
-const Post = require("../models").Post;
+const { Post } = require("../models");
+const { sequelize } = require("../models");
+const Sequelize = require("sequelize");
+
 const CommunityService = {
     async savePost(data) {
         const { user, title, contents } = data;
@@ -13,9 +15,16 @@ const CommunityService = {
         }   
         const insertResult = await Post.create(paramJson);
         return insertResult;
+    },
+    async getMainPosts(){
+        const randPost = await Post.findAll({
+            order: Sequelize.fn("RAND"),
+            limit: 15, // limit으로 반환받을 row 수를 정할 수 있어요
+            raw: true,
+        });
+        return randPost;
+
     }
-
-
 }
 
 module.exports = CommunityService;
