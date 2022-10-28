@@ -13,7 +13,9 @@ router.post("/write", async (req, res, next) => {
         return res.json(resJson);
     }
     await CommunityService.savePost({user,title,contents});
-
+    
+    resJson['status'] = 'Y';
+    return res.json(resJson);
 
 });
 
@@ -26,4 +28,22 @@ router.get("/main", async (req, res, next) => {
     resJson["status"] = "Y";
     return res.json(resJson);
 });
+
+router.get("/post/:postId", async (req, res, next) => {
+    let resJson = { status: "N" };
+    const { postId } = req.params
+
+
+
+    const postDetail =await CommunityService.getPostDetail(postId);
+
+    if (CommonService.isEmpty(postDetail)) {
+        return res.json(resJson);
+    }
+
+    resJson["postDetail"] = postDetail;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+});
+
 module.exports = router;

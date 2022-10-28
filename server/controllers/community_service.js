@@ -23,7 +23,16 @@ const CommunityService = {
             raw: true,
         });
         return randPost;
-
+    },
+    async getPostDetail(postId) {
+        const postDetail = await Post.findOne({
+            where: {
+                id: postId,
+            },
+            paranoid: false,
+            raw: true,
+        });
+        return postDetail;
     }
 }
 
