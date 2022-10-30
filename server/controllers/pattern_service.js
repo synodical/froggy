@@ -1,10 +1,3 @@
-
-
-
-const PatternService = {
-    
-
-
-}
+const PatternService = {};
 
 module.exports = RecommendService;
