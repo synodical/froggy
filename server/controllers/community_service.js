@@ -1,4 +1,3 @@
-
 const { Post, Comment } = require("../models");
 const { sequelize } = require("../models");
 const Sequelize = require("sequelize");
@@ -60,5 +59,4 @@ const CommunityService = {
         return insertResult;
     },
 }
-
 module.exports = CommunityService;
