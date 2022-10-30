@@ -8,10 +8,13 @@ const CommonService = require("../common/common_service");
 router.post("/write", async (req, res, next) => {
     let resJson = { status: "N" };
     const { title, contents } = req.body;
-    const  user  = req.user;
-    if (CommonService.isEmpty(user)) {
+    const user = req.user;
+    
+   if (CommonService.isEmpty(user)) {
+        resJson['isUserLogin'] = 'N';
         return res.json(resJson);
     }
+    
     await CommunityService.savePost({user,title,contents});
     
     resJson['status'] = 'Y';

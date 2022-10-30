@@ -18,9 +18,8 @@ const CommunityService = {
     },
     async getMainPosts(){
         const randPost = await Post.findAll({
-            order: Sequelize.fn("RAND"),
-            limit: 15, // limit으로 반환받을 row 수를 정할 수 있어요
             raw: true,
+            order: [['createdAt', 'DESC']]
         });
         return randPost;
     },
