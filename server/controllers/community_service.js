@@ -1,5 +1,5 @@
 
-const { Post } = require("../models");
+const { Post, Comment } = require("../models");
 const { sequelize } = require("../models");
 const Sequelize = require("sequelize");
 
@@ -33,7 +33,33 @@ const CommunityService = {
             raw: true,
         });
         return postDetail;
-    }
+    },
+    async getCommentList(postId) {
+        const CommentList = await Comment.findAll({
+            where: {
+                postId: postId,
+            },
+            paranoid: false,
+            raw: true,
+        });
+        return CommentList;
+    },
+    async saveComment(data) {
+        const { postId, user, comment } = data;
+        
+        const paramJson = {
+            postId: postId,
+            userId: user.dataValues.id,
+            userNick: user.dataValues.nick,
+            contents: comment,
+            depth: 0,
+            bundleId: 0,
+            bundleOrder: 0,
+            disDel:'N',
+        }   
+        const insertResult = await Comment.create(paramJson);
+        return insertResult;
+    },
 }
 
 module.exports = CommunityService;
