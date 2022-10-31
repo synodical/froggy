@@ -143,7 +143,6 @@ router.get("/", async (req, res, next) => {
       } else {
         rp["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
       }
-      console.log(req.user);
       const eachLiked = await Liked.findOne({
         where: {
           targetType: "pattern",
