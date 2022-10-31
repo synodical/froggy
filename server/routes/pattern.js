@@ -121,11 +121,6 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-  if (req.user) {
-    console.log(req.user);
-  } else {
-    console.log("no user");
-  }
   let resJson = { status: "N" };
   try {
     const randPattern = await Pattern.findAll({
@@ -147,6 +142,19 @@ router.get("/", async (req, res, next) => {
         rp["thumbnail"] = null;
       } else {
         rp["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
+      }
+      console.log(req.user);
+      const eachLiked = await Liked.findOne({
+        where: {
+          targetType: "pattern",
+          targetId: rp.id,
+          userId: req.user.dataValues.id,
+        },
+      });
+      if (eachLiked === null) {
+        rp["liked"] = null;
+      } else {
+        rp["liked"] = "liked";
       }
     }
     resJson["patternList"] = randPattern;
