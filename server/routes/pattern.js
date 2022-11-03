@@ -102,13 +102,16 @@ router.get("/:id", async (req, res, next) => {
   try {
     const pattern = await Pattern.findOne({
       where: { id: patternId },
+      raw: true,
     });
     const images = await Image.findAll({
       where: {
         targetType: "pattern",
         targetId: patternId,
       },
+      raw: true,
     });
+    pattern["thumbnail"] = images[0].mediumUrl;
     resJson["image"] = images;
     resJson["pattern"] = pattern;
     resJson["status"] = "Y";
