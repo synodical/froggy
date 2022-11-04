@@ -6,7 +6,11 @@ const { Pattern, User, Image, Liked, sequelize } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 
+//services
+const PatternService = require("../controllers/pattern_service");
+const CommonService = require("../common/common_service");
 const RecommendService = require("../controllers/recommend_service");
+
 const e = require("connect-flash");
 
 router.get("/search", async (req, res, next) => {
@@ -126,6 +130,7 @@ router.get("/:id", async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
   try {
+    const { user } = req;
     const randPattern = await Pattern.findAll({
       // attributes: ["id"],
       order: Sequelize.fn("RAND"),
@@ -146,17 +151,8 @@ router.get("/", async (req, res, next) => {
       } else {
         rp["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
       }
-      const eachLiked = await Liked.findOne({
-        where: {
-          targetType: "pattern",
-          targetId: rp.id,
-          userId: req.user.dataValues.id,
-        },
-      });
-      if (eachLiked === null) {
-        rp["liked"] = null;
-      } else {
-        rp["liked"] = "liked";
+      if (!CommonService.isEmpty(user)) {
+        rp = await PatternService.addLikedInfo(rp, user);
       }
     }
     resJson["patternList"] = randPattern;
