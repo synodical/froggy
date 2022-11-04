@@ -24,17 +24,23 @@ module.exports = (sequelize, DataTypes) =>
             allowNULL: false,
         },
         contents: {
-            type: DataTypes.STRING(4000),
-            allowNULL: false,
+          type: DataTypes.STRING(4000),
+          allowNULL: false,
+        },
+        commentCount: {
+          type: DataTypes.INTEGER,
+        },
+        likeCount: {
+          type: DataTypes.INTEGER,
         },
         createdAt: {
-        type: DataTypes.DATE,
+          type: DataTypes.DATE,
         },
         deletedAt: {
-        type: DataTypes.DATE,
+          type: DataTypes.DATE,
         },
         updatedAt: {
-        type: DataTypes.DATE,
+          type: DataTypes.DATE,
         },
     },
     {
