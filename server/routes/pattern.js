@@ -12,6 +12,7 @@ const CommonService = require("../common/common_service");
 const RecommendService = require("../controllers/recommend_service");
 
 const e = require("connect-flash");
+const image = require("../models/image");
 
 router.get("/search", async (req, res, next) => {
   let resJson = { status: "N" };
@@ -129,6 +130,7 @@ router.get("/:id", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
+  let patternList = [];
   try {
     const { user } = req;
     const randPattern = await Pattern.findAll({
@@ -138,24 +140,19 @@ router.get("/", async (req, res, next) => {
       raw: true,
     });
     for (let rp of randPattern) {
-      const eachImage = await Image.findOne({
-        attributes: ["mediumUrl"],
-        where: {
-          targetType: "pattern",
-          targetId: rp.id,
-        },
-        raw: true,
-      });
-      if (eachImage === null) {
-        rp["thumbnail"] = null;
+      const imageResult = await PatternService.getPatternImage(rp);
+      if (!imageResult) {
+        continue;
       } else {
-        rp["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
+        rp["thumbnail"] = imageResult.mediumUrl;
       }
+
       if (!CommonService.isEmpty(user)) {
         rp = await PatternService.addLikedInfo(rp, user);
       }
+      patternList.push(rp);
     }
-    resJson["patternList"] = randPattern;
+    resJson["patternList"] = patternList;
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {
