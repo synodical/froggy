@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const User = require("../models").User;
 const models = require("../models");
 const router = express.Router();
 
@@ -10,12 +9,12 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
   let respJson = { status: "N" };
   const { id, email, password, nickname } = req.body;
   try {
-    const exUser = await User.findOne({ where: { id } });
+    const exUser = await models.User.findOne({ where: { id } });
     if (exUser) {
       return res.json(respJson);
     }
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
-    const UserCreateResult = await User.create({
+    const UserCreateResult = await models.User.create({
       id: id,
       email: email,
       password: hash,
@@ -47,15 +46,23 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
       console.log(info.message);
       return res.redirect(`/?loginError=${info.message}`);
     }
-    if (user) {
-      console.log("req.user ", JSON.stringify(user));
-    }
-    return req.login(user, (loginError) => {
+    return req.login(user, async (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      console.log("user test??", user);
+      try {
+        const likedCnt = await models.Liked.count({
+          where: { userId: req.body.id },
+        });
+        req.session.likedCnt = likedCnt;
+        req.session.save(() => {
+          console.log("likedCnt 저장 완료");
+        });
+      } catch (err) {
+        console.error(error);
+        return next(error);
+      }
       resJson = { status: "Y" };
       resJson["user"] = user;
       return res.json(resJson);
@@ -68,8 +75,7 @@ router.get("/logout", isLoggedIn, (req, res) => {
   let resJson = { status: "N" };
   req.session.destroy();
 
-
-  resJson['status'] = 'Y';
+  resJson["status"] = "Y";
   res.json(resJson);
 });
 

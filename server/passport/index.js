@@ -4,10 +4,7 @@ const User = require("../models").User;
 
 module.exports = () => {
   passport.serializeUser((user, done) => {
-    console.log("serial");
-    console.log(user);
     done(null, user.id);
-    console.log(done);
   });
   /*
   serializeUser 메서드에서는 function(user, done)을 이용해서 session에 저장할 정보를 done(null, user)과 같이 두번째 인자로 넘기면 된다.
