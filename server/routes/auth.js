@@ -47,15 +47,20 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
       console.log(info.message);
       return res.redirect(`/?loginError=${info.message}`);
     }
-    if (user) {
-      console.log("req.user ", JSON.stringify(user));
-    }
-    return req.login(user, (loginError) => {
+    return req.login(user, async (loginError) => {
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      console.log("user test??", user);
+      try {
+        const likedCnt = await models.Liked.count({
+          where: { userId: req.body.id },
+        });
+        console.log(likedCnt);
+      } catch (err) {
+        console.error(error);
+        return next(error);
+      }
       resJson = { status: "Y" };
       resJson["user"] = user;
       return res.json(resJson);
@@ -68,8 +73,7 @@ router.get("/logout", isLoggedIn, (req, res) => {
   let resJson = { status: "N" };
   req.session.destroy();
 
-
-  resJson['status'] = 'Y';
+  resJson["status"] = "Y";
   res.json(resJson);
 });
 
