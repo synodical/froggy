@@ -55,7 +55,10 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
         const likedCnt = await models.Liked.count({
           where: { userId: req.body.id },
         });
-        console.log(likedCnt);
+        req.session.likedCnt = likedCnt;
+        req.session.save(() => {
+          console.log("likedCnt 저장 완료");
+        });
       } catch (err) {
         console.error(error);
         return next(error);
