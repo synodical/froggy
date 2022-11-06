@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const User = require("../models").User;
 const models = require("../models");
 const router = express.Router();
 
@@ -10,12 +9,12 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
   let respJson = { status: "N" };
   const { id, email, password, nickname } = req.body;
   try {
-    const exUser = await User.findOne({ where: { id } });
+    const exUser = await models.User.findOne({ where: { id } });
     if (exUser) {
       return res.json(respJson);
     }
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
-    const UserCreateResult = await User.create({
+    const UserCreateResult = await models.User.create({
       id: id,
       email: email,
       password: hash,
