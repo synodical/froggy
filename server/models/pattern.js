@@ -66,6 +66,9 @@ module.exports = (sequelize, DataTypes) =>
       yardage: {
         type: DataTypes.INTEGER,
       },
+      attributeIdArr: {
+        type: DataTypes.STRING,
+      },
     },
     {
       freezeTableName: true,
