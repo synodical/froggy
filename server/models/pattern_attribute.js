@@ -7,11 +7,14 @@ module.exports = (sequelize, DataTypes) =>
         autoIncrement: true,
         primaryKey: true,
       },
-      permalink: {
+      attribute: {
         type: DataTypes.STRING(300),
         allowNULL: false,
       },
       createdAt: {
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
         type: DataTypes.DATE,
       },
       deletedAt: {

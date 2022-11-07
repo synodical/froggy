@@ -19,8 +19,10 @@ db.Image = require("./image")(sequelize, Sequelize);
 db.Pattern = require("./pattern")(sequelize, Sequelize);
 db.Fiber = require("./fiber")(sequelize, Sequelize);
 db.Liked = require("./liked")(sequelize, Sequelize);
-db.Post = require('./post')(sequelize, Sequelize);
-db.Comment = require('./comment')(sequelize, Sequelize);
+db.Post = require("./post")(sequelize, Sequelize);
+db.Comment = require("./comment")(sequelize, Sequelize);
+db.PatternAttribute = require("./pattern_attribute")(sequelize, Sequelize);
+db.PatternCategory = require("./pattern_category")(sequelize, Sequelize);
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);

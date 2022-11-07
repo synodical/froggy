@@ -69,6 +69,15 @@ module.exports = (sequelize, DataTypes) =>
       attributeIdArr: {
         type: DataTypes.STRING,
       },
+      categoryId: {
+        type: DataTypes.INTEGER,
+      },
+      type: {
+        type: DataTypes.STRING,
+      },
+      craft: {
+        type: DataTypes.STRING,
+      },
     },
     {
       freezeTableName: true,
