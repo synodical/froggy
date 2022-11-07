@@ -47,6 +47,7 @@ const PatternController = {
         craft: newPattern.craft.name,
         categoryId: newPattern.pattern_categories[0].id,
         type: newPattern.pattern_type.permalink,
+        gaugeDescription: newPattern.gauge_description,
       },
       {
         where: { id: oldPattern.id },
@@ -99,6 +100,7 @@ const PatternController = {
       craft: pattern.craft.name,
       categoryId: pattern.pattern_categories[0].id,
       type: pattern.pattern_type.permalink,
+      gaugeDescription: pattern.gauge_description,
     });
 
     for (let photo of pattern.photos) {

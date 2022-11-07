@@ -23,7 +23,16 @@ module.exports = (sequelize, DataTypes) =>
       name: {
         type: DataTypes.STRING(7),
       },
+      proficiency: {
+        type: DataTypes.INTEGER,
+      },
       gender: {
+        type: DataTypes.INTEGER,
+      },
+      crochet: {
+        type: DataTypes.INTEGER,
+      },
+      knitting: {
         type: DataTypes.INTEGER,
       },
       birth: {

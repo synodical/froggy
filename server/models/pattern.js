@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) =>
       gauge: {
         type: DataTypes.INTEGER,
       },
+      gaugeDescription: {
+        type: DataTypes.STRING,
+      },
       gaugeDivisor: {
         type: DataTypes.INTEGER,
       },

@@ -14,7 +14,7 @@ const PatternCategoryController = {
       const insertResult = await PatternCategory.create({
         id: patternCategory.id,
         category: patternCategory.permalink,
-        parenId: parent.id,
+        parentId: parent.id,
       });
       return insertResult;
     } else {
