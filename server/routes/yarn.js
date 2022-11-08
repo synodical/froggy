@@ -1,6 +1,6 @@
 const express = require("express");
-const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { Pattern, Customer, Image, sequelize, Yarn } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");

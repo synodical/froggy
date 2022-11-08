@@ -1,29 +1,29 @@
 const express = require("express");
 const router = express.Router();
 
-const CommunityService = require("../controllers/community_service");
+const CommunityController = require("../controllers/community_controller");
 const CommonService = require("../common/common_service");
 
 router.post("/write", async (req, res, next) => {
-    let resJson = { status: "N" };
-    const { title, contents } = req.body;
-    const user = req.user;
-    
-    if (CommonService.isEmpty(user)) {
-        resJson['isUserLogin'] = 'N';
-        return res.json(resJson);
-    }
-    
-    await CommunityService.savePost({ user, title, contents });
-    
-    resJson['status'] = 'Y';
+  let resJson = { status: "N" };
+  const { title, contents } = req.body;
+  const user = req.user;
+
+  if (CommonService.isEmpty(user)) {
+    resJson["isUserLogin"] = "N";
     return res.json(resJson);
+  }
+
+  await CommunityController.savePost({ user, title, contents });
+
+  resJson["status"] = "Y";
+  return res.json(resJson);
 });
 
 router.get("/main", async (req, res, next) => {
   let resJson = { status: "N" };
 
-  const postList = await CommunityService.getMainPosts();
+  const postList = await CommunityController.getMainPosts();
 
   resJson["postList"] = postList;
   resJson["status"] = "Y";
@@ -34,7 +34,7 @@ router.get("/post/:postId", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
 
-  const postDetail = await CommunityService.getPostDetail(postId);
+  const postDetail = await CommunityController.getPostDetail(postId);
 
   if (CommonService.isEmpty(postDetail)) {
     return res.json(resJson);
@@ -49,7 +49,7 @@ router.get("/comment/:postId", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
 
-  const commentList = await CommunityService.getCommentList(postId);
+  const commentList = await CommunityController.getCommentList(postId);
 
   resJson["commentList"] = commentList;
   resJson["status"] = "Y";
@@ -72,7 +72,7 @@ router.post("/write/:postId/comment", async (req, res, next) => {
     comment: req.body.comment,
   };
 
-  const postDetail = await CommunityService.saveComment(paramJson);
+  const postDetail = await CommunityController.saveComment(paramJson);
 
   if (CommonService.isEmpty(postDetail)) {
     return res.json(resJson);

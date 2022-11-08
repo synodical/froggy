@@ -1,6 +1,6 @@
 const { User } = require("../models");
 
-const ProfileService = {
+const ProfileController = {
   async updateNickName(data) {
     const { user, newNickName } = data;
 
@@ -16,4 +16,4 @@ const ProfileService = {
   },
 };
 
-module.exports = ProfileService;
+module.exports = ProfileController;

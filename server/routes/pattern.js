@@ -7,9 +7,9 @@ const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 
 //services
-const PatternService = require("../controllers/pattern_service");
+const PatternService = require("../services/pattern_service");
 const CommonService = require("../common/common_service");
-const RecommendService = require("../controllers/recommend_service");
+const RecommendService = require("../services/recommend_service");
 
 const e = require("connect-flash");
 const image = require("../models/image");

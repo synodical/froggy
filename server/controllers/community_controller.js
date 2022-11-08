@@ -2,7 +2,7 @@ const { Post, Comment } = require("../models");
 const { sequelize } = require("../models");
 const Sequelize = require("sequelize");
 
-const CommunityService = {
+const CommunityController = {
   async savePost(data) {
     const { user, title, contents } = data;
     const paramJson = {
@@ -59,4 +59,4 @@ const CommunityService = {
     return insertResult;
   },
 };
-module.exports = CommunityService;
+module.exports = CommunityController;
