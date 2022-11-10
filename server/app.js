@@ -26,13 +26,13 @@ const dbYarnTestRouter = require("./routes/dbYarnTest");
 const dbPatternTestRouter = require("./routes/dbPatternTest");
 const communityRouter = require("./routes/community");
 const profileRouter = require("./routes/profile");
+const imageRouter = require("./routes/image.js");
 
 const { sequelize } = require("./models");
 const User = require("./models").User;
 const passportConfig = require("./passport");
 const nodemon = require("nodemon");
 const fs = require("fs");
-
 
 const app = express();
 
@@ -101,8 +101,9 @@ app.use("/yarn", yarnRouter);
 app.use("/pattern", patternRouter);
 app.use("/dbYarnTest", dbYarnTestRouter);
 app.use("/dbPatternTest", dbPatternTestRouter);
-app.use('/community', communityRouter);
-app.use('/profile', profileRouter);
+app.use("/community", communityRouter);
+app.use("/profile", profileRouter);
+app.use("/image", imageRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
@@ -116,7 +117,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render("error");
 });
-
 
 const options = {
   key: fs.readFileSync("./config/localhost-key.pem"),
