@@ -11,6 +11,9 @@ const PatternService = require("../services/pattern_service");
 const CommonService = require("../common/common_service");
 const RecommendService = require("../services/recommend_service");
 
+//controller
+const PatternAttributeController = require("../controllers/pattern_attribute_controller");
+
 const e = require("connect-flash");
 const image = require("../models/image");
 
@@ -153,6 +156,20 @@ router.get("/", async (req, res, next) => {
       patternList.push(rp);
     }
     resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/attribute/list", async (req, res, next) => {
+  let resJson = { status: "N" };
+  try {
+    const patternAttributeList =
+      await PatternAttributeController.getPatternAttributeList();
+    resJson["patternAttributeList"] = patternAttributeList;
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {

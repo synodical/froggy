@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) =>
       birth: {
         type: DataTypes.DATE,
       },
+      favoritePatternAttributeIdArr: {
+        type: DataTypes.STRING,
+      },
     },
     {
       freezeTableName: true,

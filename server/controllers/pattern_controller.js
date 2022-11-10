@@ -1,4 +1,4 @@
-const { Pattern, Image } = require("../models");
+const { Pattern, Image, Liked } = require("../models");
 const CommonService = require("../common/common_service");
 
 // include controller

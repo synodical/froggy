@@ -16,6 +16,12 @@ const PatternAttributeController = {
     }
     return false;
   },
+  async getPatternAttributeList() {
+    const PatternAttributeResult = await PatternAttribute.findAll({
+      raw: true,
+    });
+    return PatternAttributeResult;
+  },
 };
 
 module.exports = PatternAttributeController;

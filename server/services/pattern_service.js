@@ -1,4 +1,5 @@
 const { Pattern, Image, Liked } = require("../models");
+const LikedController = require("../controllers/liked_controller");
 
 const PatternService = {
   async getPatternImage(pattern) {
@@ -30,6 +31,13 @@ const PatternService = {
       pattern["liked"] = "Y";
     }
     return pattern;
+  },
+
+  async getLikedPatternList(paramJson) {
+    const { user } = paramJson;
+    const LikedPatternIdList = await LikedController.getLikedPatternIdList({
+      user: user,
+    });
   },
 };
 

@@ -14,6 +14,19 @@ const UserController = {
     );
     return updateResult;
   },
+  async updateFavoritePatternAttributeIdArr(paramJson) {
+    const { user, FavoritePatternAttributeList } = paramJson;
+
+    const updateResult = await User.update(
+      {
+        favoritePatternAttributeIdArr: FavoritePatternAttributeList.join(","),
+      },
+      {
+        where: { id: user.id },
+      }
+    );
+    return updateResult;
+  },
   async updateUser(paramJson, condJson) {
     let result = {};
 
