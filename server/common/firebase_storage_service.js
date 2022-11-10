@@ -1,6 +1,5 @@
-const firebaseConfig = require("/Users/idasom/dev/froggy/server/common/froggy-34371-firebase-adminsdk-gf2pi-54dd8356b9.json");
+const firebaseConfig = require("../config/froggy-34371-firebase-adminsdk-gf2pi-54dd8356b9.json");
 const firebase = require("firebase");
-// firebase.initializeApp(firebaseConfig);
 const admin = require("firebase-admin");
 const firebaseAdmin = admin.initializeApp(
   {
