@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) =>
       favoritePatternAttributeIdArr: {
         type: DataTypes.STRING,
       },
+      isSetProfile: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "N",
+      },
     },
     {
       freezeTableName: true,

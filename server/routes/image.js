@@ -23,8 +23,6 @@ router.post("/single", upload.single("image"), async (req, res, next) => {
     resJson["isUserLogin"] = "N";
     return res.json(resJson);
   }
-
-  await UserController.updateNickName({ user, newNickName });
   resJson["imageUrlList"] = imageUrlList;
   resJson["status"] = "Y";
   return res.json(resJson);

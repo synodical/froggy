@@ -178,6 +178,38 @@ router.get("/attribute/list", async (req, res, next) => {
   }
 });
 
+router.get("/recommend/main", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const { user } = req;
+    const randPattern = await Pattern.findAll({
+      // attributes: ["id"],
+      order: Sequelize.fn("RAND"),
+      limit: 6, // limit으로 반환받을 row 수를 정할 수 있어요
+      raw: true,
+    });
+    for (let rp of randPattern) {
+      const imageResult = await PatternService.getPatternImage(rp);
+      if (!imageResult) {
+        continue;
+      } else {
+        rp["thumbnail"] = imageResult.mediumUrl;
+      }
+
+      if (!CommonService.isEmpty(user)) {
+        rp = await PatternService.addLikedInfo(rp, user);
+      }
+      patternList.push(rp);
+    }
+    resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
 //flask test 를 위한 라우터 입니다.
 // flask 서버로 요청을 보낸 뒤 값을 반환합니다.
 
