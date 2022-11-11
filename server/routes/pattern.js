@@ -209,6 +209,71 @@ router.get("/recommend/difficulty", async (req, res, next) => {
     return next(error);
   }
 });
+
+router.get("/recommend/crochet", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const { user } = req;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const patternRecommendResult =
+      await PatternRecommendService.getRecommendListByCrochet({ user });
+    patternRecommendResult.sort(() => Math.random() - 0.5);
+    let patternRecommend6 = patternRecommendResult.slice(0, 10);
+    for (let pattern of patternRecommend6) {
+      const imageResult = await PatternService.getPatternImage(pattern);
+      if (!imageResult) {
+        continue;
+      } else {
+        pattern["thumbnail"] = imageResult.mediumUrl;
+      }
+      pattern = await PatternService.addLikedInfo(pattern, user);
+      patternList.push(pattern);
+    }
+    resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/recommend/Knitting", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const { user } = req;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const patternRecommendResult =
+      await PatternRecommendService.getRecommendListByKnitting({ user });
+    patternRecommendResult.sort(() => Math.random() - 0.5);
+    let patternRecommend6 = patternRecommendResult.slice(0, 10);
+    for (let pattern of patternRecommend6) {
+      const imageResult = await PatternService.getPatternImage(pattern);
+      if (!imageResult) {
+        x;
+        continue;
+      } else {
+        pattern["thumbnail"] = imageResult.mediumUrl;
+      }
+      pattern = await PatternService.addLikedInfo(pattern, user);
+      patternList.push(pattern);
+    }
+    resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
 //flask test 를 위한 라우터 입니다.
 // flask 서버로 요청을 보낸 뒤 값을 반환합니다.
 

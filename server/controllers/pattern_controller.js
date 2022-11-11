@@ -138,7 +138,7 @@ const PatternController = {
         [Op.lt]: paramJson.maxDifficulty,
         [Op.gt]: paramJson.minDifficulty,
       };
-
+    if (paramJson.craft) condJson.where["craft"] = paramJson.craft;
     return condJson;
   },
 };

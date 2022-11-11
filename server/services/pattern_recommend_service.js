@@ -23,9 +23,29 @@ const PatternRecommendService = {
     }
     return patternList;
   },
-  async getRecommendListByNeedle(paramJson) {
+  async getRecommendListByCrochet(paramJson) {
     const { user } = paramJson;
-    const { crochet, knitting } = user;
+    const { crochet } = user;
+    if (crochet === 1) {
+      patternList = await PatternController.getPatternList({
+        craft: "Crochet",
+      });
+      return patternList;
+    } else {
+      return false;
+    }
+  },
+  async getRecommendListByKnitting(paramJson) {
+    const { user } = paramJson;
+    const { knitting } = user;
+    if (knitting === 1) {
+      patternList = await PatternController.getPatternList({
+        craft: "Knitting",
+      });
+      return patternList;
+    } else {
+      return false;
+    }
   },
   async getRecommendListByAttribute(paramJson) {
     const { user } = paramJson;
