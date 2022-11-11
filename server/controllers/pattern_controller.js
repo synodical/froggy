@@ -1,6 +1,7 @@
 const { Pattern, Image, Liked } = require("../models");
 const CommonService = require("../common/common_service");
-
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 // include controller
 const PatternAttributeController = require("../controllers/pattern_attribute_controller");
 const PatternCategoryController = require("../controllers/pattern_category_controller");
@@ -114,6 +115,31 @@ const PatternController = {
       });
     }
     return insertResult;
+  },
+  async getPatternList(paramJson) {
+    const condJson = this.applyWhereCond(paramJson);
+    const PatternResult = await Pattern.findAll(condJson);
+    return PatternResult;
+  },
+  applyWhereCond(paramJson) {
+    // paramJson : {}
+    // maxDifficulty : 조회하고 싶은 난이도의 최대
+    // minDifficulty : 조회하고 싶은 난이도의 최저
+    let condJson = {
+      raw: true,
+      where: {},
+      order: [["difficultyAverage", "DESC"]],
+    };
+    if (
+      paramJson.maxDifficulty &&
+      (paramJson.minDifficulty || paramJson.minDifficulty === 0)
+    )
+      condJson.where["difficultyAverage"] = {
+        [Op.lt]: paramJson.maxDifficulty,
+        [Op.gt]: paramJson.minDifficulty,
+      };
+
+    return condJson;
   },
 };
 

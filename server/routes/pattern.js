@@ -10,7 +10,7 @@ const { QueryTypes } = require("sequelize");
 const PatternService = require("../services/pattern_service");
 const CommonService = require("../common/common_service");
 const RecommendService = require("../services/recommend_service");
-
+const PatternRecommendService = require("../services/pattern_recommend_service");
 //controller
 const PatternAttributeController = require("../controllers/pattern_attribute_controller");
 
@@ -178,29 +178,28 @@ router.get("/attribute/list", async (req, res, next) => {
   }
 });
 
-router.get("/recommend/main", async (req, res, next) => {
+router.get("/recommend/difficulty", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
   try {
     const { user } = req;
-    const randPattern = await Pattern.findAll({
-      // attributes: ["id"],
-      order: Sequelize.fn("RAND"),
-      limit: 6, // limit으로 반환받을 row 수를 정할 수 있어요
-      raw: true,
-    });
-    for (let rp of randPattern) {
-      const imageResult = await PatternService.getPatternImage(rp);
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const patternRecommendResult =
+      await PatternRecommendService.getRecommendListByDifficulty({ user });
+    patternRecommendResult.sort(() => Math.random() - 0.5);
+    let patternRecommend6 = patternRecommendResult.slice(0, 10);
+    for (let pattern of patternRecommend6) {
+      const imageResult = await PatternService.getPatternImage(pattern);
       if (!imageResult) {
         continue;
       } else {
-        rp["thumbnail"] = imageResult.mediumUrl;
+        pattern["thumbnail"] = imageResult.mediumUrl;
       }
-
-      if (!CommonService.isEmpty(user)) {
-        rp = await PatternService.addLikedInfo(rp, user);
-      }
-      patternList.push(rp);
+      pattern = await PatternService.addLikedInfo(pattern, user);
+      patternList.push(pattern);
     }
     resJson["patternList"] = patternList;
     resJson["status"] = "Y";
