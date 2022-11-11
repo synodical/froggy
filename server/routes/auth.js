@@ -20,7 +20,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
       password: hash,
       nick: nickname,
     });
-    if (UserCreateResult) {
+    if (!UserCreateResult) {
       return res.json(respJson);
     }
     respJson["status"] = "Y";

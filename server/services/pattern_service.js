@@ -39,6 +39,7 @@ const PatternService = {
       user: user,
     });
   },
+  // async getRecommendListByDifficulty,
 };
 
 module.exports = PatternService;
