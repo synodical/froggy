@@ -19,11 +19,11 @@ const ReviewController = require("../controllers/review_controller");
 const e = require("connect-flash");
 const image = require("../models/image");
 
-router.post("/reviews", async (req, res, next) => {
+router.post("/:patternId/reviews", async (req, res, next) => {
   let resJson = { status: "N" };
-  const { contents, patternId, rating } = req.body;
+  const { contents, rating } = req.body;
+  const patternId = req.params.patternId;
   const user = req.user;
-
   if (CommonService.isEmpty(user)) {
     resJson["isUserLogin"] = "N";
     return res.json(resJson);
@@ -268,7 +268,6 @@ router.get("/recommend/knitting", async (req, res, next) => {
 router.get("/flask/test", async (req, res, next) => {
   try {
     let resJson = { status: "N" };
-    console.log("text");
     const recommendPatternResult = await RecommendService.getRecommendPattern(
       req,
       res,
