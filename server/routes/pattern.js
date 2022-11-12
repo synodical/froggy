@@ -20,22 +20,41 @@ const e = require("connect-flash");
 const image = require("../models/image");
 
 router.post("/:patternId/reviews", async (req, res, next) => {
-  let resJson = { status: "N" };
-  const { contents, rating } = req.body;
-  const patternId = req.params.patternId;
-  const user = req.user;
-  if (CommonService.isEmpty(user)) {
-    resJson["isUserLogin"] = "N";
+  try {
+    let resJson = { status: "N" };
+    const { contents, rating } = req.body;
+    const patternId = req.params.patternId;
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    await ReviewController.savePatternReview({
+      user,
+      patternId,
+      contents,
+      rating,
+    });
+    resJson["status"] = "Y";
     return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
   }
-  await ReviewController.savePatternReview({
-    user,
-    patternId,
-    contents,
-    rating,
-  });
-  resJson["status"] = "Y";
-  return res.json(resJson);
+});
+
+router.get("/:patternId/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const patternId = req.params.patternId;
+    const reviewList = await ReviewController.getPatternReview(patternId);
+    resJson["status"] = "Y";
+    resJson["reviewList"] = reviewList;
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
 });
 
 router.get("/search", async (req, res, next) => {
