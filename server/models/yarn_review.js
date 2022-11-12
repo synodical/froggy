@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) =>
         primaryKey: true,
       },
       yarnId: {
-        type: DataTypes.STRING(40),
+        type: DataTypes.INTEGER(40),
         allowNULL: false,
       },
       userId: {
