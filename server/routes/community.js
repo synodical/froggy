@@ -4,7 +4,7 @@ const router = express.Router();
 const CommunityController = require("../controllers/community_controller");
 const CommonService = require("../common/common_service");
 
-router.post("/write", async (req, res, next) => {
+router.post("/posts", async (req, res, next) => {
   let resJson = { status: "N" };
   const { title, contents } = req.body;
   const user = req.user;
@@ -30,7 +30,7 @@ router.get("/main", async (req, res, next) => {
   return res.json(resJson);
 });
 
-router.get("/post/:postId", async (req, res, next) => {
+router.get("/posts/:postId", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
 
@@ -45,7 +45,7 @@ router.get("/post/:postId", async (req, res, next) => {
   return res.json(resJson);
 });
 
-router.get("/comment/:postId", async (req, res, next) => {
+router.get("/posts/:postId/comments", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
 
@@ -56,7 +56,7 @@ router.get("/comment/:postId", async (req, res, next) => {
   return res.json(resJson);
 });
 
-router.post("/write/:postId/comment", async (req, res, next) => {
+router.post("/posts/:postId/comments", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
 
