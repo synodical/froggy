@@ -30,7 +30,7 @@ async function getPatternApi(mainImgNum) {
           let img = data.pattern.photos[0].small_url;
           let url = data.pattern.url;
           const pattern_section = document.getElementById("pattern_section");
-          console.log(pattern_section);
+          //console.log(pattern_section);
           pattern_section.innerHTML += `<a href="${url}">
   <img src="${img}" alt="pic of pattern"
   class="mx-2 my-2"
@@ -92,12 +92,12 @@ async function getPatternPageImg(mainImgNum) {
       fetch(endpoint, { method: "GET", headers: headers })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           let img = data.pattern.photos[0].small_url;
           let url = data.pattern.url;
           const pattern_section =
             document.getElementsByClassName("pattern_page_class");
-          console.log(pattern_section);
+          // console.log(pattern_section);
           pattern_section[0].innerHTML += `<a href="${url}">
   <img src="${img}" alt="pic of pattern" height="160" class="mx-1 my-2" id="patternImageUrl${tmpId}" />
 </a>`;
