@@ -242,7 +242,7 @@ router.get("/recommend/crochet", async (req, res, next) => {
   }
 });
 
-router.get("/recommend/Knitting", async (req, res, next) => {
+router.get("/recommend/knitting", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
   try {
