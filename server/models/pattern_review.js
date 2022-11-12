@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) =>
         type: DataTypes.STRING(4000),
         allowNULL: false,
       },
+      rating: {
+        type: DataTypes.DOUBLE,
+      },
       createdAt: {
         type: DataTypes.DATE,
       },
