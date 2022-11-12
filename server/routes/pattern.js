@@ -41,7 +41,7 @@ router.post("/:patternId/reviews", async (req, res, next) => {
 router.get("/search", async (req, res, next) => {
   let resJson = { status: "N" };
   let keyword = req.query[0];
-  console.log(keyword);
+  // console.log(keyword);
   keyword = keyword.toString().replace(" ", "%"); // db에는 빨간실로 저장되어 있지만, 빨간 실로 검색한 경우
   // keyword = `%${keyword.replace(/ /gi, "%")}%`;
   const query =
@@ -72,7 +72,7 @@ router.get("/search", async (req, res, next) => {
       return res.json(resJson);
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return next(err);
   }
 });
@@ -144,7 +144,7 @@ router.get("/:id", async (req, res, next) => {
     resJson["image"] = images;
     resJson["pattern"] = pattern;
     resJson["status"] = "Y";
-    console.log(resJson);
+    // console.log(resJson);
     return res.json(resJson);
   } catch (error) {
     console.error(error);
@@ -273,7 +273,7 @@ router.get("/flask/test", async (req, res, next) => {
       res,
       {}
     );
-    console.log(recommendPatternResult);
+    // console.log(recommendPatternResult);
     resJson["patternList"] = recommendPatternResult;
     resJson["status"] = "Y";
     return res.json(resJson);

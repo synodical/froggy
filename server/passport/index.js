@@ -18,8 +18,6 @@ module.exports = () => {
   세션에 저장된 사용자 id를 이용하여 데이타베이스에서 정보를 추가로 select해서 HTTP request에 붙여서 사용
   */
   passport.deserializeUser((id, done) => {
-    console.log("deserial");
-    console.log("id:", id);
     User.findOne({ where: { id } })
       .then((user) => done(null, user))
       .catch((err) => done(err));
