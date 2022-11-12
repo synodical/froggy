@@ -13,9 +13,30 @@ const RecommendService = require("../services/recommend_service");
 const PatternRecommendService = require("../services/pattern_recommend_service");
 //controller
 const PatternAttributeController = require("../controllers/pattern_attribute_controller");
+const CommunityController = require("../controllers/community_controller");
+const ReviewController = require("../controllers/review_controller");
 
 const e = require("connect-flash");
 const image = require("../models/image");
+
+router.post("/reviews", async (req, res, next) => {
+  let resJson = { status: "N" };
+  const { contents, patternId, rating } = req.body;
+  const user = req.user;
+
+  if (CommonService.isEmpty(user)) {
+    resJson["isUserLogin"] = "N";
+    return res.json(resJson);
+  }
+  await ReviewController.savePatternReview({
+    user,
+    patternId,
+    contents,
+    rating,
+  });
+  resJson["status"] = "Y";
+  return res.json(resJson);
+});
 
 router.get("/search", async (req, res, next) => {
   let resJson = { status: "N" };
@@ -124,39 +145,6 @@ router.get("/:id", async (req, res, next) => {
     resJson["pattern"] = pattern;
     resJson["status"] = "Y";
     console.log(resJson);
-    return res.json(resJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
-  }
-});
-
-router.get("/", async (req, res, next) => {
-  let resJson = { status: "N" };
-  let patternList = [];
-  try {
-    const { user } = req;
-    const randPattern = await Pattern.findAll({
-      // attributes: ["id"],
-      order: Sequelize.fn("RAND"),
-      limit: 15, // limit으로 반환받을 row 수를 정할 수 있어요
-      raw: true,
-    });
-    for (let rp of randPattern) {
-      const imageResult = await PatternService.getPatternImage(rp);
-      if (!imageResult) {
-        continue;
-      } else {
-        rp["thumbnail"] = imageResult.mediumUrl;
-      }
-
-      if (!CommonService.isEmpty(user)) {
-        rp = await PatternService.addLikedInfo(rp, user);
-      }
-      patternList.push(rp);
-    }
-    resJson["patternList"] = patternList;
-    resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {
     console.error(error);
@@ -288,6 +276,39 @@ router.get("/flask/test", async (req, res, next) => {
     );
     console.log(recommendPatternResult);
     resJson["patternList"] = recommendPatternResult;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const { user } = req;
+    const randPattern = await Pattern.findAll({
+      // attributes: ["id"],
+      order: Sequelize.fn("RAND"),
+      limit: 15, // limit으로 반환받을 row 수를 정할 수 있어요
+      raw: true,
+    });
+    for (let rp of randPattern) {
+      const imageResult = await PatternService.getPatternImage(rp);
+      if (!imageResult) {
+        continue;
+      } else {
+        rp["thumbnail"] = imageResult.mediumUrl;
+      }
+
+      if (!CommonService.isEmpty(user)) {
+        rp = await PatternService.addLikedInfo(rp, user);
+      }
+      patternList.push(rp);
+    }
+    resJson["patternList"] = patternList;
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {
