@@ -23,6 +23,7 @@ db.Post = require("./post")(sequelize, Sequelize);
 db.Comment = require("./comment")(sequelize, Sequelize);
 db.PatternAttribute = require("./pattern_attribute")(sequelize, Sequelize);
 db.PatternCategory = require("./pattern_category")(sequelize, Sequelize);
+db.PatternReview = require("./pattern_review")(sequelize, Sequelize);
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
