@@ -69,7 +69,6 @@ router.get("/:id", async (req, res, next) => {
     resJson["image"] = images;
     resJson["yarn"] = yarn;
     resJson["status"] = "Y";
-    console.log(resJson);
     return res.json(resJson);
   } catch (error) {
     console.error(error);

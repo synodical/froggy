@@ -19,6 +19,7 @@ db.Image = require("./image")(sequelize, Sequelize);
 db.Pattern = require("./pattern")(sequelize, Sequelize);
 db.Fiber = require("./fiber")(sequelize, Sequelize);
 db.Liked = require("./liked")(sequelize, Sequelize);
+db.LikedPattern = require("./liked_pattern")(sequelize, Sequelize);
 db.Post = require("./post")(sequelize, Sequelize);
 db.Comment = require("./comment")(sequelize, Sequelize);
 db.PatternAttribute = require("./pattern_attribute")(sequelize, Sequelize);

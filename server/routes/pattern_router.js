@@ -14,6 +14,7 @@ const PatternRecommendService = require("../services/pattern_recommend_service")
 const PatternAttributeController = require("../controllers/pattern_attribute_controller");
 const ReviewController = require("../controllers/review_controller");
 const PatternController = require("../controllers/pattern_controller");
+const LikedController = require("../controllers/liked_controller");
 
 router.post("/:patternId/reviews", async (req, res, next) => {
   try {
@@ -113,44 +114,15 @@ router.get("/search", async (req, res, next) => {
 router.post("/liked/:id/", async (req, res, next) => {
   let resJson = { status: "N" };
   try {
-    let exLiked = await Liked.findOne({
-      where: {
-        targetType: "pattern",
-        targetId: req.params.id,
-        userId: req.user.id,
-      },
-      paranoid: false,
-      raw: true,
-    });
-    if (exLiked) {
-      // 이미 존재하는 경우
-      if (exLiked.deletedAt) {
-        // 삭제되었던 경우
-        Liked.restore({
-          where: {
-            targetType: "pattern",
-            targetId: req.params.id,
-            userId: req.user.id,
-          },
-          paranoid: false,
-        });
-      } else {
-        // 삭제되지 않은 경우
-        Liked.destroy({
-          where: {
-            targetType: "pattern",
-            targetId: req.params.id,
-            userId: req.user.id,
-          },
-        });
-      }
-    } else {
-      Liked.create({
-        targetType: "pattern",
-        targetId: req.params.id,
-        userId: req.user.id,
-      });
+    const { id } = req.params;
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
     }
+
+    await LikedController.savePatternLike({ user, patternId: id });
+    resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {
     console.error(error);

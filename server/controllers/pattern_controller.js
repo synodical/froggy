@@ -7,6 +7,7 @@ const PatternAttributeController = require("../controllers/pattern_attribute_con
 const PatternCategoryController = require("../controllers/pattern_category_controller");
 
 const SavePatternService = require("../services/save_pattern_service");
+const pattern = require("../models/pattern");
 
 const PatternController = {
   async upsertPattern(pattern) {
@@ -42,6 +43,13 @@ const PatternController = {
         patternCategory: newPattern.pattern_categories,
       });
 
+    let imageUrl = "";
+    for (photo of newPattern.photos) {
+      if (photo.medium_url) {
+        imageUrl = photo.medium_url;
+        break;
+      }
+    }
     const updateResult = await Pattern.update(
       {
         attributeIdArr: attributeArr.join(","),
@@ -49,6 +57,7 @@ const PatternController = {
         categoryId: newPattern.pattern_categories[0].id,
         type: newPattern.pattern_type.permalink,
         gaugeDescription: newPattern.gauge_description,
+        thumbnail: imageUrl,
       },
       {
         where: { id: oldPattern.id },
