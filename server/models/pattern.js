@@ -81,6 +81,9 @@ module.exports = (sequelize, DataTypes) =>
       craft: {
         type: DataTypes.STRING,
       },
+      thumbnail: {
+        type: DataTypes.STRING,
+      },
     },
     {
       freezeTableName: true,
