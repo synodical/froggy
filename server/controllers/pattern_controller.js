@@ -125,6 +125,22 @@ const PatternController = {
     }
     return insertResult;
   },
+  async getPatternWithImage(paramJson) {
+    const condJson = this.applyWhereCond(paramJson);
+    const patternResult = await Pattern.findOne(condJson);
+
+    if (CommonService.isEmpty(patternResult.mediumUrl)) {
+      const images = await Image.findAll({
+        where: {
+          targetType: "pattern",
+          targetId: patternResult.id,
+        },
+        raw: true,
+      });
+      patternResult["thumbnail"] = images[0].mediumUrl;
+    }
+    return patternResult;
+  },
   async getPatternList(paramJson) {
     const condJson = this.applyWhereCond(paramJson);
     const PatternResult = await Pattern.findAll(condJson);

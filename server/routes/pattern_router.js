@@ -130,6 +130,34 @@ router.post("/liked/:id/", async (req, res, next) => {
   }
 });
 
+router.get("/liked/list/", async (req, res, next) => {
+  let resJson = { status: "N" };
+  try {
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+
+    const LikedPatternIdList = await LikedController.getLikedPatternIdList({
+      user,
+    });
+    let patternList = [];
+    for (let el of LikedPatternIdList) {
+      const result = await PatternController.getPatternWithImage({
+        id: el.patternId,
+      });
+      patternList.push(result);
+    }
+    resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   let resJson = { status: "N" };
   const patternId = req.params.id;
@@ -325,17 +353,22 @@ router.get("/", async (req, res, next) => {
       raw: true,
     });
     for (let rp of randPattern) {
-      const imageResult = await PatternService.getPatternImage(rp);
-      if (!imageResult) {
-        continue;
-      } else {
-        rp["thumbnail"] = imageResult.mediumUrl;
+      if (CommonService.isEmpty(rp.mediumUrl)) {
+        const images = await Image.findAll({
+          where: {
+            targetType: "pattern",
+            targetId: rp.id,
+          },
+          raw: true,
+        });
+        rp["thumbnail"] = images[0].mediumUrl;
       }
-
       if (!CommonService.isEmpty(user)) {
         rp = await PatternService.addLikedInfo(rp, user);
       }
-      patternList.push(rp);
+      if (!CommonService.isEmpty(rp.thumbnail)) {
+        patternList.push(rp);
+      }
     }
     resJson["patternList"] = patternList;
     resJson["status"] = "Y";

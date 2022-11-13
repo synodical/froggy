@@ -48,10 +48,11 @@ const LikedController = {
 
   async getLikedPatternIdList(paramJson) {
     const { user } = paramJson;
-    const LikedPatternIdList = await Liked.findAll({
-      where: { targetType: pattern, userId: user.id },
+    const LikedPatternIdList = await LikedPattern.findAll({
+      where: { userId: user.id },
       raw: true,
     });
+
     return LikedPatternIdList;
   },
 };
