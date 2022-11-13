@@ -1,8 +1,7 @@
 const express = require("express");
-const { request } = require("http");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
-const { Pattern, User, Image, Liked, sequelize } = require("../models");
+const { Pattern, Image, Liked, sequelize } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 
@@ -13,11 +12,8 @@ const RecommendService = require("../services/recommend_service");
 const PatternRecommendService = require("../services/pattern_recommend_service");
 //controller
 const PatternAttributeController = require("../controllers/pattern_attribute_controller");
-const CommunityController = require("../controllers/community_controller");
 const ReviewController = require("../controllers/review_controller");
-
-const e = require("connect-flash");
-const image = require("../models/image");
+const PatternController = require("../controllers/pattern_controller");
 
 router.post("/:patternId/reviews", async (req, res, next) => {
   try {
@@ -36,6 +32,24 @@ router.post("/:patternId/reviews", async (req, res, next) => {
       rating,
     });
     resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const reviewList = await ReviewController.getPatternReviewByUser({ user });
+    resJson["status"] = "Y";
+    resJson["reviewList"] = reviewList;
     return res.json(resJson);
   } catch (error) {
     console.error(error);
@@ -248,7 +262,31 @@ router.get("/recommend/crochet", async (req, res, next) => {
     return next(error);
   }
 });
-
+router.get("/recommend/doll", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const patternIdList = [42122, 20686, 11649, 36205, 17208, 39097, 26395];
+    for (let el of patternIdList) {
+      let pattern = await PatternController.getPatternList({ id: el });
+      pattern = pattern[0];
+      const imageResult = await PatternService.getPatternImage(pattern);
+      if (!imageResult) {
+        continue;
+      } else {
+        pattern["thumbnail"] = imageResult.mediumUrl;
+      }
+      // pattern = await PatternService.addLikedInfo(pattern, user);
+      patternList.push(pattern);
+    }
+    resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
 router.get("/recommend/knitting", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
@@ -281,6 +319,7 @@ router.get("/recommend/knitting", async (req, res, next) => {
     return next(error);
   }
 });
+
 //flask test 를 위한 라우터 입니다.
 // flask 서버로 요청을 보낸 뒤 값을 반환합니다.
 

@@ -20,13 +20,13 @@ const HTTP_PORT = 8002;
 dotenv.config();
 const pageRouter = require("./routes/page");
 const authRouter = require("./routes/auth");
-const yarnRouter = require("./routes/yarn");
-const patternRouter = require("./routes/pattern");
+const yarnRouter = require("./routes/yarn_router");
+const patternRouter = require("./routes/pattern_router");
 const dbYarnTestRouter = require("./routes/dbYarnTest");
 const dbPatternTestRouter = require("./routes/dbPatternTest");
-const communityRouter = require("./routes/community");
-const profileRouter = require("./routes/profile");
-const imageRouter = require("./routes/image.js");
+const communityRouter = require("./routes/community_router");
+const profileRouter = require("./routes/profile_router");
+const imageRouter = require("./routes/image_router.js");
 
 const { sequelize } = require("./models");
 const User = require("./models").User;

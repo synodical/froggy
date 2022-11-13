@@ -23,5 +23,15 @@ const ReviewController = {
     });
     return patternReview;
   },
+  async getPatternReviewByUser(paramJson) {
+    const { user } = paramJson;
+
+    const patternReview = await PatternReview.findAll({
+      where: { userId: user.id },
+      raw: true,
+      order: [["createdAt", "DESC"]],
+    });
+    return patternReview;
+  },
 };
 module.exports = ReviewController;
