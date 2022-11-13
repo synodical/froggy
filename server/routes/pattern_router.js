@@ -349,7 +349,7 @@ router.get("/", async (req, res, next) => {
     const randPattern = await Pattern.findAll({
       // attributes: ["id"],
       order: Sequelize.fn("RAND"),
-      limit: 15, // limit으로 반환받을 row 수를 정할 수 있어요
+      limit: 10, // limit으로 반환받을 row 수를 정할 수 있어요
       raw: true,
     });
     for (let rp of randPattern) {

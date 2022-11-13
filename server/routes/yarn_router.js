@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const { Pattern, Customer, Image, sequelize, Yarn } = require("../models");
+const { Image, sequelize, Yarn } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 
+//services
+const YarnService = require("../services/yarn_service");
 router.get("/search", async (req, res, next) => {
   let keyword = req.query[0];
   console.log(keyword);
@@ -77,6 +79,7 @@ router.get("/:id", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
+  let yarnList = [];
   try {
     const randYarn = await Yarn.findAll({
       order: Sequelize.fn("RAND"),
@@ -84,18 +87,12 @@ router.get("/", async (req, res, next) => {
       raw: true,
     });
     for (let ry of randYarn) {
-      const eachImage = await Image.findOne({
-        attributes: ["mediumUrl"],
-        where: {
-          targetType: "yarn",
-          targetId: ry.id,
-        },
-        raw: true,
-      });
-      if (eachImage === null) {
-        ry["thumbnail"] = null;
+      const imageResult = await YarnService.getYarnImage(ry);
+      if (!imageResult) {
+        continue;
       } else {
-        ry["thumbnail"] = eachImage.mediumUrl; // null일때 예외처리하기
+        ry["thumbnail"] = imageResult.mediumUrl;
+        yarnList.push(ry);
       }
     }
     resJson["randYarn"] = randYarn;
