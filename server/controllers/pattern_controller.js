@@ -8,6 +8,7 @@ const PatternAttributeController = require("../controllers/pattern_attribute_con
 const PatternCategoryController = require("../controllers/pattern_category_controller");
 
 const SavePatternService = require("../services/save_pattern_service");
+const { del } = require("request");
 
 const PatternController = {
   async upsertPattern(pattern) {
@@ -175,15 +176,39 @@ const PatternController = {
     if (paramJson.craft) condJson.where["craft"] = paramJson.craft;
     return condJson;
   },
-  async deletePattern(paramJson) {
-    const { importantList } = paramJson;
-    await Pattern.destroy({
-      where: {
-        raverlyId: { [Op.notIn]: importantList },
-      },
-      force: true,
-    });
-  },
+  // async deletePattern(paramJson) {
+  //   const { importantList } = paramJson;
+  //   await Pattern.destroy({
+  //     where: {
+  //       raverlyId: { [Op.notIn]: importantList },
+  //     },
+  //     force: true,
+  //   });
+  // },
+  // async deleteImage(paramJson) {
+  //   const { importantList } = paramJson;
+  //   const leftPattern = await Pattern.findAll({
+  //     raw: true,
+  //   });
+  //   let leftPatternIdList = [];
+  //   for (let el of leftPattern) {
+  //     leftPatternIdList.push(el.id);
+  //   }
+  //   const tmpImage = await Image.findAll({
+  //     where: {
+  //       targetType: "pattern",
+  //       targetId: { [Op.notIn]: leftPatternIdList },
+  //     },
+  //   });
+
+  //   await Image.destroy({
+  //     where: {
+  //       targetType: "pattern",
+  //       targetId: { [Op.notIn]: leftPatternIdList },
+  //     },
+  //     force: true,
+  //   });
+  // },
 };
 
 module.exports = PatternController;

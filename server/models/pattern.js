@@ -84,6 +84,15 @@ module.exports = (sequelize, DataTypes) =>
       thumbnail: {
         type: DataTypes.STRING,
       },
+      createdAt: {
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
     },
     {
       freezeTableName: true,
