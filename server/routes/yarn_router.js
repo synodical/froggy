@@ -7,6 +7,57 @@ const { QueryTypes } = require("sequelize");
 
 //services
 const YarnService = require("../services/yarn_service");
+const CommonService = require("../common/common_service");
+//controller
+const LikedController = require("../controllers/liked_controller");
+const YarnController = require("../controllers/yarn_controller");
+router.post("/liked/:id/", async (req, res, next) => {
+  let resJson = { status: "N" };
+  try {
+    const { id } = req.params;
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+
+    await LikedController.saveYarnLike({ user, yarnId: id });
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/liked/list/", async (req, res, next) => {
+  let resJson = { status: "N" };
+  try {
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+
+    const LikedYarnIdList = await LikedController.getLikedYarnIdList({
+      user,
+    });
+    let yarnList = [];
+    for (let el of LikedYarnIdList) {
+      const result = await YarnController.getYarnWithImage({
+        id: el.yarnId,
+      });
+      yarnList.push(result);
+    }
+    resJson["yarnList"] = yarnList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.get("/search", async (req, res, next) => {
   let keyword = req.query[0];
   console.log(keyword);

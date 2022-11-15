@@ -52,14 +52,14 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
         return next(loginError);
       }
       try {
-        const likedCnt = await models.Liked.count({
+        const likedCnt = await models.LikedPattern.count({
           where: { userId: req.body.id },
         });
         req.session.likedCnt = likedCnt;
         req.session.save(() => {
           console.log("likedCnt 저장 완료");
         });
-      } catch (err) {
+      } catch (error) {
         console.error(error);
         return next(error);
       }

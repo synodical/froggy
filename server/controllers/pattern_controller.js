@@ -1,4 +1,4 @@
-const { Pattern, Image, Liked } = require("../models");
+const { Pattern, Image } = require("../models");
 const CommonService = require("../common/common_service");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;

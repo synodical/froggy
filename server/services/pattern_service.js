@@ -17,10 +17,9 @@ const PatternService = {
     return image;
   },
   async addLikedInfo(pattern, user) {
-    const eachLiked = await Liked.findOne({
+    const eachLiked = await LikedPattern.findOne({
       where: {
-        targetType: "pattern",
-        targetId: pattern.id,
+        patternId: pattern.id,
         userId: user.id,
       },
     });
