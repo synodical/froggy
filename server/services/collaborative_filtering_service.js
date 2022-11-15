@@ -43,6 +43,7 @@ const CollaborativeFilteringService = {
         score: review.rating,
       });
     }
+
     for (let liked of likedList) {
       const pattern = await PatternController.getPatternList({
         id: liked.patternId,
@@ -60,8 +61,10 @@ const CollaborativeFilteringService = {
     const { userScoreList } = paramJson;
     return new Promise((resolve, reject) => {
       const option = {
+        method: "post",
         url: `${FLASK_IP}/recommend`,
-        form: userScoreList,
+        body: { userScoreList: userScoreList },
+        json: true,
       };
       request.post(option, function (error, response, body) {
         if (!error && response.statusCode == 200) {
