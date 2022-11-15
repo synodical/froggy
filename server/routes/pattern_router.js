@@ -361,6 +361,7 @@ router.get("/", async (req, res, next) => {
           },
           raw: true,
         });
+
         rp["thumbnail"] = images[0].mediumUrl;
       }
       if (!CommonService.isEmpty(user)) {

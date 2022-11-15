@@ -7,7 +7,6 @@ const PatternAttributeController = require("../controllers/pattern_attribute_con
 const PatternCategoryController = require("../controllers/pattern_category_controller");
 
 const SavePatternService = require("../services/save_pattern_service");
-const pattern = require("../models/pattern");
 
 const PatternController = {
   async upsertPattern(pattern) {
