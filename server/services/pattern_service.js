@@ -1,4 +1,4 @@
-const { Pattern, Image, Liked } = require("../models");
+const { Pattern, Image, LikedPattern } = require("../models");
 const LikedController = require("../controllers/liked_controller");
 
 const PatternService = {
