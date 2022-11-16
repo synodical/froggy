@@ -9,6 +9,7 @@ const PatternCategoryController = require("../controllers/pattern_category_contr
 
 const SavePatternService = require("../services/save_pattern_service");
 const { del } = require("request");
+const pattern = require("../models/pattern");
 
 const PatternController = {
   async upsertPattern(pattern) {
@@ -151,9 +152,11 @@ const PatternController = {
     return patternResult;
   },
   async getPatternList(paramJson) {
+    //pattern list 반환하나, 1개일때는 그냥 하나를 반환
     const condJson = this.applyWhereCond(paramJson);
-    const PatternResult = await Pattern.findAll(condJson);
-    return PatternResult;
+    const patternResult = await Pattern.findAll(condJson);
+    if (patternResult.length === 1) return patternResult[0];
+    else return patternResult;
   },
   applyWhereCond(paramJson) {
     // paramJson : {}

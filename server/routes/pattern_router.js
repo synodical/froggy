@@ -183,20 +183,14 @@ router.get("/liked/list/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   let resJson = { status: "N" };
   const patternId = req.params.id;
+  const user = req.user;
   try {
-    const pattern = await Pattern.findOne({
-      where: { id: patternId },
-      raw: true,
+    let pattern = await PatternController.getPatternWithImage({
+      id: patternId,
     });
-    const images = await Image.findAll({
-      where: {
-        targetType: "pattern",
-        targetId: patternId,
-      },
-      raw: true,
-    });
-    pattern["thumbnail"] = images[0].mediumUrl;
-    resJson["image"] = images;
+    if (!CommonService.isEmpty(user)) {
+      pattern = await PatternService.addLikedInfo(pattern, user);
+    }
     resJson["pattern"] = pattern;
     resJson["status"] = "Y";
     // console.log(resJson);

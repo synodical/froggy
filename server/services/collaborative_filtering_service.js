@@ -39,7 +39,7 @@ const CollaborativeFilteringService = {
         id: review.patternId,
       });
       payload.push({
-        id: pattern[0].raverlyId,
+        id: pattern.raverlyId,
         score: review.rating,
       });
     }
@@ -49,7 +49,7 @@ const CollaborativeFilteringService = {
         id: liked.patternId,
       });
       payload.push({
-        id: pattern[0].raverlyId,
+        id: pattern.raverlyId,
         score: LIKED_SCORE,
       });
     }

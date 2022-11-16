@@ -25,9 +25,9 @@ const PatternService = {
     });
 
     if (eachLiked === null) {
-      pattern["liked"] = "N";
+      pattern["isFavorite"] = false;
     } else {
-      pattern["liked"] = "Y";
+      pattern["isFavorite"] = true;
     }
     return pattern;
   },

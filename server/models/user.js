@@ -46,8 +46,13 @@ module.exports = (sequelize, DataTypes) =>
         allowNull: false,
         defaultValue: "N",
       },
+      level: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       createdAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
       },
       deletedAt: {
         type: DataTypes.DATE,

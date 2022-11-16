@@ -26,6 +26,10 @@ db.PatternAttribute = require("./pattern_attribute")(sequelize, Sequelize);
 db.PatternCategory = require("./pattern_category")(sequelize, Sequelize);
 db.PatternReview = require("./pattern_review")(sequelize, Sequelize);
 db.YarnReview = require("./yarn_review")(sequelize, Sequelize);
+db.PredictedPatternScore = require("./predicted_pattern_score")(
+  sequelize,
+  Sequelize
+);
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
