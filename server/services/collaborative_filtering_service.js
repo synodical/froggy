@@ -63,7 +63,11 @@ const CollaborativeFilteringService = {
       const option = {
         method: "post",
         url: `${FLASK_IP}/recommend`,
-        form: { userScoreList: userScoreList },
+        // form: { userScoreList: userScoreList },
+        body: {
+          userScoreList: userScoreList,
+        },
+        json: true, //json으로 보낼경우 true로 해주어야 header값이 json으로 설정됩니다.
       };
       request.post(option, function (error, response, body) {
         if (!error && response.statusCode == 200) {
