@@ -30,6 +30,12 @@ const CommunityController = {
           userId: user.id,
           id: postId,
         },
+      }).then(() => {
+        Comment.destroy({
+          where: {
+            postId: postId,
+          },
+        });
       });
       resJson["status"] = "Y";
       return resJson;
