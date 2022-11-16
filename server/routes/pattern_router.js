@@ -16,6 +16,25 @@ const ReviewController = require("../controllers/review_controller");
 const PatternController = require("../controllers/pattern_controller");
 const LikedController = require("../controllers/liked_controller");
 
+// router.get("/flask/test", async (req, res, next) => {
+//   try {
+//     let resJson = { status: "N" };
+//     // await PatternController.deletePattern({ importantList: famousList });
+//     await PatternController.deleteImage({ importantList: famousList });
+//     // const recommendPatternResult = await RecommendService.getRecommendPattern(
+//     //   req,
+//     //   res,
+//     //   {}
+//     // );
+//     // // console.log(recommendPatternResult);
+//     // resJson["patternList"] = recommendPatternResult;
+//     // resJson["status"] = "Y";
+//     return res.json(resJson);
+//   } catch (error) {
+//     console.error(error);
+//     return next(error);
+//   }
+// });
 router.post("/:patternId/reviews", async (req, res, next) => {
   try {
     let resJson = { status: "N" };
@@ -147,6 +166,9 @@ router.get("/liked/list/", async (req, res, next) => {
       const result = await PatternController.getPatternWithImage({
         id: el.patternId,
       });
+      if (!result) {
+        continue;
+      }
       patternList.push(result);
     }
     resJson["patternList"] = patternList;
@@ -319,28 +341,6 @@ router.get("/recommend/knitting", async (req, res, next) => {
     return next(error);
   }
 });
-
-//flask test 를 위한 라우터 입니다.
-// flask 서버로 요청을 보낸 뒤 값을 반환합니다.
-
-router.get("/flask/test", async (req, res, next) => {
-  try {
-    let resJson = { status: "N" };
-    const recommendPatternResult = await RecommendService.getRecommendPattern(
-      req,
-      res,
-      {}
-    );
-    // console.log(recommendPatternResult);
-    resJson["patternList"] = recommendPatternResult;
-    resJson["status"] = "Y";
-    return res.json(resJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
-  }
-});
-
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
