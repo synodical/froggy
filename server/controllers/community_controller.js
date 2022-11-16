@@ -1,6 +1,7 @@
 const { Post, Comment } = require("../models");
 const { sequelize } = require("../models");
 const Sequelize = require("sequelize");
+const CommonService = require("../common/common_service");
 
 const CommunityController = {
   async savePost(data) {
@@ -16,20 +17,31 @@ const CommunityController = {
     return insertResult;
   },
   async deletePost(data) {
+    let resJson = { status: "N" };
     const { user, postId } = data;
-    const insertResult = await Post.destroy({
+    const post = await Post.findOne({
       where: {
-        userId: user.id,
         id: postId,
       },
     });
-    return insertResult;
+    if (!CommonService.isEmpty(post) && user.id == post.userId) {
+      const deleteResult = await Post.destroy({
+        where: {
+          userId: user.id,
+          id: postId,
+        },
+      });
+      resJson["status"] = "Y";
+      return resJson;
+    } else {
+      resJson["reason"] = "fail to delete post";
+      return false;
+    }
   },
   async getMainPosts() {
     const randPost = await Post.findAll({
       raw: true,
       order: [["createdAt", "DESC"]],
-      paranoid: false,
     });
     return randPost;
   },

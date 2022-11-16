@@ -20,9 +20,9 @@ router.post("/posts", async (req, res, next) => {
   return res.json(resJson);
 });
 
-router.delete("/posts", async (req, res, next) => {
+router.delete("/posts/:postId", async (req, res, next) => {
   let resJson = { status: "N" };
-  const { postId } = req.params.id;
+  const { postId } = req.params;
   const user = req.user;
 
   if (CommonService.isEmpty(user)) {
