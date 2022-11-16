@@ -168,6 +168,7 @@ const PatternController = {
       order: [["difficultyAverage", "DESC"]],
     };
     if (paramJson.id) condJson.where["id"] = paramJson.id;
+    if (paramJson.raverlyId) condJson.where["raverlyId"] = paramJson.raverlyId;
     if (
       paramJson.maxDifficulty &&
       (paramJson.minDifficulty || paramJson.minDifficulty === 0)

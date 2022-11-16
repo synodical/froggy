@@ -13,6 +13,18 @@ router.post("/", async (req, res, next) => {
       userScoreList: userScoreList,
     });
 
+    if (sendResult.length > 0) {
+      for (let recommendScore of sendResult) {
+        const userId = recommendScore[0];
+        const score = recommendScore[1];
+        const saveRecommendResult =
+          await CollaborativeFilteringService.saveRecommendResult({
+            userId: userId,
+            recommendScoreList: score,
+          });
+      }
+    }
+
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {

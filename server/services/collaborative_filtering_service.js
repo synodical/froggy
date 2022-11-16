@@ -1,5 +1,7 @@
 const PatternController = require("../controllers/pattern_controller");
+const PredictedPatternScoreController = require("../controllers/predicted_pattern_score_controller");
 const { User, PatternReview, LikedPattern } = require("../models");
+
 const FLASK_IP = require("../config/apps_ip").get("FLASK");
 const request = require("request");
 const LIKED_SCORE = 4;
@@ -71,14 +73,26 @@ const CollaborativeFilteringService = {
       };
       request.post(option, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          let resJson = JSON.parse(body);
-          resolve(resJson);
+          console.log(body);
+          console.log(response);
+          let resList = body;
+          // let resJson = JSON.parse(body);
+          resolve(resList);
         } else {
           console.log(error);
           resolve(false);
         }
       });
     });
+  },
+  async saveRecommendResult(paramJson) {
+    const { userId, recommendScoreList } = paramJson;
+    for (let score of recommendScoreList) {
+      await PredictedPatternScoreController.upsertPredictedPatternScore({
+        userId: userId,
+        scoreList: score,
+      });
+    }
   },
 };
 module.exports = CollaborativeFilteringService;
