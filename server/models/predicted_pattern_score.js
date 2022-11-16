@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) =>
         type: DataTypes.STRING(40),
         allowNULL: false,
       },
-      patternId: {
+      patternRaverlyId: {
         type: DataTypes.INTEGER,
         allowNULL: false,
       },
