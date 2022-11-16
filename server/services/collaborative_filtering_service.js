@@ -88,7 +88,7 @@ const CollaborativeFilteringService = {
   async saveRecommendResult(paramJson) {
     const { userId, recommendScoreList } = paramJson;
     for (let score of recommendScoreList) {
-      await PredictedPatternScoreController.upsertPredictedPatternScore({
+      await PredictedPatternScoreController.createPredictbyBulk({
         userId: userId,
         scoreList: score,
       });
