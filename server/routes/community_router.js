@@ -20,6 +20,22 @@ router.post("/posts", async (req, res, next) => {
   return res.json(resJson);
 });
 
+router.delete("/posts", async (req, res, next) => {
+  let resJson = { status: "N" };
+  const { postId } = req.params.id;
+  const user = req.user;
+
+  if (CommonService.isEmpty(user)) {
+    resJson["isUserLogin"] = "N";
+    return res.json(resJson);
+  }
+
+  await CommunityController.deletePost({ user, postId });
+
+  resJson["status"] = "Y";
+  return res.json(resJson);
+});
+
 router.get("/main", async (req, res, next) => {
   let resJson = { status: "N" };
 

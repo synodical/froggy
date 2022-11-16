@@ -15,10 +15,21 @@ const CommunityController = {
     const insertResult = await Post.create(paramJson);
     return insertResult;
   },
+  async deletePost(data) {
+    const { user, postId } = data;
+    const insertResult = await Post.destroy({
+      where: {
+        userId: user.id,
+        id: postId,
+      },
+    });
+    return insertResult;
+  },
   async getMainPosts() {
     const randPost = await Post.findAll({
       raw: true,
       order: [["createdAt", "DESC"]],
+      paranoid: false,
     });
     return randPost;
   },
