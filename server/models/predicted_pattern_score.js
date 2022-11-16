@@ -2,18 +2,15 @@ module.exports = (sequelize, DataTypes) =>
   sequelize.define(
     "predictedPatternScore",
     {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
       userId: {
         type: DataTypes.STRING(40),
         allowNULL: false,
+        primaryKey: true,
       },
       patternRaverlyId: {
         type: DataTypes.INTEGER,
         allowNULL: false,
+        primaryKey: true,
       },
       predictedScore: {
         type: DataTypes.FLOAT,
