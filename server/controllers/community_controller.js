@@ -92,13 +92,13 @@ const CommunityController = {
   async updateCommentCnt(data) {
     const { postId, user, comment } = data;
     const commentCntResult = await Post.findOne({
-      attributes: ["commentCount"],
+      // attributes: ["commentCount"],
       where: {
         id: postId,
       },
       raw: true,
     });
-    const commentCnt = commentCntResult.commentCnt;
+    const commentCnt = commentCntResult["commentCount"];
     console.log(commentCnt);
     const updateResult = await Post.update(
       {
