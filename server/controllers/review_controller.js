@@ -15,6 +15,7 @@ const ReviewController = {
     const insertResult = await PatternReview.create(paramJson);
     return insertResult;
   },
+
   async getPatternReview(patternId) {
     const patternReview = await PatternReview.findAll({
       where: { patternId: patternId },
