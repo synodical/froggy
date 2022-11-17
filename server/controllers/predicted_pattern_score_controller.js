@@ -21,7 +21,7 @@ const PredictedPatternScoreController = {
           predictedScore: scoreList[i],
         });
       }
-      PredictedPatternScore.destroy({
+      await PredictedPatternScore.destroy({
         where: {
           userId: userId,
         },
