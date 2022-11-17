@@ -15,7 +15,16 @@ const ReviewController = {
     const insertResult = await PatternReview.create(paramJson);
     return insertResult;
   },
-
+  async deletePatternReview(paramJson) {
+    const { user, patternId } = paramJson;
+    const deleteResult = await PatternReview.destroy({
+      where: {
+        userId: user,
+        patternId: patternId,
+      },
+    });
+    return deleteResult;
+  },
   async getPatternReview(patternId) {
     const patternReview = await PatternReview.findAll({
       where: { patternId: patternId },
@@ -33,6 +42,17 @@ const ReviewController = {
       order: [["createdAt", "DESC"]],
     });
     return patternReview;
+  },
+  async isReviewed(paramJson) {
+    const { user, patternId } = paramJson;
+    const exReview = await PatternReview.findOne({
+      where: {
+        userId: user.id,
+        patternId: patternId,
+      },
+      raw: true,
+    });
+    return exReview;
   },
 };
 module.exports = ReviewController;

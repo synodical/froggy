@@ -85,7 +85,32 @@ const CommunityController = {
       bundleOrder: 0,
       disDel: "N",
     };
+    let commentCnt;
     const insertResult = await Comment.create(paramJson);
+    // .then(() => {
+    //   commentCnt = Post.findOne({
+    //     attributes: ["commentCount"],
+    //     where: {
+    //       id: postId,
+    //     },
+    //   });
+    // })
+    // .then(() => {
+    //   Post.update(
+    //     {
+    //       commentCount: commentCnt + 1,
+    //     },
+    //     {
+    //       where: {
+    //         id: postId,
+    //       },
+    //     }
+    //   );
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
+
     return insertResult;
   },
 };

@@ -45,6 +45,15 @@ router.post("/:patternId/reviews", async (req, res, next) => {
       resJson["isUserLogin"] = "N";
       return res.json(resJson);
     }
+    const isReviewed = await ReviewController.isReviewed({
+      user,
+      patternId,
+    });
+    if (isReviewed) {
+      resJson["status"] = "N";
+      resJson["reason"] = "Review already exists";
+      return res.json(resJson);
+    }
     await ReviewController.savePatternReview({
       user,
       patternId,
@@ -52,6 +61,28 @@ router.post("/:patternId/reviews", async (req, res, next) => {
       rating,
     });
     resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.delete("/:patternId/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const patternId = req.params.patternId;
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const deleteResult = await ReviewController.deletePatternReview({
+      user,
+      patternId,
+    });
+    resJson["status"] = "Y";
+    resJson["deleteResult"] = deleteResult;
     return res.json(resJson);
   } catch (error) {
     console.error(error);
