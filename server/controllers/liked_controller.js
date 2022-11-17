@@ -107,6 +107,17 @@ const LikedController = {
     });
     return LikedYarnIdList;
   },
+  async isLiked(paramJson) {
+    const { user, patternId } = paramJson;
+    const exLiked = await LikedPattern.findOne({
+      where: {
+        userId: user.id,
+        patternId: patternId,
+      },
+      raw: true,
+    });
+    return exLiked;
+  },
 };
 
 module.exports = LikedController;
