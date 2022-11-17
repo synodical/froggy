@@ -19,7 +19,7 @@ const ReviewController = {
     const { user, patternId } = paramJson;
     const deleteResult = await PatternReview.destroy({
       where: {
-        userId: user,
+        userId: user.dataValues.id,
         patternId: patternId,
       },
     });
