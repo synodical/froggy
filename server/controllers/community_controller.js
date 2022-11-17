@@ -4,16 +4,17 @@ const Sequelize = require("sequelize");
 const CommonService = require("../common/common_service");
 
 const CommunityController = {
-  async savePost(data) {
-    const { user, title, contents } = data;
-    const paramJson = {
+  async savePost(paramJson) {
+    const { user, title, contents, htmlContents } = paramJson;
+    const newPost = {
       userId: user.dataValues.id,
       userNick: user.dataValues.nick,
       category: "정보",
       title: title,
       contents: contents,
+      htmlContents: htmlContents,
     };
-    const insertResult = await Post.create(paramJson);
+    const insertResult = await Post.create(newPost);
     return insertResult;
   },
   async deletePost(data) {
