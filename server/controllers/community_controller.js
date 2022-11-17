@@ -85,33 +85,31 @@ const CommunityController = {
       bundleOrder: 0,
       disDel: "N",
     };
-    let commentCnt;
-    const insertResult = await Comment.create(paramJson);
-    // .then(() => {
-    //   commentCnt = Post.findOne({
-    //     attributes: ["commentCount"],
-    //     where: {
-    //       id: postId,
-    //     },
-    //   });
-    // })
-    // .then(() => {
-    //   Post.update(
-    //     {
-    //       commentCount: commentCnt + 1,
-    //     },
-    //     {
-    //       where: {
-    //         id: postId,
-    //       },
-    //     }
-    //   );
-    // })
-    // .catch((err) => {
-    //   console.error(err);
-    // });
 
+    const insertResult = await Comment.create(paramJson);
     return insertResult;
+  },
+  async updateCommentCnt(data) {
+    const { postId, user, comment } = data;
+    const commentCntResult = await Post.findOne({
+      attributes: ["commentCount"],
+      where: {
+        id: postId,
+      },
+      raw: true,
+    });
+    const commentCnt = commentCntResult.commentCnt;
+    console.log(commentCnt);
+    const updateResult = await Post.update(
+      {
+        commentCount: commentCnt + 1,
+      },
+      {
+        where: {
+          id: postId,
+        },
+      }
+    );
   },
 };
 module.exports = CommunityController;

@@ -89,6 +89,9 @@ router.post("/posts/:postId/comments", async (req, res, next) => {
   };
 
   const postDetail = await CommunityController.saveComment(paramJson);
+  if (postDetail) {
+    await CommunityController.updateCommentCnt(paramJson);
+  }
 
   if (CommonService.isEmpty(postDetail)) {
     return res.json(resJson);
