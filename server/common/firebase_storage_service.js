@@ -65,7 +65,7 @@ const FirebaseStorageService = {
         .on("finish", async () => {
           const imageUrl =
             `https://firebasestorage.googleapis.com/v0/b/` +
-            `gs://froggy-34371.appspot.com/o/${newFileName}?alt=media`;
+            `froggy-34371.appspot.com/o/${newFileName}?alt=media`;
           resolve(imageUrl);
         });
       blobStream.end(file.buffer);

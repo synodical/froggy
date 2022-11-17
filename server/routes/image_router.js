@@ -15,9 +15,7 @@ router.post("/single", upload.single("image"), async (req, res, next) => {
   let resJson = { status: "N" };
   const { file } = req.body;
   const user = req.user;
-  let imageUrlList = [];
-
-  imageUrlList = await FirebaseStorageService.uploadPhotos(req, res);
+  const imageUrlList = await FirebaseStorageService.uploadPhotos(req, res);
 
   if (CommonService.isEmpty(user)) {
     resJson["isUserLogin"] = "N";
