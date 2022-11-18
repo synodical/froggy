@@ -4,7 +4,6 @@ const multer = require("multer"); //
 const FirebaseStorageService = require("../common/firebase_storage_service");
 const CommonService = require("../common/common_service");
 const UserController = require("../controllers/user_controller");
-const sharp = require("sharp");
 
 const upload = multer({
   storage: multer.memoryStorage(),
