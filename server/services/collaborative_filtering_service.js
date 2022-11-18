@@ -9,6 +9,7 @@ const LIKED_SCORE = 4;
 const CollaborativeFilteringService = {
   async getRecommendAvailableUser() {
     let userScoreList = [];
+    let userListForLevel1 = [];
     const userList = await User.findAll({
       raw: true,
       order: [["createdAt", "DESC"]],
@@ -30,9 +31,16 @@ const CollaborativeFilteringService = {
       if (rateCount > 30) {
         const payload = await this.genPayload(reviewList, likedList);
         userScoreList.push({ user: user.id, scoreList: payload });
+        if (user.level < 1) {
+          userListForLevel1.push(user);
+        }
       }
     }
-    return userScoreList;
+    let resJson = {
+      userScoreList: userScoreList,
+      userListForLevel1: userListForLevel1,
+    };
+    return resJson;
   },
   async genPayload(reviewList, likedList) {
     let payload = [];
