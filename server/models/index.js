@@ -33,6 +33,11 @@ db.PredictedPatternScore = require("./predicted_pattern_score")(
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
+db.PredictedPatternScore.hasOne(db.Pattern, {
+  as: "pattern",
+  foreignKey: "raverlyId",
+  sourceKey: "patternRaverlyId",
+});
 
 // landings : landingImages -> 1:N
 db.Post.hasMany(db.Comment, { onDelete: "CASCADE", hooks: true });

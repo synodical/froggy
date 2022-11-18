@@ -180,6 +180,28 @@ const PatternController = {
     if (paramJson.craft) condJson.where["craft"] = paramJson.craft;
     return condJson;
   },
+  getPatternListPaging: async function (condJson, paramJson) {
+    try {
+      let result = {};
+      let tot_cnt;
+      await Pattern.count(condJson)
+        .then(function (cnt) {
+          tot_cnt = cnt;
+        })
+        .catch(function (err) {
+          result = false;
+        });
+      var paging = await CommonService.getPagingData(
+        paramJson.PAGE,
+        tot_cnt,
+        paramJson.lineLimit
+      );
+      result = paging;
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   // async deletePattern(paramJson) {
   //   const { importantList } = paramJson;
   //   await Pattern.destroy({
