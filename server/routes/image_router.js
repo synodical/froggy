@@ -13,7 +13,7 @@ const upload = multer({
 });
 router.post("/single", upload.single("image"), async (req, res, next) => {
   let resJson = { status: "N" };
-  const { file, imageName } = req.body;
+  const { file } = req.body;
   const user = req.user;
   if (CommonService.isEmpty(user)) {
     resJson["isUserLogin"] = "N";

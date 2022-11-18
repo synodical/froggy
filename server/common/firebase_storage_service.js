@@ -25,7 +25,6 @@ const FirebaseStorageService = {
     } else if (req.file) {
       var fileUrl = await FirebaseStorageService.uploadPhoto(req, res, {
         file: req.file,
-        imageName: req.body.imageName,
       }).catch(function (err) {
         console.log(err);
       });
