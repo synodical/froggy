@@ -35,10 +35,8 @@ db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
 
 // landings : landingImages -> 1:N
-db.Post.hasMany(db.Comment);
-db.Comment.belongsTo(db.Post, {
-  onDelete: "CASCADE",
-});
+db.Post.hasMany(db.Comment, { onDelete: "CASCADE", hooks: true });
+db.Comment.belongsTo(db.Post, { onDelete: "CASCADE", hooks: true });
 
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });

@@ -43,10 +43,15 @@ const CommunityController = {
       },
     });
     if (!CommonService.isEmpty(post) && user.id == post.userId) {
-      const deleteResult = await Post.destroy({
+      const deletePostResult = await Post.destroy({
         where: {
           userId: user.id,
           id: postId,
+        },
+      });
+      const deleteCommentResult = await Comment.destroy({
+        where: {
+          postId: postId,
         },
       });
       resJson["status"] = "Y";
