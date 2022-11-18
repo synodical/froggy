@@ -33,6 +33,11 @@ db.PredictedPatternScore = require("./predicted_pattern_score")(
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
+db.PredictedPatternScore.hasOne(db.Pattern, {
+  as: "pattern",
+  foreignKey: "raverlyId",
+  sourceKey: "patternRaverlyId",
+});
 
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });

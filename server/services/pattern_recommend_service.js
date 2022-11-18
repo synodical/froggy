@@ -1,4 +1,5 @@
 const PatternController = require("../controllers/pattern_controller");
+const PredictedPatternScoreController = require("../controllers/predicted_pattern_score_controller");
 
 const PatternRecommendService = {
   async getRecommendListByDifficulty(paramJson) {
@@ -50,6 +51,19 @@ const PatternRecommendService = {
   async getRecommendListByAttribute(paramJson) {
     const { user } = paramJson;
     const { attributeIdArr } = user;
+  },
+  async getRecommendListByCollaborativeFiltering(paramJson) {
+    const { user, page } = paramJson;
+    //BOARD_LINE_LIMIT:한 페이지당  게시물 수
+    const predictScoreJoinPatternResult =
+      await PredictedPatternScoreController.getPredictedPatternScoreJoinPatternListPaging(
+        {
+          userId: user.id,
+          page: page,
+          boardLineLimit: 8,
+        }
+      );
+    return predictScoreJoinPatternResult;
   },
 };
 
