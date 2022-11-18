@@ -17,6 +17,23 @@ const CommunityController = {
     const insertResult = await Post.create(newPost);
     return insertResult;
   },
+  async deleteComment(data) {
+    let resJson = { status: "N" };
+    const { user, commentId } = data;
+    const comment = await Comment.findOne({ where: { id: commentId } });
+    if (!CommonService.isEmpty(comment) && user.id == comment.userId) {
+      const deleteResult = await Comment.destroy({
+        where: {
+          id: commentId,
+        },
+      });
+      resJson["status"] = "Y";
+      return resJson;
+    } else {
+      resJson["reason"] = "fail to delete post";
+      return false;
+    }
+  },
   async deletePost(data) {
     let resJson = { status: "N" };
     const { user, postId } = data;
@@ -67,7 +84,6 @@ const CommunityController = {
       where: {
         postId: postId,
       },
-      paranoid: false,
       raw: true,
     });
     return CommentList;

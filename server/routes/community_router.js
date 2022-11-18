@@ -102,4 +102,32 @@ router.post("/posts/:postId/comments", async (req, res, next) => {
   return res.json(resJson);
 });
 
+router.delete("/posts/:postId/comments/:commentId", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    console.log(req.params);
+    const { commentId } = req.params;
+
+    console.log(commentId);
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const deleteResult = await CommunityController.deleteComment({
+      user,
+      commentId,
+    });
+    if (CommonService.isEmpty(deleteResult)) {
+      return res.json(resJson);
+    }
+    resJson["deleteResult"] = deleteResult;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
 module.exports = router;
