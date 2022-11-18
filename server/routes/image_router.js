@@ -13,14 +13,15 @@ const upload = multer({
 });
 router.post("/single", upload.single("image"), async (req, res, next) => {
   let resJson = { status: "N" };
-  const { file } = req.body;
+  const { file, imageName } = req.body;
   const user = req.user;
-  const imageUrlList = await FirebaseStorageService.uploadPhotos(req, res);
-
   if (CommonService.isEmpty(user)) {
     resJson["isUserLogin"] = "N";
+    resJson["reason"] = "다시 로그인 해주세요";
     return res.json(resJson);
   }
+  const imageUrlList = await FirebaseStorageService.uploadPhotos(req, res);
+
   resJson["imageUrlList"] = imageUrlList;
   resJson["status"] = "Y";
   return res.json(resJson);

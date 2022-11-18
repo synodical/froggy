@@ -25,6 +25,7 @@ const FirebaseStorageService = {
     } else if (req.file) {
       var fileUrl = await FirebaseStorageService.uploadPhoto(req, res, {
         file: req.file,
+        imageName: req.body.imageName,
       }).catch(function (err) {
         console.log(err);
       });
@@ -46,7 +47,10 @@ const FirebaseStorageService = {
   },
   uploadPhoto: async function (req, res, paramJson) {
     return new Promise(async function (resolve, reject) {
-      let file = paramJson.file;
+      let { file } = paramJson;
+      file.originalname = Buffer.from(file.originalname, "latin1").toString(
+        "utf8"
+      );
       if (!file) {
         reject("No image file");
       }
