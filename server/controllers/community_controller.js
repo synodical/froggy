@@ -48,12 +48,6 @@ const CommunityController = {
           userId: user.id,
           id: postId,
         },
-      }).then(() => {
-        Comment.destroy({
-          where: {
-            postId: postId,
-          },
-        });
       });
       resJson["status"] = "Y";
       return resJson;
@@ -99,33 +93,18 @@ const CommunityController = {
       depth: 0,
       bundleId: 0,
       bundleOrder: 0,
-      disDel: "N",
     };
 
     const insertResult = await Comment.create(paramJson);
     return insertResult;
   },
-  async updateCommentCnt(data) {
-    const { postId, user, comment } = data;
-    const commentCntResult = await Post.findOne({
-      // attributes: ["commentCount"],
-      where: {
-        id: postId,
-      },
+  async getCommentCnt(data) {
+    const { postId } = data;
+    const commentCnt = await Comment.count({
+      where: { postId: postId },
       raw: true,
     });
-    const commentCnt = commentCntResult["commentCount"];
     console.log(commentCnt);
-    const updateResult = await Post.update(
-      {
-        commentCount: commentCnt + 1,
-      },
-      {
-        where: {
-          id: postId,
-        },
-      }
-    );
   },
 };
 module.exports = CommunityController;

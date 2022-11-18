@@ -34,6 +34,12 @@ db.PredictedPatternScore = require("./predicted_pattern_score")(
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
 
+// landings : landingImages -> 1:N
+db.Post.hasMany(db.Comment);
+db.Comment.belongsTo(db.Post, {
+  onDelete: "CASCADE",
+});
+
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });
 //db.Yarn.belongsTo(db.Customer, { foreignKey: "customer_id", sourceKey: "id" });
