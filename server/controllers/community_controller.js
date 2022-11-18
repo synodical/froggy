@@ -43,17 +43,16 @@ const CommunityController = {
       },
     });
     if (!CommonService.isEmpty(post) && user.id == post.userId) {
-      const deleteResult = await Post.destroy({
+      const deletePostResult = await Post.destroy({
         where: {
           userId: user.id,
           id: postId,
         },
-      }).then(() => {
-        Comment.destroy({
-          where: {
-            postId: postId,
-          },
-        });
+      });
+      const deleteCommentResult = await Comment.destroy({
+        where: {
+          postId: postId,
+        },
       });
       resJson["status"] = "Y";
       return resJson;
@@ -63,11 +62,19 @@ const CommunityController = {
     }
   },
   async getMainPosts() {
-    const randPost = await Post.findAll({
+    const posts = await Post.findAll({
       raw: true,
       order: [["createdAt", "DESC"]],
     });
-    return randPost;
+    for (let post of posts) {
+      const postId = post["id"];
+      const commentCnt = await Comment.count({
+        where: { postId: postId },
+        raw: true,
+      });
+      post["commentCnt"] = commentCnt;
+    }
+    return posts;
   },
   async getPostDetail(postId) {
     const postDetail = await Post.findOne({
@@ -99,33 +106,10 @@ const CommunityController = {
       depth: 0,
       bundleId: 0,
       bundleOrder: 0,
-      disDel: "N",
     };
 
     const insertResult = await Comment.create(paramJson);
     return insertResult;
-  },
-  async updateCommentCnt(data) {
-    const { postId, user, comment } = data;
-    const commentCntResult = await Post.findOne({
-      // attributes: ["commentCount"],
-      where: {
-        id: postId,
-      },
-      raw: true,
-    });
-    const commentCnt = commentCntResult["commentCount"];
-    console.log(commentCnt);
-    const updateResult = await Post.update(
-      {
-        commentCount: commentCnt + 1,
-      },
-      {
-        where: {
-          id: postId,
-        },
-      }
-    );
   },
 };
 module.exports = CommunityController;

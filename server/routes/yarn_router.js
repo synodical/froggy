@@ -11,6 +11,94 @@ const CommonService = require("../common/common_service");
 //controller
 const LikedController = require("../controllers/liked_controller");
 const YarnController = require("../controllers/yarn_controller");
+
+router.post("/:yarnId/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const { contents, rating } = req.body;
+    const yarnId = req.params.yarnnId;
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const isReviewed = await ReviewController.isYarnReviewed({
+      user,
+      yarnId,
+    });
+    if (isReviewed) {
+      resJson["status"] = "N";
+      resJson["reason"] = "Review already exists";
+      return res.json(resJson);
+    }
+    await ReviewController.saveYarnReview({
+      user,
+      yarnId,
+      contents,
+      rating,
+    });
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.delete("/:yarnId/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const yarnId = req.params.yarnId;
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const deleteResult = await ReviewController.deleteYarnReview({
+      user,
+      yarnId,
+    });
+    resJson["status"] = "Y";
+    resJson["deleteResult"] = deleteResult;
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const reviewList = await ReviewController.getYarnReviewByUser({ user });
+    resJson["status"] = "Y";
+    resJson["reviewList"] = reviewList;
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
+router.get("/:yarnId/reviews", async (req, res, next) => {
+  try {
+    let resJson = { status: "N" };
+    const patternId = req.params.patternId;
+    const reviewList = await ReviewController.getPatternReview(patternId);
+    resJson["status"] = "Y";
+    resJson["reviewList"] = reviewList;
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.post("/liked/:id/", async (req, res, next) => {
   let resJson = { status: "N" };
   try {

@@ -45,7 +45,7 @@ router.post("/:patternId/reviews", async (req, res, next) => {
       resJson["isUserLogin"] = "N";
       return res.json(resJson);
     }
-    const isReviewed = await ReviewController.isReviewed({
+    const isReviewed = await ReviewController.isPatternReviewed({
       user,
       patternId,
     });

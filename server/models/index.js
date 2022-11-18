@@ -39,6 +39,10 @@ db.PredictedPatternScore.hasOne(db.Pattern, {
   sourceKey: "patternRaverlyId",
 });
 
+// landings : landingImages -> 1:N
+db.Post.hasMany(db.Comment, { onDelete: "CASCADE", hooks: true });
+db.Comment.belongsTo(db.Post, { onDelete: "CASCADE", hooks: true });
+
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });
 //db.Yarn.belongsTo(db.Customer, { foreignKey: "customer_id", sourceKey: "id" });

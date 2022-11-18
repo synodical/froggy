@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) =>
         autoIncrement: true,
         primaryKey: true,
       },
-      postId: {
-        type: DataTypes.INTEGER,
-        allowNULL: false,
-      },
       userId: {
         type: DataTypes.STRING(40),
         allowNULL: false,

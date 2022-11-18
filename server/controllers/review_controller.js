@@ -43,12 +43,64 @@ const ReviewController = {
     });
     return patternReview;
   },
-  async isReviewed(paramJson) {
+  async isPatternReviewed(paramJson) {
     const { user, patternId } = paramJson;
     const exReview = await PatternReview.findOne({
       where: {
         userId: user.id,
         patternId: patternId,
+      },
+      raw: true,
+    });
+    return exReview;
+  },
+  // 여기서부터 yarn review에 관한 컨트롤러
+  async saveYarnReview(data) {
+    const { user, yarnId, contents, rating } = data;
+    const paramJson = {
+      userId: user.dataValues.id,
+      userNick: user.dataValues.nick,
+      yarnId: yarnId,
+      contents: contents,
+      rating: rating,
+    };
+    const insertResult = await YarnReview.create(paramJson);
+    return insertResult;
+  },
+  async deleteYarnReview(paramJson) {
+    const { user, yarnId } = paramJson;
+    const deleteResult = await YarnReview.destroy({
+      where: {
+        userId: user.dataValues.id,
+        yarnId: yarnId,
+      },
+    });
+    return deleteResult;
+  },
+  async getYarnReview(yarnId) {
+    const yarnReview = await YarnReview.findAll({
+      where: { yarnId: yarnId },
+      raw: true,
+      order: [["createdAt", "DESC"]],
+    });
+    return yarnReview;
+  },
+  async getYarnReviewByUser(paramJson) {
+    const { user } = paramJson;
+
+    const yarnReview = await YarnReview.findAll({
+      where: { userId: user.id },
+      raw: true,
+      order: [["createdAt", "DESC"]],
+    });
+    return yarnReview;
+  },
+  async isYarnReviewed(paramJson) {
+    const { user, yarnId } = paramJson;
+    const exReview = await YarnReview.findOne({
+      where: {
+        userId: user.id,
+        yarnId: yarnId,
       },
       raw: true,
     });
