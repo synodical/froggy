@@ -10,13 +10,14 @@ const YarnService = require("../services/yarn_service");
 const CommonService = require("../common/common_service");
 //controller
 const LikedController = require("../controllers/liked_controller");
+const ReviewController = require("../controllers/review_controller");
 const YarnController = require("../controllers/yarn_controller");
 
 router.post("/:yarnId/reviews", async (req, res, next) => {
   try {
     let resJson = { status: "N" };
     const { contents, rating } = req.body;
-    const yarnId = req.params.yarnnId;
+    const yarnId = req.params.yarnId;
     const user = req.user;
     if (CommonService.isEmpty(user)) {
       resJson["isUserLogin"] = "N";
@@ -88,8 +89,8 @@ router.get("/reviews", async (req, res, next) => {
 router.get("/:yarnId/reviews", async (req, res, next) => {
   try {
     let resJson = { status: "N" };
-    const patternId = req.params.patternId;
-    const reviewList = await ReviewController.getPatternReview(patternId);
+    const yarnId = req.params.yarnId;
+    const reviewList = await ReviewController.getYarnReview(yarnId);
     resJson["status"] = "Y";
     resJson["reviewList"] = reviewList;
     return res.json(resJson);
