@@ -57,11 +57,19 @@ const CommunityController = {
     }
   },
   async getMainPosts() {
-    const randPost = await Post.findAll({
+    const posts = await Post.findAll({
       raw: true,
       order: [["createdAt", "DESC"]],
     });
-    return randPost;
+    for (let post of posts) {
+      const postId = post["id"];
+      const commentCnt = await Comment.count({
+        where: { postId: postId },
+        raw: true,
+      });
+      post["commentCnt"] = commentCnt;
+    }
+    return posts;
   },
   async getPostDetail(postId) {
     const postDetail = await Post.findOne({
@@ -97,14 +105,6 @@ const CommunityController = {
 
     const insertResult = await Comment.create(paramJson);
     return insertResult;
-  },
-  async getCommentCnt(data) {
-    const { postId } = data;
-    const commentCnt = await Comment.count({
-      where: { postId: postId },
-      raw: true,
-    });
-    console.log(commentCnt);
   },
 };
 module.exports = CommunityController;
