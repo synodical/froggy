@@ -35,9 +35,8 @@ const ReviewController = {
     });
 
     for (let patternReview of patternReviewList) {
-      patternReview["imageList"] = await ReviewImageController.getImageList(
-        patternReview
-      );
+      patternReview["imageList"] =
+        await ReviewImageController.getPatternImageList(patternReview);
     }
     return patternReviewList;
   },
@@ -86,12 +85,17 @@ const ReviewController = {
     return deleteResult;
   },
   async getYarnReview(yarnId) {
-    const yarnReview = await YarnReview.findAll({
+    const yarnReviewList = await YarnReview.findAll({
       where: { yarnId: yarnId },
       raw: true,
       order: [["createdAt", "DESC"]],
     });
-    return yarnReview;
+    for (let yarnReview of yarnReviewList) {
+      yarnReview["imageList"] = await ReviewImageController.getYarnImageList(
+        yarnReview
+      );
+    }
+    return yarnReviewList;
   },
   async getYarnReviewByUser(paramJson) {
     const { user } = paramJson;

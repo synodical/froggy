@@ -31,7 +31,7 @@ db.PredictedPatternScore = require("./predicted_pattern_score")(
   Sequelize
 );
 db.PatternReviewImage = require("./pattern_review_image")(sequelize, Sequelize);
-
+db.YarnReviewImage = require("./yarn_review_image")(sequelize, Sequelize);
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
 
