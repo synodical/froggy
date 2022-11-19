@@ -2,6 +2,8 @@ const { PatternReview, YarnReview } = require("../models");
 const { sequelize } = require("../models");
 const Sequelize = require("sequelize");
 
+const ReviewImageController = require("../controllers/review_image_controller");
+
 const ReviewController = {
   async savePatternReview(data) {
     const { user, patternId, contents, rating } = data;
@@ -26,12 +28,18 @@ const ReviewController = {
     return deleteResult;
   },
   async getPatternReview(patternId) {
-    const patternReview = await PatternReview.findAll({
+    const patternReviewList = await PatternReview.findAll({
       where: { patternId: patternId },
       raw: true,
       order: [["createdAt", "DESC"]],
     });
-    return patternReview;
+
+    for (let patternReview of patternReviewList) {
+      patternReview["imageList"] = await ReviewImageController.getImageList(
+        patternReview
+      );
+    }
+    return patternReviewList;
   },
   async getPatternReviewByUser(paramJson) {
     const { user } = paramJson;

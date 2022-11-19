@@ -4,7 +4,7 @@ const router = express.Router();
 const { Pattern, Image, Liked, sequelize } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
-
+const multer = require("multer"); // multer
 //services
 const PatternService = require("../services/pattern_service");
 const CommonService = require("../common/common_service");
@@ -15,7 +15,14 @@ const PatternAttributeController = require("../controllers/pattern_attribute_con
 const ReviewController = require("../controllers/review_controller");
 const PatternController = require("../controllers/pattern_controller");
 const LikedController = require("../controllers/liked_controller");
+const ReviewImageController = require("../controllers/review_image_controller");
 
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 20 * 1024 * 1024, // no larger than 20mb, you can change as needed.
+  },
+});
 // router.get("/flask/test", async (req, res, next) => {
 //   try {
 //     let resJson = { status: "N" };
@@ -35,38 +42,55 @@ const LikedController = require("../controllers/liked_controller");
 //     return next(error);
 //   }
 // });
-router.post("/:patternId/reviews", async (req, res, next) => {
-  try {
-    let resJson = { status: "N" };
-    const { contents, rating } = req.body;
-    const patternId = req.params.patternId;
-    const user = req.user;
-    if (CommonService.isEmpty(user)) {
-      resJson["isUserLogin"] = "N";
+router.post(
+  "/:patternId/reviews",
+  upload.array("images", 10),
+  async (req, res, next) => {
+    try {
+      let resJson = { status: "N" };
+      let imagesData = [];
+      const { data } = req.body;
+      const dataJson = JSON.parse(data);
+      const { rating, contents } = dataJson;
+      if (req.files !== undefined && req.files.length > 0) {
+        imagesData = [...req.files];
+      }
+      const patternId = req.params.patternId;
+      const user = req.user;
+      if (CommonService.isEmpty(user)) {
+        resJson["isUserLogin"] = "N";
+        return res.json(resJson);
+      }
+      const isReviewed = await ReviewController.isPatternReviewed({
+        user,
+        patternId,
+      });
+      if (isReviewed) {
+        resJson["status"] = "N";
+        resJson["reason"] = "Review already exists";
+        return res.json(resJson);
+      }
+      const patternReviewResult = await ReviewController.savePatternReview({
+        user,
+        patternId,
+        contents,
+        rating,
+      });
+
+      await ReviewImageController.insertPatternReviewImage(req, res, {
+        patternId: patternId,
+        imagesData: imagesData,
+        patternReviewId: patternReviewResult.dataValues.id,
+      });
+
+      resJson["status"] = "Y";
       return res.json(resJson);
+    } catch (error) {
+      console.error(error);
+      return next(error);
     }
-    const isReviewed = await ReviewController.isPatternReviewed({
-      user,
-      patternId,
-    });
-    if (isReviewed) {
-      resJson["status"] = "N";
-      resJson["reason"] = "Review already exists";
-      return res.json(resJson);
-    }
-    await ReviewController.savePatternReview({
-      user,
-      patternId,
-      contents,
-      rating,
-    });
-    resJson["status"] = "Y";
-    return res.json(resJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
   }
-});
+);
 
 router.delete("/:patternId/reviews", async (req, res, next) => {
   try {
