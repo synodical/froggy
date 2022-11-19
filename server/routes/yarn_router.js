@@ -100,6 +100,7 @@ router.get("/reviews", async (req, res, next) => {
       return res.json(resJson);
     }
     const reviewList = await ReviewController.getYarnReviewByUser({ user });
+
     resJson["status"] = "Y";
     resJson["reviewList"] = reviewList;
     return res.json(resJson);

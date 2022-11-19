@@ -43,12 +43,17 @@ const ReviewController = {
   async getPatternReviewByUser(paramJson) {
     const { user } = paramJson;
 
-    const patternReview = await PatternReview.findAll({
+    const patternReviewList = await PatternReview.findAll({
       where: { userId: user.id },
       raw: true,
       order: [["createdAt", "DESC"]],
     });
-    return patternReview;
+
+    for (let patternReview of patternReviewList) {
+      patternReview["imageList"] =
+        await ReviewImageController.getPatternImageList(patternReview);
+    }
+    return patternReviewList;
   },
   async isPatternReviewed(paramJson) {
     const { user, patternId } = paramJson;
@@ -100,12 +105,19 @@ const ReviewController = {
   async getYarnReviewByUser(paramJson) {
     const { user } = paramJson;
 
-    const yarnReview = await YarnReview.findAll({
+    const yarnReviewList = await YarnReview.findAll({
       where: { userId: user.id },
       raw: true,
       order: [["createdAt", "DESC"]],
     });
-    return yarnReview;
+
+    for (let yarnReview of yarnReviewList) {
+      yarnReview["imageList"] = await ReviewImageController.getYarnImageList(
+        yarnReview
+      );
+    }
+
+    return yarnReviewList;
   },
   async isYarnReviewed(paramJson) {
     const { user, yarnId } = paramJson;
