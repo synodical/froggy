@@ -82,7 +82,7 @@ const PredictedPatternScoreController = {
     let condJson = {
       attributes: {
         include: [
-          [sequelize.col("pattern.id"), "patternId"],
+          [sequelize.col("pattern.id"), "id"],
           [sequelize.col("pattern.downloadable"), "downloadable"],
           [sequelize.col("pattern.name"), "name"],
           [sequelize.col("pattern.notes"), "notes"],

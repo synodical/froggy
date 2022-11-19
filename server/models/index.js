@@ -30,9 +30,11 @@ db.PredictedPatternScore = require("./predicted_pattern_score")(
   sequelize,
   Sequelize
 );
+db.PatternReviewImage = require("./pattern_review_image")(sequelize, Sequelize);
 
 db.Yarn.hasMany(db.Fiber);
 db.Fiber.belongsTo(db.Yarn);
+
 db.PredictedPatternScore.hasOne(db.Pattern, {
   as: "pattern",
   foreignKey: "raverlyId",
@@ -43,6 +45,15 @@ db.PredictedPatternScore.hasOne(db.Pattern, {
 db.Post.hasMany(db.Comment, { onDelete: "CASCADE", hooks: true });
 db.Comment.belongsTo(db.Post, { onDelete: "CASCADE", hooks: true });
 
+// db.PatternReview.hasMany(db.PatternReviewImage, {
+//   onDelete: "CASCADE",
+//   hooks: true,
+// });
+
+// db.PatternReviewImage.belongsTo(db.PatternReview, {
+//   onDelete: "CASCADE",
+//   hooks: true,
+// });
 //db.Yarn.hasMany(db.Image, { foreignKey: "targetId", sourceKey: "id" });
 //db.Customer.hasMany(db.Yarn, { foreignKey: "customer_id", sourceKey: "id" });
 //db.Yarn.belongsTo(db.Customer, { foreignKey: "customer_id", sourceKey: "id" });
