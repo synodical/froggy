@@ -6,7 +6,7 @@ const CommonService = require("../common/common_service");
 
 router.post("/posts", async (req, res, next) => {
   let resJson = { status: "N" };
-  const { title, contents, htmlContents } = req.body;
+  const { title, category, contents, htmlContents } = req.body;
   const user = req.user;
 
   if (CommonService.isEmpty(user)) {
@@ -14,7 +14,13 @@ router.post("/posts", async (req, res, next) => {
     return res.json(resJson);
   }
 
-  await CommunityController.savePost({ user, title, contents, htmlContents });
+  await CommunityController.savePost({
+    user,
+    title,
+    category,
+    contents,
+    htmlContents,
+  });
 
   resJson["status"] = "Y";
   return res.json(resJson);

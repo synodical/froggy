@@ -5,11 +5,11 @@ const CommonService = require("../common/common_service");
 
 const CommunityController = {
   async savePost(paramJson) {
-    const { user, title, contents, htmlContents } = paramJson;
+    const { user, title, category, contents, htmlContents } = paramJson;
     const newPost = {
       userId: user.dataValues.id,
       userNick: user.dataValues.nick,
-      category: "정보",
+      category: category,
       title: title,
       contents: contents,
       htmlContents: htmlContents,
