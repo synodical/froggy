@@ -246,37 +246,6 @@ router.get("/attribute/list", async (req, res, next) => {
   }
 });
 
-// 개인화 추천을 위한 코드 . .
-router.get("/recommend/:page", async (req, res, next) => {
-  let resJson = { status: "N" };
-  let patternList = [];
-  try {
-    const { user } = req;
-    const { page } = req.params;
-    if (CommonService.isEmpty(user)) {
-      resJson["isUserLogin"] = "N";
-      return res.json(resJson);
-    }
-
-    const patternRecommendResult =
-      await PatternRecommendService.getRecommendListByCollaborativeFiltering({
-        user: user,
-        page: page,
-      });
-
-    const { patternList, paging } = patternRecommendResult;
-    const respJson = {
-      status: "Y",
-      patternList: patternList,
-      paging: paging,
-    };
-    return res.json(respJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
-  }
-});
-
 router.get("/recommend/difficulty", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
@@ -340,31 +309,6 @@ router.get("/recommend/crochet", async (req, res, next) => {
     return next(error);
   }
 });
-router.get("/recommend/doll", async (req, res, next) => {
-  let resJson = { status: "N" };
-  let patternList = [];
-  try {
-    const patternIdList = [42122, 20686, 11649, 36205, 17208, 39097, 26395];
-    for (let el of patternIdList) {
-      let pattern = await PatternController.getPatternList({ id: el });
-      pattern = pattern[0];
-      const imageResult = await PatternService.getPatternImage(pattern);
-      if (!imageResult) {
-        continue;
-      } else {
-        pattern["thumbnail"] = imageResult.mediumUrl;
-      }
-      // pattern = await PatternService.addLikedInfo(pattern, user);
-      patternList.push(pattern);
-    }
-    resJson["patternList"] = patternList;
-    resJson["status"] = "Y";
-    return res.json(resJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
-  }
-});
 router.get("/recommend/knitting", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
@@ -397,6 +341,38 @@ router.get("/recommend/knitting", async (req, res, next) => {
     return next(error);
   }
 });
+
+// 개인화 추천을 위한 코드 . .
+router.get("/recommend/:page", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const { user } = req;
+    const { page } = req.params;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+
+    const patternRecommendResult =
+      await PatternRecommendService.getRecommendListByCollaborativeFiltering({
+        user: user,
+        page: page,
+      });
+
+    const { patternList, paging } = patternRecommendResult;
+    const respJson = {
+      status: "Y",
+      patternList: patternList,
+      paging: paging,
+    };
+    return res.json(respJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];
