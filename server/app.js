@@ -75,7 +75,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const safesitelist = ["http://localhost:8100"];
+const safesitelist = ["http://localhost:8100", "https://froggy-34371.web.app"];
 
 const corsOptions = {
   origin: function (origin, callback) {
