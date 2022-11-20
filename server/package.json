@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "debug": "nodemon --inspect=8002 app.js"
+    "dev": "node app.js",
+    "debug": "node --inspect=8002 app.js"
   },
   "author": "synodic&kerryfrog",
   "license": "MIT",
@@ -36,6 +36,6 @@
     "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.20"
   }
 }
