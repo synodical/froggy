@@ -4,47 +4,70 @@ const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { Image, sequelize, Yarn } = require("../models");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
+const multer = require("multer"); // multer
 
 //services
 const YarnService = require("../services/yarn_service");
 const CommonService = require("../common/common_service");
 //controller
+const ReviewImageController = require("../controllers/review_image_controller");
 const LikedController = require("../controllers/liked_controller");
 const ReviewController = require("../controllers/review_controller");
 const YarnController = require("../controllers/yarn_controller");
-
-router.post("/:yarnId/reviews", async (req, res, next) => {
-  try {
-    let resJson = { status: "N" };
-    const { contents, rating } = req.body;
-    const yarnId = req.params.yarnId;
-    const user = req.user;
-    if (CommonService.isEmpty(user)) {
-      resJson["isUserLogin"] = "N";
-      return res.json(resJson);
-    }
-    const isReviewed = await ReviewController.isYarnReviewed({
-      user,
-      yarnId,
-    });
-    if (isReviewed) {
-      resJson["status"] = "N";
-      resJson["reason"] = "Review already exists";
-      return res.json(resJson);
-    }
-    await ReviewController.saveYarnReview({
-      user,
-      yarnId,
-      contents,
-      rating,
-    });
-    resJson["status"] = "Y";
-    return res.json(resJson);
-  } catch (error) {
-    console.error(error);
-    return next(error);
-  }
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 20 * 1024 * 1024, // no larger than 20mb, you can change as needed.
+  },
 });
+router.post(
+  "/:yarnId/reviews",
+  upload.array("images", 10),
+  async (req, res, next) => {
+    try {
+      let resJson = { status: "N" };
+      const { data } = req.body;
+      const dataJson = JSON.parse(data);
+      const { rating, contents } = dataJson;
+      if (req.files !== undefined && req.files.length > 0) {
+        imagesData = [...req.files];
+      }
+
+      const yarnId = req.params.yarnId;
+      const user = req.user;
+      if (CommonService.isEmpty(user)) {
+        resJson["isUserLogin"] = "N";
+        return res.json(resJson);
+      }
+      const isReviewed = await ReviewController.isYarnReviewed({
+        user,
+        yarnId,
+      });
+      if (isReviewed) {
+        resJson["status"] = "N";
+        resJson["reason"] = "Review already exists";
+        return res.json(resJson);
+      }
+      const yarnReviewResult = await ReviewController.saveYarnReview({
+        user,
+        yarnId,
+        contents,
+        rating,
+      });
+      await ReviewImageController.insertYarnReviewImage(req, res, {
+        yarnId: yarnId,
+        imagesData: imagesData,
+        yarnReviewId: yarnReviewResult.dataValues.id,
+      });
+
+      resJson["status"] = "Y";
+      return res.json(resJson);
+    } catch (error) {
+      console.error(error);
+      return next(error);
+    }
+  }
+);
 
 router.delete("/:yarnId/reviews", async (req, res, next) => {
   try {
@@ -77,6 +100,7 @@ router.get("/reviews", async (req, res, next) => {
       return res.json(resJson);
     }
     const reviewList = await ReviewController.getYarnReviewByUser({ user });
+
     resJson["status"] = "Y";
     resJson["reviewList"] = reviewList;
     return res.json(resJson);
