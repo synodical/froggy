@@ -18,8 +18,6 @@ const sequelize = new Sequelize(
   // config
 );
 
-console.log(sequelize);
-
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

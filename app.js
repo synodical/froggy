@@ -65,6 +65,7 @@ app.use(
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
+      domain: "froggy-synodical.koyeb.app",
       sameSite: "NONE",
       secure: "true",
     },
@@ -87,15 +88,15 @@ const corsOptions = {
 //cors에 옵션사용할경우
 app.use(cors(corsOptions));
 
-// app.use(function (req, res, next) {
-//   // res.header("Access-Control-Allow-Origin", "https://froggy-34371.web.app");
-//   res.header("Access-Control-Allow-Origin", "http://localhost:8100");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use(function (req, res, next) {
+  // res.header("Access-Control-Allow-Origin", "https://froggy-34371.web.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8100");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
