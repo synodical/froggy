@@ -4,19 +4,21 @@ const config = require("../config/config.js")[env];
 
 const db = {};
 const sequelize = new Sequelize(
-  process.env.MYSQL_DATABASE,
-  process.env.MYSQL_USERNAME,
-  process.env.MYSQL_PASSWORD,
-  {
-    host: process.env.MYSQL_HOST,
-    dialect: "mysql",
-  }
+  // process.env.MYSQL_DATABASE,
+  // process.env.MYSQL_USERNAME,
+  // process.env.MYSQL_PASSWORD,
+  // {
+  //   host: process.env.MYSQL_HOST,
+  //   dialect: "mysql",
+  // }
 
-  // config.database,
-  // config.username,
-  // config.password,
-  // config
+  config.database,
+  config.username,
+  config.password,
+  config
 );
+
+console.log(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
