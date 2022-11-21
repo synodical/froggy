@@ -1,0 +1,14 @@
+/.node_modules
+
+
+/node_modules
+
+.env
+
+/config/config.json
+/config/
+
+
+/.config
+
+.DS_Store
