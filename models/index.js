@@ -4,10 +4,18 @@ const config = require("../config/config.js")[env];
 
 const db = {};
 const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
+  process.env.MYSQL_DATABASE,
+  process.env.MYSQL_USERNAME,
+  process.env.MYSQL_PASSWORD,
+  {
+    host: process.env.MYSQL_HOST,
+    dialect: "mysql",
+  }
+
+  // config.database,
+  // config.username,
+  // config.password,
+  // config
 );
 
 db.sequelize = sequelize;
