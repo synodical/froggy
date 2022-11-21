@@ -7,8 +7,8 @@
 
 /config/apps_ip.js
 /config/froggy-34371-firebase-adminsdk-gf2pi-54dd8356b9.json
-/config/localhost-key.pem
-/config/localhost.pem
+# /config/localhost-key.pem
+# /config/localhost.pem
 
 
 .DS_Store
