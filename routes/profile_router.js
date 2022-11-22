@@ -5,7 +5,7 @@ const CommonService = require("../common/common_service");
 const UserController = require("../controllers/user_controller");
 
 router.put("/", async (req, res, next) => {
-  let resJson = { status: "N" };
+  let resJson = { status: "N", isSetProfileChanged: "N" };
   const { newPrefer } = req.body;
   const user = req.user;
 
@@ -26,7 +26,12 @@ router.put("/", async (req, res, next) => {
     },
   });
 
-  resJson["user"] = req.user;
+  if (user.isSetProfile === "N") {
+    await UserController.updateIsSetProfileY({ user: user });
+    resJson["isSetProfileChanged"] = "Y";
+  }
+
+  // resJson["user"] = req.user;
   resJson["status"] = "Y";
   return res.json(resJson);
 });
