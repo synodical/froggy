@@ -2,10 +2,5 @@
 
 .env
 
-/config/config.json
-/config/
-
-
-/config
 
 .DS_Store
