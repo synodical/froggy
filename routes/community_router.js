@@ -4,6 +4,17 @@ const router = express.Router();
 const CommunityController = require("../controllers/community_controller");
 const CommonService = require("../common/common_service");
 
+router.get("/main", async (req, res, next) => {
+  // 나중에 posts로 이름 바꾸고싶다
+  let resJson = { status: "N" };
+
+  const postList = await CommunityController.getAllPosts();
+
+  resJson["postList"] = postList;
+  resJson["status"] = "Y";
+  return res.json(resJson);
+});
+
 router.post("/posts", async (req, res, next) => {
   let resJson = { status: "N" };
   const { title, category, contents, htmlContents } = req.body;
@@ -26,6 +37,16 @@ router.post("/posts", async (req, res, next) => {
   return res.json(resJson);
 });
 
+router.get("/categories/:category", async (req, res, next) => {
+  let resJson = { status: "N" };
+  const { category } = req.params;
+  const postList = await CommunityController.getPosts(category);
+
+  resJson["postList"] = postList;
+  resJson["status"] = "Y";
+  return res.json(resJson);
+});
+
 router.delete("/posts/:postId", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
@@ -42,16 +63,6 @@ router.delete("/posts/:postId", async (req, res, next) => {
   return res.json(resJson);
 });
 
-router.get("/main", async (req, res, next) => {
-  let resJson = { status: "N" };
-
-  const postList = await CommunityController.getMainPosts();
-
-  resJson["postList"] = postList;
-  resJson["status"] = "Y";
-  return res.json(resJson);
-});
-
 router.get("/posts/:postId", async (req, res, next) => {
   let resJson = { status: "N" };
   const { postId } = req.params;
@@ -61,7 +72,6 @@ router.get("/posts/:postId", async (req, res, next) => {
   if (CommonService.isEmpty(postDetail)) {
     return res.json(resJson);
   }
-
   resJson["postDetail"] = postDetail;
   resJson["status"] = "Y";
   return res.json(resJson);

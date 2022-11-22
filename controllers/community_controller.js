@@ -61,8 +61,26 @@ const CommunityController = {
       return false;
     }
   },
-  async getMainPosts() {
+  async getAllPosts() {
     const posts = await Post.findAll({
+      raw: true,
+      order: [["createdAt", "DESC"]],
+    });
+    for (let post of posts) {
+      const postId = post["id"];
+      const commentCnt = await Comment.count({
+        where: { postId: postId },
+        raw: true,
+      });
+      post["commentCnt"] = commentCnt;
+    }
+    return posts;
+  },
+  async getPosts(category) {
+    const posts = await Post.findAll({
+      where: {
+        category: category,
+      },
       raw: true,
       order: [["createdAt", "DESC"]],
     });
