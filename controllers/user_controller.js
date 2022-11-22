@@ -27,6 +27,19 @@ const UserController = {
     );
     return updateResult;
   },
+  async updateIsSetProfileY(data) {
+    const { user } = data;
+
+    const updateResult = await User.update(
+      {
+        isSetProfile: "Y",
+      },
+      {
+        where: { id: user.id },
+      }
+    );
+    return updateResult;
+  },
   async updateUser(paramJson, condJson) {
     let result = {};
 
