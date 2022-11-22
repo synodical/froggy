@@ -65,7 +65,6 @@ app.use(
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
-      domain: "froggy-synodical.koyeb.app",
       sameSite: "NONE",
       secure: "true",
     },
