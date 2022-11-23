@@ -25,13 +25,10 @@ router.put("/", async (req, res, next) => {
       id: user.id,
     },
   });
-
   if (user.isSetProfile === "N") {
     await UserController.updateIsSetProfileY({ user: user });
     resJson["isSetProfileChanged"] = "Y";
   }
-
-  // resJson["user"] = req.user;
   resJson["status"] = "Y";
   return res.json(resJson);
 });
