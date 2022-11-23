@@ -204,29 +204,38 @@ router.post("/liked/:id/", async (req, res, next) => {
   }
 });
 
-router.get("/liked/list/", async (req, res, next) => {
+router.get("/liked/list/:page", async (req, res, next) => {
   let resJson = { status: "N" };
   try {
+    const { page } = req.params;
     const user = req.user;
     if (CommonService.isEmpty(user)) {
       resJson["isUserLogin"] = "N";
       return res.json(resJson);
     }
-
     const LikedPatternIdList = await LikedController.getLikedPatternIdList({
       user,
     });
-    let patternList = [];
-    for (let el of LikedPatternIdList) {
-      const result = await PatternController.getPatternWithImage({
-        id: el.patternId,
+
+    const getPatternListPagingResult =
+      await PatternService.getPatternListPaging({
+        PAGE: page,
+        LikedPatternIdList: LikedPatternIdList,
+        boardLineLimit: 8,
       });
-      if (!result) {
-        continue;
-      }
-      patternList.push(result);
-    }
-    resJson["patternList"] = patternList;
+    // let patternList = [];
+
+    // for (let el of LikedPatternIdList) {
+    //   const result = await PatternController.getPatternWithImage({
+    //     id: el.patternId,
+    //   });
+    //   if (!result) {
+    //     continue;
+    //   }
+    //   patternList.push(result);
+    // }
+    resJson["paging"] = getPatternListPagingResult.paging;
+    resJson["patternList"] = getPatternListPagingResult.patternList;
     resJson["status"] = "Y";
     return res.json(resJson);
   } catch (error) {

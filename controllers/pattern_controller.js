@@ -128,7 +128,7 @@ const PatternController = {
     return insertResult;
   },
   async getPatternWithImage(paramJson) {
-    const condJson = this.applyWhereCond(paramJson);
+    const condJson = this.getCondJson(paramJson);
     const patternResult = await Pattern.findOne(condJson);
     if (patternResult === null) {
       return false;
@@ -153,12 +153,13 @@ const PatternController = {
   },
   async getPatternList(paramJson) {
     //pattern list 반환하나, 1개일때는 그냥 하나를 반환
-    const condJson = this.applyWhereCond(paramJson);
+    const condJson = this.getCondJson(paramJson);
     const patternResult = await Pattern.findAll(condJson);
     if (patternResult.length === 1) return patternResult[0];
     else return patternResult;
   },
-  applyWhereCond(paramJson) {
+
+  getCondJson(paramJson) {
     // paramJson : {}
     // maxDifficulty : 조회하고 싶은 난이도의 최대
     // minDifficulty : 조회하고 싶은 난이도의 최저
@@ -168,6 +169,8 @@ const PatternController = {
       order: [["difficultyAverage", "DESC"]],
     };
     if (paramJson.id) condJson.where["id"] = paramJson.id;
+    if (paramJson.patternIdList)
+      condJson.where["id"] = { [Op.in]: paramJson.patternIdList };
     if (paramJson.raverlyId) condJson.where["raverlyId"] = paramJson.raverlyId;
     if (
       paramJson.maxDifficulty &&
@@ -178,8 +181,17 @@ const PatternController = {
         [Op.gt]: paramJson.minDifficulty,
       };
     if (paramJson.craft) condJson.where["craft"] = paramJson.craft;
+    if (paramJson.customOrderBy) condJson.order = paramJson.customOrderBy;
     return condJson;
   },
+  // getPatternListPagingCond: async function (paramJson) {
+  //    let condJson = {
+  //      raw: true,
+  //      where: {},
+  //      order: [["difficultyAverage", "DESC"]],
+  //    };
+  // },
+
   getPatternListPaging: async function (condJson, paramJson) {
     try {
       let result = {};

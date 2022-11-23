@@ -4,7 +4,7 @@ const { User, PatternReview, LikedPattern } = require("../models");
 
 const FLASK_IP = require("../config/apps_ip").get("FLASK");
 const request = require("request");
-const LIKED_SCORE = 4;
+const LIKED_SCORE = 3;
 
 const CollaborativeFilteringService = {
   async getRecommendAvailableUser() {

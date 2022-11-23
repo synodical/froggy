@@ -48,10 +48,6 @@ const PatternRecommendService = {
       return false;
     }
   },
-  async getRecommendListByAttribute(paramJson) {
-    const { user } = paramJson;
-    const { attributeIdArr } = user;
-  },
   async getRecommendListByCollaborativeFiltering(paramJson) {
     const { user, page } = paramJson;
     //BOARD_LINE_LIMIT:한 페이지당  게시물 수

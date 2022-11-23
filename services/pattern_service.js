@@ -1,7 +1,8 @@
 const { Pattern, Image, LikedPattern } = require("../models");
+const { sequelize } = require("../models");
 const LikedController = require("../controllers/liked_controller");
 const PatternController = require("../controllers/pattern_controller");
-
+const CommonService = require("../common/common_service");
 const PatternService = {
   async getPatternImage(pattern) {
     const image = await Image.findOne({
@@ -39,40 +40,55 @@ const PatternService = {
       user: user,
     });
   },
-  getPatternListPaging: async function (paramJson) {
+  async getPatternListPaging(dataJson) {
     try {
-      // const {PAGE} =
+      let resJson = { status: "N" };
 
-      let result = { status: "N" };
-      let condJson = PatternController.getPatternList(paramJson);
-      condJson["PAGE"] = paramJson.PAGE;
-      const lineLimit = paramJson.boardLineLimit
-        ? paramJson.boardLineLimit
-        : res.locals.meta.BOARD_LINE_LIMIT;
+      const { LikedPatternIdList } = dataJson;
+      let idList = [];
+      for (let likedPattern of LikedPatternIdList) {
+        idList.push(likedPattern.patternId);
+      }
+      paramJson = {
+        patternIdList: idList,
+        customOrderBy: [["createdAt", "ASC"]],
+      };
+
+      let condJson = PatternController.getCondJson(paramJson);
+
+      condJson["PAGE"] = dataJson.PAGE;
+      const lineLimit = dataJson.boardLineLimit;
       paramJson["lineLimit"] = lineLimit;
-      const paging = await PatternController.getPatternListPaging(
-        req,
-        res,
-        condJson,
-        paramJson
-      );
-      if (!paging) return result;
 
-      condJson["order"] = sequelize.literal("createDate DESC, updateDate DESC");
-      condJson["offset"] =
-        paging.offset * res.locals.meta.BOARD_LINE_LIMIT || 0; //시작 번호
-      condJson["limit"] = req.query.size || res.locals.meta.BOARD_LINE_LIMIT; //출력 row 수
+      let result = {};
+      let tot_cnt;
 
-      const patternList = await PatternController.getMdItemList(
-        req,
-        res,
-        condJson
+      await Pattern.count(condJson)
+        .then(function (cnt) {
+          tot_cnt = cnt;
+        })
+        .catch(function (err) {
+          // CommonService.handleError(err, req, res, req.transaction);
+          result = false;
+          return;
+        });
+
+      var paging = await CommonService.getPagingData(
+        dataJson.PAGE,
+        tot_cnt,
+        paramJson.lineLimit
       );
-      if (!mdItemList) return result;
+
+      condJson["order"] = sequelize.literal("createdAt DESC, updatedAt DESC");
+      condJson["offset"] = paging.offset * lineLimit || 0; //시작 번호
+      condJson["limit"] = lineLimit; //출력 row 수
+
+      const patternList = await Pattern.findAll(condJson);
+      if (!patternList) return resJson;
 
       result["status"] = "Y";
       result["paging"] = paging;
-      result["mdItemList"] = mdItemList;
+      result["patternList"] = patternList;
       return result;
     } catch (error) {
       console.log(error);
