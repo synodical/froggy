@@ -222,7 +222,13 @@ router.get("/liked/list/:page", async (req, res, next) => {
         PAGE: page,
         LikedPatternIdList: LikedPatternIdList,
         boardLineLimit: 8,
+        customOrderBy: [["createdAt", "ASC"]],
       });
+
+    let { patternList } = getPatternListPagingResult;
+    for (let pattern of patternList) {
+      pattern["isFavorite"] = true;
+    }
 
     resJson["paging"] = getPatternListPagingResult.paging;
     resJson["patternList"] = getPatternListPagingResult.patternList;
@@ -395,7 +401,35 @@ router.get("/recommend/:page", async (req, res, next) => {
     return next(error);
   }
 });
+//패턴 탭 페이지네이션
+router.get("/tab/:page", async (req, res, next) => {
+  let resJson = { status: "N" };
+  let patternList = [];
+  try {
+    const { page } = req.params;
+    const user = req.user;
 
+    const getPatternListPagingResult =
+      await PatternService.getPatternListPaging({
+        PAGE: page,
+        boardLineLimit: 8,
+        customOrderBy: "random",
+      });
+    let { patternList } = getPatternListPagingResult;
+    if (!CommonService.isEmpty(user)) {
+      for (let pattern of patternList) {
+        pattern = await PatternService.addLikedInfo(pattern, user);
+      }
+    }
+    resJson["paging"] = getPatternListPagingResult.paging;
+    resJson["patternList"] = patternList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
 router.get("/", async (req, res, next) => {
   let resJson = { status: "N" };
   let patternList = [];

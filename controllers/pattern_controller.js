@@ -181,16 +181,14 @@ const PatternController = {
         [Op.gt]: paramJson.minDifficulty,
       };
     if (paramJson.craft) condJson.where["craft"] = paramJson.craft;
+
     if (paramJson.customOrderBy) condJson.order = paramJson.customOrderBy;
+    if (paramJson.customOrderBy === "random") {
+      condJson.order = [[sequelize.fn("RAND")]];
+    }
+
     return condJson;
   },
-  // getPatternListPagingCond: async function (paramJson) {
-  //    let condJson = {
-  //      raw: true,
-  //      where: {},
-  //      order: [["difficultyAverage", "DESC"]],
-  //    };
-  // },
 
   getPatternListPaging: async function (condJson, paramJson) {
     try {

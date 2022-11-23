@@ -44,15 +44,18 @@ const PatternService = {
     try {
       let resJson = { status: "N" };
 
-      const { LikedPatternIdList } = dataJson;
-      let idList = [];
-      for (let likedPattern of LikedPatternIdList) {
-        idList.push(likedPattern.patternId);
-      }
+      const { LikedPatternIdList, customOrderBy, PAGE, boardLineLimit } =
+        dataJson;
       paramJson = {
-        patternIdList: idList,
-        customOrderBy: [["createdAt", "ASC"]],
+        customOrderBy: customOrderBy,
       };
+      if (LikedPatternIdList) {
+        let idList = [];
+        for (let likedPattern of LikedPatternIdList) {
+          idList.push(likedPattern.patternId);
+        }
+        paramJson["patternIdList"] = idList;
+      }
 
       let condJson = PatternController.getCondJson(paramJson);
 
@@ -79,15 +82,11 @@ const PatternService = {
         paramJson.lineLimit
       );
 
-      condJson["order"] = sequelize.literal("createdAt DESC, updatedAt DESC");
+      // condJson["order"] = sequelize.literal("createdAt DESC, updatedAt DESC");
       condJson["offset"] = paging.offset * lineLimit || 0; //시작 번호
       condJson["limit"] = lineLimit; //출력 row 수
 
       const patternList = await Pattern.findAll(condJson);
-      if (!patternList) return resJson;
-      for (let pattern of patternList) {
-        pattern["isFavorite"] = true;
-      }
 
       result["status"] = "Y";
       result["paging"] = paging;
