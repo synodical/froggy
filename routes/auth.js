@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const models = require("../models");
 const router = express.Router();
-const CODE_LIST = ["yeohon", "somsom"];
+const CODE_LIST = ["frog", "somsom", "ayoung"];
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
   let respJson = { status: "N" };
