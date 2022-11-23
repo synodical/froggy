@@ -129,5 +129,13 @@ const CommunityController = {
     const insertResult = await Comment.create(paramJson);
     return insertResult;
   },
+  async getPostListByUser(paramJson) {
+    const { user } = paramJson;
+    const WrittenPostList = await Post.findAll({
+      where: { userId: user.id },
+      raw: true,
+    });
+    return WrittenPostList;
+  },
 };
 module.exports = CommunityController;

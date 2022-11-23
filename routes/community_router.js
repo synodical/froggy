@@ -24,7 +24,6 @@ router.post("/posts", async (req, res, next) => {
     resJson["isUserLogin"] = "N";
     return res.json(resJson);
   }
-
   await CommunityController.savePost({
     user,
     title,
@@ -32,9 +31,26 @@ router.post("/posts", async (req, res, next) => {
     contents,
     htmlContents,
   });
-
   resJson["status"] = "Y";
   return res.json(resJson);
+});
+
+router.get("/list", async (req, res, next) => {
+  let resJson = { status: "N" };
+  try {
+    const user = req.user;
+    if (CommonService.isEmpty(user)) {
+      resJson["isUserLogin"] = "N";
+      return res.json(resJson);
+    }
+    const postList = await CommunityController.getPostListByUser({ user });
+    resJson["postList"] = postList;
+    resJson["status"] = "Y";
+    return res.json(resJson);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
 });
 
 router.get("/categories/:category", async (req, res, next) => {
