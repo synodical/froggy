@@ -21,7 +21,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
     const UserCreateResult = await models.User.create({
       id: id,
-      email: "",
+      email: "N",
       password: hash,
       nick: nickname,
       ticket: ticket,
