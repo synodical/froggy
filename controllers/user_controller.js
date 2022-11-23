@@ -14,6 +14,19 @@ const UserController = {
     );
     return updateResult;
   },
+  async updateTicket(data) {
+    const { user, ticket } = data;
+
+    const updateResult = await User.update(
+      {
+        ticket: ticket,
+      },
+      {
+        where: { id: user.id },
+      }
+    );
+    return updateResult;
+  },
   async updateFavoritePatternAttributeIdArr(paramJson) {
     const { user, FavoritePatternAttributeList } = paramJson;
 

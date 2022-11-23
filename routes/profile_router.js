@@ -49,6 +49,22 @@ router.put("/nickname", async (req, res, next) => {
   return res.json(resJson);
 });
 
+router.put("/ticket", async (req, res, next) => {
+  let resJson = { status: "N" };
+  const { ticket } = req.body;
+  const user = req.user;
+
+  if (CommonService.isEmpty(user)) {
+    resJson["isUserLogin"] = "N";
+    return res.json(resJson);
+  }
+
+  await UserController.updateTicket({ user, ticket });
+
+  resJson["status"] = "Y";
+  return res.json(resJson);
+});
+
 router.put("/attribute", async (req, res, next) => {
   let resJson = { status: "N" };
   const { attributeList } = req.body;
