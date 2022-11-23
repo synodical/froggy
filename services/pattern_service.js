@@ -85,6 +85,9 @@ const PatternService = {
 
       const patternList = await Pattern.findAll(condJson);
       if (!patternList) return resJson;
+      for (let pattern of patternList) {
+        pattern["isFavorite"] = true;
+      }
 
       result["status"] = "Y";
       result["paging"] = paging;

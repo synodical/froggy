@@ -4,21 +4,27 @@ const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const models = require("../models");
 const router = express.Router();
+const CODE_LIST = ["yeohon", "somsom"];
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
   let respJson = { status: "N" };
-  const { id, email, password, nickname } = req.body;
+  const { id, password, nickname, code } = req.body;
   try {
     const exUser = await models.User.findOne({ where: { id } });
     if (exUser) {
       return res.json(respJson);
     }
+    let ticket = 1;
+    if (CODE_LIST.includes(code)) {
+      ticket = 2;
+    }
     const hash = await bcrypt.hash(password, 15); // salt 알아서 햐줌
     const UserCreateResult = await models.User.create({
       id: id,
-      email: email,
+      email: "",
       password: hash,
       nick: nickname,
+      ticket: ticket,
     });
     if (!UserCreateResult) {
       return res.json(respJson);

@@ -51,8 +51,12 @@ module.exports = (sequelize, DataTypes) =>
         allowNull: false,
         defaultValue: 0,
       },
-      createdAt: {
+      ticket: {
         type: DataTypes.INTEGER,
+        defaultValue: 1,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
       },
       deletedAt: {
         type: DataTypes.DATE,
