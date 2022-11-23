@@ -282,7 +282,7 @@ router.get("/recommend/difficulty", async (req, res, next) => {
     const patternRecommendResult =
       await PatternRecommendService.getRecommendListByDifficulty({ user });
     patternRecommendResult.sort(() => Math.random() - 0.5);
-    let patternRecommend6 = patternRecommendResult.slice(0, 10);
+    let patternRecommend6 = patternRecommendResult.slice(0, 6);
     for (let pattern of patternRecommend6) {
       const imageResult = await PatternService.getPatternImage(pattern);
       if (!imageResult) {

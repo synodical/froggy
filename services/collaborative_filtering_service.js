@@ -44,7 +44,9 @@ const CollaborativeFilteringService = {
   },
   async genPayload(reviewList, likedList) {
     let payload = [];
+    let idList = [];
     for (let review of reviewList) {
+      idList.push(review.patternId);
       const pattern = await PatternController.getPatternList({
         id: review.patternId,
       });
@@ -55,19 +57,19 @@ const CollaborativeFilteringService = {
     }
 
     for (let liked of likedList) {
-      const pattern = await PatternController.getPatternList({
-        id: liked.patternId,
-      });
-      payload.push({
-        id: pattern.raverlyId,
-        score: LIKED_SCORE,
-      });
+      if (!idList.includes(liked.patternId)) {
+        const pattern = await PatternController.getPatternList({
+          id: liked.patternId,
+        });
+        payload.push({
+          id: pattern.raverlyId,
+          score: LIKED_SCORE,
+        });
+      }
     }
     return payload;
   },
   sendUserScoreList: async function (paramJson) {
-    //parmJson 에 이후에 필요한 파라미터 넣을것
-    // user id, user liked pattern info 등..
     const { userScoreList } = paramJson;
     return new Promise((resolve, reject) => {
       const option = {
