@@ -223,17 +223,7 @@ router.get("/liked/list/:page", async (req, res, next) => {
         LikedPatternIdList: LikedPatternIdList,
         boardLineLimit: 8,
       });
-    // let patternList = [];
 
-    // for (let el of LikedPatternIdList) {
-    //   const result = await PatternController.getPatternWithImage({
-    //     id: el.patternId,
-    //   });
-    //   if (!result) {
-    //     continue;
-    //   }
-    //   patternList.push(result);
-    // }
     resJson["paging"] = getPatternListPagingResult.paging;
     resJson["patternList"] = getPatternListPagingResult.patternList;
     resJson["status"] = "Y";

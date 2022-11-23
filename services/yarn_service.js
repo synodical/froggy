@@ -1,4 +1,4 @@
-const { Yarn, Image, Liked } = require("../models");
+const { Yarn, Image, LikedYarn } = require("../models");
 const LikedController = require("../controllers/liked_controller");
 
 const YarnService = {
@@ -17,18 +17,17 @@ const YarnService = {
     return image;
   },
   async addLikedInfo(yarn, user) {
-    const eachLiked = await Liked.findOne({
+    const eachLiked = await LikedYarn.findOne({
       where: {
-        targetType: "yarn",
-        targetId: yarn.id,
+        yarnId: yarn.id,
         userId: user.id,
       },
     });
 
     if (eachLiked === null) {
-      yarn["liked"] = "N";
+      yarn["isFavorite"] = "N";
     } else {
-      yarn["liked"] = "Y";
+      yarn["isFavorite"] = "Y";
     }
     return yarn;
   },

@@ -216,8 +216,9 @@ router.get("/search", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   let resJson = { status: "N" };
   const yarnId = req.params.id;
+  const user = req.user;
   try {
-    const yarn = await Yarn.findOne({
+    let yarn = await Yarn.findOne({
       where: { id: yarnId },
       raw: true,
     });
@@ -228,8 +229,11 @@ router.get("/:id", async (req, res, next) => {
       },
       raw: true,
     });
-
     yarn["thumbnail"] = images[0].mediumUrl;
+
+    if (!CommonService.isEmpty(user)) {
+      yarn = await YarnService.addLikedInfo(yarn, user);
+    }
     resJson["image"] = images;
     resJson["yarn"] = yarn;
     resJson["status"] = "Y";
