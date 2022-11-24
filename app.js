@@ -38,7 +38,7 @@ const fs = require("fs");
 const app = express();
 
 passportConfig(); // 패스포트 설정
-app.set("port", process.env.PORT || HTTP_PORT);
+app.set("port", process.env.PORT || HTTPS_PORT);
 
 app.set("view engine", "html");
 nunjucks.configure(path.join(__dirname, "views"), {
@@ -63,20 +63,36 @@ app.use(
   session({
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     secret: process.env.COOKIE_SECRET,
     cookie: {
-      sameSite: "NONE",
-      secure: "true",
+      httpOnly: true,
+      secure: true,
+      maxAge: 3600000,
+      sameSite: "none",
     },
   })
 );
+
+//  cookie: {
+//    httpOnly: true,
+//  maxAge: 3600000,
+//  sameSite: config.node === "dev" ? false : "none",
+//   secure: config.node === "dev" ? false : true,
+// },
 
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const safesitelist = ["http://localhost:8100", "https://froggy-34371.web.app"];
-
+const safesitelist = [
+  "https://www.fro99y.shop",
+  "http://www.fro99y.shop",
+  "https://fro99y.ga",
+  "http://fro99y.ga",
+  "https://froggy-34371.web.app",
+  "http://localhost:8100",
+];
 const corsOptions = {
   origin: function (origin, callback) {
     const issafesitelisted = safesitelist.indexOf(origin) !== -1;
@@ -121,12 +137,14 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
-const options = {
-  key: fs.readFileSync("./config/localhost-key.pem"),
-  cert: fs.readFileSync("./config/localhost.pem"),
-};
+// const options = {
+//   key: fs.readFileSync("./config/localhost-key.pem"),
+//   cert: fs.readFileSync("./config/localhost.pem"),
+// };
+
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");
 });
+
 //http.createServer(app).listen(HTTP_PORT);
-https.createServer(options, app).listen(HTTPS_PORT);
+//https.createServer(options, app).listen(HTTPS_PORT);
