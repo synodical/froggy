@@ -234,7 +234,7 @@ router.get("/:id", async (req, res, next) => {
     if (!CommonService.isEmpty(user)) {
       yarn = await YarnService.addLikedInfo(yarn, user);
     }
-    resJson["image"] = images;
+    // resJson["image"] = images;
     resJson["yarn"] = yarn;
     resJson["status"] = "Y";
     return res.json(resJson);

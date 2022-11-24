@@ -25,9 +25,9 @@ const YarnService = {
     });
 
     if (eachLiked === null) {
-      yarn["isFavorite"] = "N";
+      yarn["isFavorite"] = false;
     } else {
-      yarn["isFavorite"] = "Y";
+      yarn["isFavorite"] = true;
     }
     return yarn;
   },
