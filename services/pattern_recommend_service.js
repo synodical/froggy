@@ -6,17 +6,17 @@ const PatternRecommendService = {
     const { user } = paramJson;
     const { proficiency } = user;
     let patternList = [];
-    if (proficiency === 0) {
+    if (proficiency === 1) {
       patternList = await PatternController.getPatternList({
         maxDifficulty: 1.1,
         minDifficulty: 0,
       });
-    } else if (proficiency === 1) {
+    } else if (proficiency === 2) {
       patternList = await PatternController.getPatternList({
         maxDifficulty: 5,
         minDifficulty: 2,
       });
-    } else if (proficiency === 2) {
+    } else if (proficiency === 3) {
       patternList = await PatternController.getPatternList({
         maxDifficulty: 10,
         minDifficulty: 4,
